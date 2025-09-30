@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
+            $table->string('equipment_name');
+            $table->text('description')->nullable();
+            $table->integer('quantity');
+            $table->integer('available_quantity');
+            $table->enum('status', ['Available', 'Unavailable'])->default('Available');
             $table->timestamps();
         });
     }
