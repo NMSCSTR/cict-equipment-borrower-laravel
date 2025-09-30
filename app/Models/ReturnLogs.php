@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ReturnLog extends Model
+class ReturnLogs extends Model
 {
     //
     protected $fillable = ['transaction_id', 'return_date', 'condition', 'remarks'];

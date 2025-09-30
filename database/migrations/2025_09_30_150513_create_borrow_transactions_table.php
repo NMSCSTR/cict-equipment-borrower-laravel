@@ -2,6 +2,7 @@
 use App\Models\User;
 use App\Models\Equipment;
 use App\Models\ClassSchedule;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->text('remarks')->nullable();
             $table->foreignIdFor(ClassSchedule::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
+
         });
     }
 
