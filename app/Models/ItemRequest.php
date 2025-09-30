@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ItemRequest extends Model
 {
     //
-    protected $fillable = ['user_id', 'equipment_id', 'quantity', 'status','requested_date', 'status', 'remarks'];
+    protected $fillable = ['user_id', 'equipment_id', 'quantity', 'status','requested_date', 'remarks'];
 
     public function equipment()
     {

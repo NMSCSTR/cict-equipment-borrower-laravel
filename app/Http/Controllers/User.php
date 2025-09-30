@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReturnLog;
 use Illuminate\Http\Request;
 
-class ReturnLogController extends Controller
+class User extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +12,7 @@ class ReturnLogController extends Controller
     public function index()
     {
         //
-        
-
+        return view('user.index');
     }
 
     /**
@@ -23,6 +21,7 @@ class ReturnLogController extends Controller
     public function create()
     {
         //
+        return view('user.create');
     }
 
     /**
@@ -31,12 +30,13 @@ class ReturnLogController extends Controller
     public function store(Request $request)
     {
         //
+        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ReturnLog $returnLog)
+    public function show(string $id)
     {
         //
     }
@@ -44,7 +44,7 @@ class ReturnLogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ReturnLog $returnLog)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +52,7 @@ class ReturnLogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ReturnLog $returnLog)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,7 +60,7 @@ class ReturnLogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ReturnLog $returnLog)
+    public function destroy(string $id)
     {
         //
     }
