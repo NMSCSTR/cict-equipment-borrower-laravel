@@ -20,16 +20,22 @@ Route::get('/welcome', function () {
 
 
 // Only admins
-// Route::middleware(['user.type:admin'])->group(function () {
-//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-// });
+Route::middleware('auth')->group(function () {
+    Route::middleware(['userType:Admin'])->group(function () {
+        Route::get('/admin/dashboard', [AuthenticateUser::class, 'adminView'])->name('admin.dashboard');
+    });
+});
 
-// Only instructors
-// Route::middleware(['user.type:instructor'])->group(function () {
-//     Route::get('/instructor/dashboard', [InstructorController::class, 'dashboard'])->name('instructor.dashboard');
-// });
+//Only Instructors
+Route::middleware('auth')->group(function () {
+    Route::middleware(['userType:Instructor'])->group(function () {
+        Route::get('/instructor/dashboard', [AuthenticateUser::class, 'instructorView'])->name('instructor.dashboard');
+    });
+});
 
-// Only students
-// Route::middleware(['user.type:student'])->group(function () {
-//     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-// });
+//Only Students
+Route::middleware('auth')->group(function () {
+    Route::middleware(['userType:Student'])->group(function () {
+        Route::get('/student/dashboard', [AuthenticateUser::class, 'studentView'])->name('student.dashboard');
+    });
+});

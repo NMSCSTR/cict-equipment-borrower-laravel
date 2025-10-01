@@ -9,9 +9,19 @@ use App\Models\User;
 class AuthenticateUser extends Controller
 {
     //
-    public function index()
+    public function adminView()
     {
         return view('admin.dashboard');
+    }
+
+    public function instructorView()
+    {
+        return view('instructor.dashboard');
+    }
+
+    public function studentView()
+    {
+        return view('student.dashboard');
     }
 
     public function store(Request $request)
@@ -26,12 +36,12 @@ class AuthenticateUser extends Controller
 
             $user = Auth::user();
 
-            if ($user->user_type === 'admin') {
-                return redirect()->route('admin.dashboard');
+            if ($user->user_type === 'Admin') {
+                return redirect()->intended(route('admin.dashboard'));
             } elseif ($user->user_type === 'instructor') {
-                return redirect()->route('instructor.dashboard');
+                return redirect(route('instructor.dashboard'));
             } else {
-                return redirect()->route('student.dashboard');
+                return redirect(route('student.dashboard'));
             }
         }
 
@@ -72,8 +82,13 @@ class AuthenticateUser extends Controller
         ]);
 
         Auth::login($user);
-        return redirect()->route('auth.welcome');
 
-
+        if ($user->user_type === 'admin') {
+            return redirect(route('admin.dashboard'));
+        } elseif ($user->user_type === 'instructor') {
+            return redirect(route('instructor.dashboard'));
+        } else {
+            return redirect(route('student.dashboard'));
+        }
     }
 }

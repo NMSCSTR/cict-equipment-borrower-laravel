@@ -16,9 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         //     UserTypeMiddleware::class,
         // ]);
 
-        // $middleware->alias([
-        //     'user.type' => UserTypeMiddleware::class,
-        // ]);
+        $middleware->alias([
+            'userType' => UserTypeMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
