@@ -18,7 +18,7 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-6 space-y-2">
-        <a href="{{ url('equipment.php') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
+        <a href="{{ route('admin.equpment') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
             <div class="w-6 text-center">
                 <i class="fas fa-tools {{ request()->is('equipment*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>
@@ -64,9 +64,50 @@
                 <p class="text-sm font-semibold text-white truncate">Admin User</p>
                 <p class="text-xs text-gray-400 truncate">admin@cict.com</p>
             </div>
-            <button class="text-gray-400 hover:text-white transition-colors duration-200">
-                <i class="fas fa-cog"></i>
-            </button>
+            <div class="relative">
+                <button id="settingsBtn" class="text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div id="logoutDropdown" class="hidden absolute right-0 mt-2 w-40 bg-gray-800 rounded-xl shadow-lg z-50">
+                    <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="button" id="logoutBtn" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    document.getElementById('settingsBtn').addEventListener('click', function() {
+        var dropdown = document.getElementById('logoutDropdown');
+        dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function(e) {
+        var btn = document.getElementById('settingsBtn');
+        var dropdown = document.getElementById('logoutDropdown');
+        if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will be logged out!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logoutForm').submit();
+            }
+        });
+    });
+</script>
+@endpush

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticateUser;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 
