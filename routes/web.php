@@ -23,6 +23,7 @@ Route::get('/welcome', function () {
 Route::middleware('auth')->group(function () {
     Route::middleware(['userType:Admin'])->group(function () {
         Route::get('/admin/dashboard', [AuthenticateUser::class, 'adminView'])->name('admin.dashboard');
+        Route::get('/admin/equipment', [EquipmentController::class, 'index'])->name('admin.equpment');
     });
 });
 

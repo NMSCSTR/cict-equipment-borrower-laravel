@@ -77,7 +77,7 @@ class AuthenticateUser extends Controller
             'user_type' => $validatedData['user_type'],
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'password' => Hash::make($validatedData['password']), 
             'contact_number' => $validatedData['contact_number'] ?? null,
         ]);
 

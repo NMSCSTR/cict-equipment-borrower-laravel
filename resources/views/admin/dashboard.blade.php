@@ -130,36 +130,7 @@
 
         <!-- Charts and Activity Section -->
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
-            <!-- Equipment Status Chart -->
-            <div class="xl:col-span-2 bg-white rounded-2xl border border-gray-200 p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">Equipment Status Overview</h3>
-                    <select class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option>Last 7 days</option>
-                        <option>Last 30 days</option>
-                        <option>Last 90 days</option>
-                    </select>
-                </div>
-                <div class="h-80 flex items-end justify-between space-x-2">
-                    <!-- Chart bars would go here -->
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="w-full bg-blue-500 rounded-t-lg mb-2" style="height: 70%"></div>
-                        <span class="text-xs text-gray-500">Available</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="w-full bg-green-500 rounded-t-lg mb-2" style="height: 50%"></div>
-                        <span class="text-xs text-gray-500">In Use</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="w-full bg-yellow-500 rounded-t-lg mb-2" style="height: 30%"></div>
-                        <span class="text-xs text-gray-500">Maintenance</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center">
-                        <div class="w-full bg-red-500 rounded-t-lg mb-2" style="height: 10%"></div>
-                        <span class="text-xs text-gray-500">Out of Service</span>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Recent Activity -->
             <div class="bg-white rounded-2xl border border-gray-200 p-6">

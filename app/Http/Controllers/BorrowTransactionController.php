@@ -13,6 +13,7 @@ class BorrowTransactionController extends Controller
     public function index()
     {
         //
+        return view('admin.borrow_transactions');
     }
 
     /**
