@@ -12,14 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //
-        $middleware->web([
-            // ...existing middleware...
-            UserTypeMiddleware::class,
-        ]);
+        // $middleware->web([
+        //     UserTypeMiddleware::class,
+        // ]);
 
-        $middleware->alias([
-            'user.type' => UserTypeMiddleware::class,
-        ]);
+        // $middleware->alias([
+        //     'user.type' => UserTypeMiddleware::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
