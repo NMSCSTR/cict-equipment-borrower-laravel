@@ -9,6 +9,11 @@ use App\Models\User;
 class AuthenticateUser extends Controller
 {
     //
+    public function index()
+    {
+        return view('admin.dashboard');
+    }
+
     public function store(Request $request)
     {
         $credentials = $request->validate([
@@ -41,6 +46,11 @@ class AuthenticateUser extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function registerUser()
+    {
+        return view('register');
     }
 
     public function register(Request $request)

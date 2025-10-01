@@ -12,7 +12,8 @@ class User extends Controller
     public function index()
     {
         //
-        return view('user.index');
+        return view('login');
+
     }
 
     /**
@@ -20,7 +21,7 @@ class User extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -38,6 +39,8 @@ class User extends Controller
     public function show(string $id)
     {
         //
+        $user = User::findOrFail($id);
+        return view('user.show', compact('user'));
     }
 
     /**
