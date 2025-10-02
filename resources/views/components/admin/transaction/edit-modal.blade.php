@@ -3,12 +3,9 @@
     <div class="w-full max-w-2xl p-6 bg-white rounded-lg shadow-lg">
         <h2 class="mb-4 text-lg font-semibold text-gray-800">Edit Transaction</h2>
 
-        <form id="edit-form" method="POST" class="space-y-4">
+        <form id="edit-form" action="{{ route('admin.transaction.update') }}" method="POST" class="space-y-4">
             @csrf
-            @method('PUT')
-
             <input type="hidden" name="id" id="edit-id">
-
             <!-- User -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">User</label>
@@ -75,7 +72,11 @@
                 <select name="class_schedule_id" id="edit-class" class="w-full mt-1 border-gray-300 rounded">
                     <option value="">-- None --</option>
                     @foreach ($classSchedules as $schedule)
-                        <option value="{{ $schedule->id }}">{{ $schedule->name }}</option>
+                        <option value="{{ $schedule->id }}">
+                            {{ \Carbon\Carbon::parse($schedule->schedule_time)->format('g:i A') }}
+                            - {{ $schedule->instructor?->name ?? 'No Instructor' }}
+                            - {{ $schedule->room }}
+                        </option>
                     @endforeach
                 </select>
             </div>

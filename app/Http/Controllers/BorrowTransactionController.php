@@ -62,6 +62,18 @@ class BorrowTransactionController extends Controller
             'class_schedule_id' => 'nullable|exists:class_schedules,id',
         ]);
 
+        $equipment = Equipment::findOrFail($validated['equipment_id']);
+
+        if ($validated['status'] === 'Borrowed'){
+            if ($equipment->available_quantity < $validated['quantity']) {
+                return redirect()->back()->withErrors(['quantity' => 'Not enough equipment available.']);
+            }
+            $equipment->available_quantity -= $validated['quantity'];
+
+            $equipment->save();
+
+        }
+
         BorrowTransaction::create($validated);
         return redirect()->back()->with('success', 'Transaction created successfully.');
     }
@@ -85,16 +97,80 @@ class BorrowTransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BorrowTransaction $borrowTransaction)
+    public function update(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'id' => 'required|exists:borrow_transactions,id',
+            'user_id' => 'required|exists:users,id',
+            'equipment_id' => 'required|exists:equipment,id',
+            'borrow_date' => 'required|date',
+            'return_date' => 'nullable|date|after_or_equal:borrow_date',
+            'quantity' => 'required|integer|min:1',
+            'purpose' => 'required|string|max:255',
+            'status' => 'required|in:Borrowed,Returned,Overdue',
+            'remarks' => 'nullable|string',
+            'class_schedule_id' => 'nullable|exists:class_schedules,id',
+        ]);
+
+        $transaction = BorrowTransaction::findOrFail($validated['id']);
+        $equipment = Equipment::findOrFail($validated['equipment_id']);
+
+        // Calculate quantity difference if equipment changed
+        if ($transaction->equipment_id != $validated['equipment_id']) {
+            // Return old quantity to old equipment
+            $oldEquipment = Equipment::findOrFail($transaction->equipment_id);
+            if ($transaction->status === 'Borrowed') {
+                $oldEquipment->available_quantity += $transaction->quantity;
+                $oldEquipment->status = $oldEquipment->available_quantity > 0 ? 'Available' : 'Unavailable';
+                $oldEquipment->save();
+            }
+
+            // Deduct new quantity from new equipment if status is Borrowed
+            if ($validated['status'] === 'Borrowed') {
+                $equipment->available_quantity -= $validated['quantity'];
+                $equipment->status = $equipment->available_quantity > 0 ? 'Available' : 'Unavailable';
+                $equipment->save();
+            }
+        } else {
+            // Same equipment, check status changes and quantity difference
+            if ($transaction->status === 'Borrowed' && $validated['status'] === 'Returned') {
+                // Returned: add back quantity
+                $equipment->available_quantity += $transaction->quantity;
+            } elseif ($transaction->status === 'Returned' && $validated['status'] === 'Borrowed') {
+                // Borrowed again: subtract quantity
+                $equipment->available_quantity -= $validated['quantity'];
+            } elseif ($transaction->status === 'Borrowed' && $validated['status'] === 'Borrowed') {
+                // Quantity changed while still borrowed
+                $diff = $transaction->quantity - $validated['quantity'];
+                $equipment->available_quantity += $diff;
+            }
+
+            $equipment->status = $equipment->available_quantity > 0 ? 'Available' : 'Unavailable';
+            $equipment->save();
+        }
+
+        $transaction->update($validated);
+
+        return redirect()->back()->with('success', 'Transaction updated successfully.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BorrowTransaction $borrowTransaction)
+    public function destroy($id)
     {
         //
+        $transaction = BorrowTransaction::findOrFail($id);
+        $equipment = Equipment::findOrFail($transaction->equipment_id);
+        if ($transaction->status === 'Borrowed') {
+            // If the transaction is still marked as 'Borrowed', return the equipment to available quantity
+            $equipment->available_quantity += $transaction->quantity;
+            $equipment->save();
+        }
+        $transaction->delete();
+        return redirect()->back()->with('success', 'Transaction deleted successfully.');
+
     }
 }

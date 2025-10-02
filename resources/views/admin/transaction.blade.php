@@ -6,14 +6,7 @@
 @include('components.admin.navbar')
 
 <div class="min-h-screen bg-gray-50 md:ml-80">
-    @if (session('success'))
-        <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
-            <div class="flex items-center">
-                <i class="mr-2 fas fa-check-circle"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-        </div>
-    @endif
+
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
@@ -25,6 +18,14 @@
     </header>
 
     <main class="p-6">
+    @if (session('success'))
+        <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
+            <div class="flex items-center">
+                <i class="mr-2 fas fa-check-circle"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
         <!-- DataTable -->
         <div class="p-4 bg-white rounded-lg shadow">
             <table id="transactions-table" class="w-full display nowrap">
@@ -45,8 +46,8 @@
                 <tbody>
                     @foreach ($transactions as $tx)
                         <tr class="transition-colors duration-150 hover:bg-blue-50">
-                            <td>{{ $tx->user->name }}</td>
-                            <td>{{ $tx->equipment->equipment_name }}</td>
+                            <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
+                            <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
                             <td>{{ $tx->borrow_date }}</td>
                             <td>{{ $tx->return_date ?? 'N/A' }}</td>
                             <td>{{ $tx->quantity }}</td>
