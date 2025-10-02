@@ -25,7 +25,7 @@
             <span class="font-medium">Equipment</span>
         </a>
 
-        <a href="{{ url('users.php') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('users*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
+        <a href="{{ route('admin.users') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('users*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
             <div class="w-6 text-center">
                 <i class="fas fa-users {{ request()->is('users*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>

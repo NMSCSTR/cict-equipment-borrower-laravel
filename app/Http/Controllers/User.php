@@ -16,6 +16,11 @@ class User extends Controller
 
     }
 
+    public function adminUser()
+    {
+        return view('admin.user');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

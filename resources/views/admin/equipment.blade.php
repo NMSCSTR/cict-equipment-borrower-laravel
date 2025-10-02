@@ -226,7 +226,6 @@
 
         <form id="add-form" action="{{ route('admin.equipment.store') }}" method="POST" class="p-6 space-y-4">
             @csrf
-
             <div>
                 <label for="add-name" class="block text-sm font-medium text-gray-700 mb-1">Equipment Name</label>
                 <input type="text" id="add-name" name="equipment_name" required
@@ -275,153 +274,150 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize DataTable
+        const table = $('#equipment-table').DataTable({
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            language: {
+                search: "",
+                searchPlaceholder: "Search equipment...",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "Showing 0 to 0 of 0 entries",
+                infoFiltered: "(filtered from _MAX_ total entries)"
+            },
+            dom: '<"flex flex-col lg:flex-row lg:items-center lg:justify-between"<"mb-4 lg:mb-0"l><"mb-4 lg:mb-0"f>>rt<"flex flex-col lg:flex-row lg:items-center lg:justify-between"<"mb-4 lg:mb-0"i><"mb-4 lg:mb-0"p>>',
+            initComplete: function() {
+                $('.dataTables_filter input').addClass(
+                    'pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full lg:w-64'
+                );
+                $('.dataTables_length select').addClass(
+                    'border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                );
+            }
+        });
+
+        // Update showing count
+        table.on('draw', function() {
+            const info = table.page.info();
+            $('#showing-count').text(info.recordsDisplay);
+        });
+
+        // Search functionality
+        $('#search-input').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+
+        // Status filter functionality
+        $('#status-filter').on('change', function() {
+            const status = this.value;
+            if (status) {
+                table.column(4).search(status).draw();
+            } else {
+                table.column(4).search('').draw();
+            }
+        });
+        // Add Equipment modal functionality
+        $('#open-add-modal').on('click', function () {
+            $('#add-modal').removeClass('hidden');
+        });
+
+        $('#cancel-add').on('click', function () {
+            $('#add-modal').addClass('hidden');
+        });
+
+        // Close add modal on background click
+        $('#add-modal').on('click', function (e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
+            }
+        });
 
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize DataTable
-            const table = $('#equipment-table').DataTable({
-                responsive: true,
-                pageLength: 10,
-                lengthMenu: [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
-                ],
-                language: {
-                    search: "",
-                    searchPlaceholder: "Search equipment...",
-                    lengthMenu: "Show _MENU_ entries",
-                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                    infoEmpty: "Showing 0 to 0 of 0 entries",
-                    infoFiltered: "(filtered from _MAX_ total entries)"
-                },
-                dom: '<"flex flex-col lg:flex-row lg:items-center lg:justify-between"<"mb-4 lg:mb-0"l><"mb-4 lg:mb-0"f>>rt<"flex flex-col lg:flex-row lg:items-center lg:justify-between"<"mb-4 lg:mb-0"i><"mb-4 lg:mb-0"p>>',
-                initComplete: function() {
-                    $('.dataTables_filter input').addClass(
-                        'pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full lg:w-64'
-                    );
-                    $('.dataTables_length select').addClass(
-                        'border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                    );
-                }
-            });
-
-            // Update showing count
-            table.on('draw', function() {
-                const info = table.page.info();
-                $('#showing-count').text(info.recordsDisplay);
-            });
-
-            // Search functionality
-            $('#search-input').on('keyup', function() {
-                table.search(this.value).draw();
-            });
-
-            // Status filter functionality
-            $('#status-filter').on('change', function() {
-                const status = this.value;
-                if (status) {
-                    table.column(4).search(status).draw();
-                } else {
-                    table.column(4).search('').draw();
-                }
-            });
-            // Add Equipment modal functionality
-            $('#open-add-modal').on('click', function () {
-                $('#add-modal').removeClass('hidden');
-            });
-
-            $('#cancel-add').on('click', function () {
-                $('#add-modal').addClass('hidden');
-            });
-
-            // Close add modal on background click
-            $('#add-modal').on('click', function (e) {
-                if (e.target === this) {
-                    $(this).addClass('hidden');
-                }
-            });
-
-
-            // Edit button functionality
-            $(document).ready(function() {
-                $('.edit-btn').on('click', function() {
-                    const id = $(this).data('id');
-                    const name = $(this).data('name');
-                    const description = $(this).data('description');
-                    const quantity = $(this).data('quantity');
-                    const available = $(this).data('available');
-                    const status = $(this).data('status');
-
-                    $('#edit-id').val(id);
-                    $('#edit-name').val(name);
-                    $('#edit-description').val(description);
-                    $('#edit-quantity').val(quantity);
-                    $('#edit-available').val(available);
-                    $('#edit-status').val(status);
-
-                    $('#edit-modal').removeClass('hidden');
-                });
-            });
-
-
-            // Delete button functionality
-            $('.delete-btn').on('click', function() {
+        // Edit button functionality
+        $(document).ready(function() {
+            $('.edit-btn').on('click', function() {
                 const id = $(this).data('id');
                 const name = $(this).data('name');
+                const description = $(this).data('description');
+                const quantity = $(this).data('quantity');
+                const available = $(this).data('available');
+                const status = $(this).data('status');
 
-                $('#delete-item-name').text(name);
-                $('#delete-form').attr('action', '/admin/equipment/' + id);
-                $('#delete-modal').removeClass('hidden');
-            });
+                $('#edit-id').val(id);
+                $('#edit-name').val(name);
+                $('#edit-description').val(description);
+                $('#edit-quantity').val(quantity);
+                $('#edit-available').val(available);
+                $('#edit-status').val(status);
 
-            // Modal close functionality
-            $('#cancel-edit, #cancel-delete').on('click', function() {
-                $('#edit-modal, #delete-modal').addClass('hidden');
-            });
-
-            // Save edit functionality
-            $('#save-edit').on('click', function() {
-                // Here you would typically make an AJAX call to update the equipment
-                const formData = $('#edit-form').serialize();
-
-                // Simulate API call
-                console.log('Updating equipment:', formData);
-
-                // Show success message and close modal
-                // alert('Equipment updated successfully!');
-                $('#edit-modal').addClass('hidden');
-
-                // In a real application, you would refresh the table data
-                // table.ajax.reload();
-            });
-
-            // Confirm delete functionality
-            $('.delete-btn').on('click', function() {
-                const id = $(this).data('id');
-                const name = $(this).data('name');
-
-                $('#delete-item-name').text(name);
-                // Set form action dynamically, e.g. /admin/equipment/{id}
-                $('#delete-form').attr('action', `/admin/equipment/${id}`);
-
-                $('#delete-modal').removeClass('hidden');
-            });
-
-            $('#confirm-delete').on('click', function() {
-                $('#delete-form').submit();
-            });
-
-
-            // Close modals when clicking outside
-            $('#edit-modal, #delete-modal').on('click', function(e) {
-                if (e.target === this) {
-                    $(this).addClass('hidden');
-                }
+                $('#edit-modal').removeClass('hidden');
             });
         });
-    </script>
+
+
+        // Delete button functionality
+        $('.delete-btn').on('click', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+
+            $('#delete-item-name').text(name);
+            $('#delete-form').attr('action', '/admin/equipment/' + id);
+            $('#delete-modal').removeClass('hidden');
+        });
+
+        // Modal close functionality
+        $('#cancel-edit, #cancel-delete').on('click', function() {
+            $('#edit-modal, #delete-modal').addClass('hidden');
+        });
+
+        // Save edit functionality
+        $('#save-edit').on('click', function() {
+            // Here you would typically make an AJAX call to update the equipment
+            const formData = $('#edit-form').serialize();
+
+            // Simulate API call
+            console.log('Updating equipment:', formData);
+
+            // Show success message and close modal
+            // alert('Equipment updated successfully!');
+            $('#edit-modal').addClass('hidden');
+
+            // In a real application, you would refresh the table data
+            // table.ajax.reload();
+        });
+
+        // Confirm delete functionality
+        $('.delete-btn').on('click', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+
+            $('#delete-item-name').text(name);
+            // Set form action dynamically, e.g. /admin/equipment/{id}
+            $('#delete-form').attr('action', `/admin/equipment/${id}`);
+
+            $('#delete-modal').removeClass('hidden');
+        });
+
+        $('#confirm-delete').on('click', function() {
+            $('#delete-form').submit();
+        });
+
+
+        // Close modals when clicking outside
+        $('#edit-modal, #delete-modal').on('click', function(e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
+            }
+        });
+    });
+</script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
