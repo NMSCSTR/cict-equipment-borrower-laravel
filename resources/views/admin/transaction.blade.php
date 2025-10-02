@@ -1,6 +1,6 @@
 @extends('components.default')
 
-@section('title', 'Transactions - CICT Equipment Borrower System')
+@section('title', 'Borrow Transactions - CICT Equipment Borrower System')
 
 @section('content')
 @include('components.admin.navbar')
@@ -9,140 +9,142 @@
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
-            <h1 class="text-xl font-semibold text-gray-800">Borrow Transactions</h1>
+            <h1 class="text-xl font-bold text-gray-800">Borrow Transactions</h1>
+            <button id="open-add-modal" class="px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700">
+                + Add Transaction
+            </button>
         </div>
     </header>
 
-    <!-- Main -->
     <main class="p-6">
-        <div class="p-6 bg-white rounded-lg shadow-sm">
-            <div class="overflow-x-auto">
-                <table id="transactions-table" class="w-full display nowrap">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th>User</th>
-                            <th>Equipment</th>
-                            <th>Quantity</th>
-                            <th>Borrow Date</th>
-                            <th>Return Date</th>
-                            <th>Purpose</th>
-                            <th>Status</th>
-                            <th>Remarks</th>
-                            <th>Class</th>
-                            <th>Actions</th>
+        <!-- DataTable -->
+        <div class="p-4 bg-white rounded-lg shadow">
+            <table id="transactions-table" class="w-full display nowrap">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th>User</th>
+                        <th>Equipment</th>
+                        <th>Borrow Date</th>
+                        <th>Return Date</th>
+                        <th>Quantity</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Class Schedule</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($transactions as $tx)
+                        <tr class="transition-colors duration-150 hover:bg-blue-50">
+                            <td>{{ $tx->user->name }}</td>
+                            <td>{{ $tx->equipment->equipment_name }}</td>
+                            <td>{{ $tx->borrow_date }}</td>
+                            <td>{{ $tx->return_date ?? 'N/A' }}</td>
+                            <td>{{ $tx->quantity }}</td>
+                            <td>{{ $tx->purpose }}</td>
+                            <td>
+                                @php
+                                    $statusColors = [
+                                        'Borrowed' => 'bg-yellow-100 text-yellow-800',
+                                        'Returned' => 'bg-green-100 text-green-800',
+                                        'Overdue' => 'bg-red-100 text-red-800',
+                                    ];
+                                @endphp
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$tx->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                    {{ $tx->status }}
+                                </span>
+                            </td>
+                            <td>{{ $tx->remarks ?? '—' }}</td>
+                            <td>{{ $tx->classSchedule->name ?? '—' }}</td>
+                            <td>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-blue-600 edit-btn hover:text-blue-900"
+                                        data-id="{{ $tx->id }}"
+                                        data-user="{{ $tx->user_id }}"
+                                        data-equipment="{{ $tx->equipment_id }}"
+                                        data-borrow="{{ $tx->borrow_date }}"
+                                        data-return="{{ $tx->return_date }}"
+                                        data-quantity="{{ $tx->quantity }}"
+                                        data-purpose="{{ $tx->purpose }}"
+                                        data-status="{{ $tx->status }}"
+                                        data-remarks="{{ $tx->remarks }}"
+                                        data-class="{{ $tx->class_schedule_id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 delete-btn hover:text-red-900"
+                                        data-id="{{ $tx->id }}"
+                                        data-name="{{ $tx->user->name }} - {{ $tx->equipment->equipment_name }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($transactions as $transaction)
-                            <tr class="transition-colors hover:bg-gray-50">
-                                <td>{{ $transaction->user->name }}</td>
-                                <td>{{ $transaction->equipment->equipment_name }}</td>
-                                <td>{{ $transaction->quantity }}</td>
-                                <td>{{ $transaction->borrow_date }}</td>
-                                <td>{{ $transaction->return_date ?? 'N/A' }}</td>
-                                <td>{{ $transaction->purpose }}</td>
-                                <td>
-                                    @php
-                                        $statusColors = [
-                                            'Pending' => 'bg-yellow-100 text-yellow-800',
-                                            'Approved' => 'bg-green-100 text-green-800',
-                                            'Rejected' => 'bg-red-100 text-red-800',
-                                            'Returned' => 'bg-blue-100 text-blue-800',
-                                        ];
-                                        $statusColor = $statusColors[$transaction->status] ?? 'bg-gray-100 text-gray-800';
-                                    @endphp
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
-                                        {{ $transaction->status }}
-                                    </span>
-                                </td>
-                                <td>{{ $transaction->remarks ?? '—' }}</td>
-                                <td>{{ $transaction->classSchedule->class_name ?? 'N/A' }}</td>
-                                <td>
-                                    <div class="flex items-center space-x-2">
-                                        <!-- Approve -->
-                                        <button class="text-green-600 approve-btn hover:text-green-800"
-                                            data-id="{{ $transaction->id }}">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                        <!-- Reject -->
-                                        <button class="text-red-600 reject-btn hover:text-red-800"
-                                            data-id="{{ $transaction->id }}">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                        <!-- Return -->
-                                        <button class="text-blue-600 return-btn hover:text-blue-800"
-                                            data-id="{{ $transaction->id }}">
-                                            <i class="fas fa-undo"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </main>
 </div>
 
 <!-- Modals -->
-<div id="status-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 class="mb-4 text-lg font-semibold">Update Transaction</h2>
-        <form id="status-form" method="POST">
-            @csrf
-            @method('PUT')
-            <input type="hidden" id="transaction-id" name="transaction_id">
-            <input type="hidden" id="status-action" name="status">
-
-            <div class="mb-4">
-                <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
-                <textarea id="remarks" name="remarks" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm"></textarea>
-            </div>
-
-            <div class="flex justify-end space-x-2">
-                <button type="button" id="cancel-status" class="px-4 py-2 bg-gray-200 rounded-md">Cancel</button>
-                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md">Confirm</button>
-            </div>
-        </form>
-    </div>
-</div>
+@include('transactions.modals.add')
+@include('transactions.modals.edit')
+@include('transactions.modals.delete')
 
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
-$(document).ready(function() {
-    // DataTables
-    $('#transactions-table').DataTable({
+$(document).ready(function () {
+    let table = $('#transactions-table').DataTable({
         responsive: true,
         pageLength: 10,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         language: {
             search: "🔍 ",
             searchPlaceholder: "Search transactions..."
         }
     });
 
-    // Open modal
-    $('.approve-btn, .reject-btn, .return-btn').on('click', function() {
+    // Add modal
+    $('#open-add-modal').on('click', function() {
+        $('#add-modal').removeClass('hidden');
+    });
+
+    // Edit modal
+    $('.edit-btn').on('click', function() {
+        $('#edit-id').val($(this).data('id'));
+        $('#edit-user').val($(this).data('user'));
+        $('#edit-equipment').val($(this).data('equipment'));
+        $('#edit-borrow').val($(this).data('borrow'));
+        $('#edit-return').val($(this).data('return'));
+        $('#edit-quantity').val($(this).data('quantity'));
+        $('#edit-purpose').val($(this).data('purpose'));
+        $('#edit-status').val($(this).data('status'));
+        $('#edit-remarks').val($(this).data('remarks'));
+        $('#edit-class').val($(this).data('class'));
+        $('#edit-modal').removeClass('hidden');
+    });
+
+    // Delete modal
+    $('.delete-btn').on('click', function() {
         let id = $(this).data('id');
-        let action = $(this).hasClass('approve-btn') ? 'Approved' :
-                     $(this).hasClass('reject-btn') ? 'Rejected' : 'Returned';
-
-        $('#transaction-id').val(id);
-        $('#status-action').val(action);
-        $('#status-modal').removeClass('hidden');
+        let name = $(this).data('name');
+        $('#delete-item-name').text(name);
+        $('#delete-form').attr('action', '/admin/transactions/' + id);
+        $('#delete-modal').removeClass('hidden');
     });
 
-    // Cancel modal
-    $('#cancel-status').on('click', function() {
-        $('#status-modal').addClass('hidden');
+    // Cancel buttons
+    $('#cancel-add, #cancel-edit, #cancel-delete').on('click', function() {
+        $('#add-modal, #edit-modal, #delete-modal').addClass('hidden');
     });
 
-    // Close on outside click
-    $('#status-modal').on('click', function(e) {
+    // Close when clicking outside
+    $('#add-modal, #edit-modal, #delete-modal').on('click', function(e) {
         if (e.target === this) $(this).addClass('hidden');
     });
 });
 </script>
-@endpush
+@endsection
