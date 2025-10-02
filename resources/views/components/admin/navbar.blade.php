@@ -39,7 +39,7 @@
             <span class="font-medium">Users</span>
         </a>
 
-        <a href="{{ url('transaction.php') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('transaction*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
+        <a href="{{ route('admin.transactions') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('transaction*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
             <div class="w-6 text-center">
                 <i class="fas fa-exchange-alt {{ request()->is('transaction*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>
