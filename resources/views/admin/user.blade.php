@@ -1,7 +1,5 @@
 @extends('components.default')
-
 @section('title', 'Users - CICT Equipment Borrower System')
-
 @section('content')
     @include('components.admin.navbar')
 
@@ -218,6 +216,7 @@
   <script>
 $(document).ready(function() {
     let table = $('#users-table').DataTable({
+        responsive: true,
         pageLength: 10,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         language: {
@@ -226,8 +225,7 @@ $(document).ready(function() {
         }
     });
 
-    // Open Aponsive: true,
-        pageLdd Modal
+    // Open Add Modal
     $('#open-add-modal').on('click', function() {
         $('#add-modal').removeClass('hidden');
     });
@@ -247,7 +245,8 @@ $(document).ready(function() {
     });
 
     // Delete User
-    $('.delete-btn').on('click', function() {
+    $('.delete-btn').on('click', function(e) {
+        e.preventDefault();
         let id = $(this).data('id');
         let name = $(this).data('name');
         $('#delete-item-name').text(name);

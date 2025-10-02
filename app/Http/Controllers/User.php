@@ -72,12 +72,12 @@ class User extends Controller
         ]);
 
         $user = UserModel::findOrFail($userId);
-
-        // Update the user fields
+    // Update the user fields
         $user->name           = $validated['name'];
         $user->email          = $validated['email'];
         $user->user_type      = $validated['user_type'];
         $user->contact_number = $validated['contact_number'] ?? null;
+
 
         // If password is provided, hash and update it
         if (! empty($validated['password'])) {
@@ -94,6 +94,8 @@ class User extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = UserModel::findOrFail($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully.');
     }
 }
