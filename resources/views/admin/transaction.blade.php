@@ -64,7 +64,15 @@
                                 </span>
                             </td>
                             <td>{{ $tx->remarks ?? '—' }}</td>
-                            <td>{{ $tx->classSchedule->name ?? '—' }}</td>
+                            <td>
+                                @if ($tx->classSchedule)
+                                    {{ \Carbon\Carbon::parse($tx->classSchedule->schedule_time)->format('g:i A') }}
+                                    - {{ $tx->classSchedule->instructor?->name ?? 'No Instructor' }}
+                                    - {{ $tx->classSchedule->room }}
+                                @else
+                                    No Schedule
+                                @endif
+                            </td>
                             <td>
                                 <div class="flex items-center space-x-2">
                                     <button class="text-blue-600 edit-btn hover:text-blue-900"

@@ -21,11 +21,11 @@ class BorrowTransaction extends Model
 
     public function classSchedule()
     {
-        return $this->belongsTo(ClassSchedule::class, 'class_schedule_id');
+        return $this->belongsTo(ClassSchedule::class);
     }
 
     public function returnLog()
     {
-        return $this->hasOne(ReturnLog::class, 'transaction_id');
+        return $this->hasOne(ReturnLog::class);
     }
 }

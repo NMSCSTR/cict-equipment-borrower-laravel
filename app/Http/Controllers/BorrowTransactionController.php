@@ -21,12 +21,19 @@ class BorrowTransactionController extends Controller
         $equipment = Equipment::all();
         $classSchedules = ClassSchedule::with('instructor')
             ->whereHas('instructor', function ($query) {
-                $query->where('user_type', 'Instructor'); // your column is user_type, not role
+                $query->where('user_type', 'Instructor');
             })
             ->get();
 
 
         return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
+    }
+
+    public function getOnlyTransactionsHasClassSchedule()
+    {
+        $transactions = BorrowTransaction::with(['user', 'equipment', 'classSchedule.instructor'])
+            ->whereNotNull('class_schedule_id')
+            ->get();
     }
 
     /**
