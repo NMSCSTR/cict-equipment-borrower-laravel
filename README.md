@@ -67,14 +67,14 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Laravel command
 <div>
-    <p class="text-gray-500 text-sm font-medium">Total Equipment</p>
-    <p class="text-2xl font-bold text-gray-900 mt-1">{{ $equipment->count() }}</p>
+    <p class="text-sm font-medium text-gray-500">Total Equipment</p>
+    <p class="mt-1 text-2xl font-bold text-gray-900">{{ $equipment->count() }}</p>
 </div>
 
 
 <div>
-    <p class="text-gray-500 text-sm font-medium">Available</p>
-    <p class="text-2xl font-bold text-green-600 mt-1">
+    <p class="text-sm font-medium text-gray-500">Available</p>
+    <p class="mt-1 text-2xl font-bold text-green-600">
         {{ $equipment->where('status', 'available')->sum('available_quantity') }}
     </p>
 </div>
@@ -100,3 +100,18 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 </td>
 
     @endforeach
+
+
+
+Migrations
+    $table->id();
+    $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+    $table->foreignIdFor(Equipment::class)->constrained()->onDelete('cascade');
+    $table->date('borrow_date');
+    $table->date('return_date')->nullable();
+    $table->integer('quantity');
+    $table->string('purpose');
+    $table->enum('status', ['Borrowed', 'Returned', 'Overdue'])->default('Borrowed');
+    $table->text('remarks')->nullable();
+    $table->foreignIdFor(ClassSchedule::class)->nullable()->constrained()->onDelete('set null');
+    $table->timestamps();

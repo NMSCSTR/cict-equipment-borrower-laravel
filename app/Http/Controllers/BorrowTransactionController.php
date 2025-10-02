@@ -13,7 +13,8 @@ class BorrowTransactionController extends Controller
     public function index()
     {
         //
-        return view('admin.borrow_transactions');
+        $transactions = BorrowTransaction::all();
+        return view('admin.transactions', compact('transactions'));
     }
 
     /**
@@ -30,6 +31,20 @@ class BorrowTransactionController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'equipment_id' => 'required|exists:equipment,id',
+            'borrowed_date' => 'required|date',
+            'return_date' => 'required|date|after_or_equal:borrowed_date',
+            'quantity' => 'required|integer|min:1',
+            'purpose' => 'required|string|max:255',
+            'status' => 'required|in:borrowed,returned,overdue',
+            'remarks' => 'nullable|string',
+            'class_schedule_id' => 'nullable|exists:class_schedules,id',
+        ]);
+
+        BorrowTransaction::create($validated);
+        return redirect()->back()->with('success', 'Transaction created successfully.');
     }
 
     /**

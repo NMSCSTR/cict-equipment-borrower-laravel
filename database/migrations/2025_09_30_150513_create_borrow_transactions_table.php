@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('return_date')->nullable();
             $table->integer('quantity');
             $table->string('purpose');
-            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Returned'])->default('Pending');
+            $table->enum('status', ['Borrowed', 'Returned', 'Overdue'])->default('Borrowed');
             $table->text('remarks')->nullable();
             $table->foreignIdFor(ClassSchedule::class)->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
