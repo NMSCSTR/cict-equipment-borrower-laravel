@@ -88,13 +88,11 @@
 </div>
 
 <!-- Modals -->
-@include('transactions.modals.add')
+{{-- @include('transactions.modals.add')
 @include('transactions.modals.edit')
-@include('transactions.modals.delete')
+@include('transactions.modals.delete') --}}
 
-@endsection
 
-@section('scripts')
 <script>
 $(document).ready(function () {
     let table = $('#transactions-table').DataTable({
@@ -147,4 +145,71 @@ $(document).ready(function () {
     });
 });
 </script>
+
+    {{-- Enhanced Styles for DataTables --}}
+    <style>
+        .dataTables_filter input {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+        }
+        .dataTables_length select {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            margin-left: 0.5rem;
+        }
+        .dataTables_wrapper .dataTables_paginate {
+            padding: 0;
+            margin: 0;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            margin-left: 0.25rem;
+            font-size: 0.875rem;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            color: #374151;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+            background: #f9fafb;
+            color: #9ca3af;
+            border-color: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* Custom spacing for table footer */
+        #pagination-container {
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Ensure proper spacing in table footer */
+        .dataTables_wrapper .dataTables_info {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Modal content styling */
+        .modal-content {
+            pointer-events: auto;
+        }
+    </style>
 @endsection

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticateUser;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\BorrowTransactionController;
 use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::post('admin/users', [AuthenticateUser::class, 'register'])->name('admin.user.register');
         Route::post('/admin/users/update', [User::class, 'update'])->name('admin.users.update');
         Route::delete('/admin/users/{id}', [User::class, 'destroy'])->name('admin.users.destroy');
-        Route::get('/admin/transactions', [BorrowTransactionController::class, 'index'])->name('admin.transactions');
+        Route::get('/admin/transaction', [BorrowTransactionController::class, 'index'])->name('admin.transaction');
     });
 });
 

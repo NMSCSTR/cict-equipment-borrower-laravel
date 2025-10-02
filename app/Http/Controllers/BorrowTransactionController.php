@@ -14,7 +14,7 @@ class BorrowTransactionController extends Controller
     {
         //
         $transactions = BorrowTransaction::all();
-        return view('admin.transactions', compact('transactions'));
+        return view('admin.transaction', compact('transactions'));
     }
 
     /**
