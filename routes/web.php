@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['userType:Admin'])->group(function () {
         Route::get('/admin/dashboard', [AuthenticateUser::class, 'adminView'])->name('admin.dashboard');
         Route::get('/admin/equipment', [EquipmentController::class, 'index'])->name('admin.equipment');
+        Route::post('/admin/equipment', [EquipmentController::class, 'store'])->name('admin.equipment.store');
         Route::post('/admin/equipment/update', [EquipmentController::class, 'update'])->name('admin.equipment.update');
         Route::delete('/admin/equipment/{id}', [EquipmentController::class, 'destroy'])->name('admin.equipment.destroy');
     });

@@ -32,7 +32,16 @@ class EquipmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$
+        $validated = $request->validate([
+            'equipment_name' => 'required',
+            'description' => 'max:500',
+            'quantity' => 'required|integer',
+            'available_quantity' => 'required|integer',
+            'status' => 'required',
+        ]);
+        Equipment::create($validated);
+        return redirect()->back()->with('success', 'Equipment added successfully.');
     }
 
     /**
