@@ -5,39 +5,40 @@
 @section("content")
     @include('components.admin.navbar')
 <div class="min-h-screen bg-gray-50 md:ml-80">
+    
     <!-- Top Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-30">
+    <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
             <div class="flex items-center space-x-4">
                 <button id="menu-toggle" class="text-gray-500 hover:text-gray-700 md:hidden">
-                    <i class="fas fa-bars text-xl"></i>
+                    <i class="text-xl fas fa-bars"></i>
                 </button>
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-                    <p class="text-gray-500 text-sm">Welcome back, Admin! Here's your overview.</p>
+                    <p class="text-sm text-gray-500">Welcome back, Admin! Here's your overview.</p>
                 </div>
             </div>
 
             <div class="flex items-center space-x-4">
                 <!-- Search Bar -->
-                <div class="hidden md:block relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-search text-gray-400"></i>
+                <div class="relative hidden md:block">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="text-gray-400 fas fa-search"></i>
                     </div>
-                    <input type="text" class="pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64" placeholder="Search...">
+                    <input type="text" class="w-64 py-2 pl-10 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Search...">
                 </div>
 
                 <!-- Notifications -->
                 <div class="relative">
-                    <button class="relative p-2 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    <button class="relative p-2 text-gray-500 transition-colors duration-200 hover:text-gray-700">
+                        <i class="text-xl fas fa-bell"></i>
+                        <span class="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">3</span>
                     </button>
                 </div>
 
                 <!-- User Menu -->
                 <div class="flex items-center space-x-3">
-                    <img class="h-9 w-9 rounded-xl object-cover border-2 border-blue-500" src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff&bold=true" alt="Admin">
+                    <img class="object-cover border-2 border-blue-500 h-9 w-9 rounded-xl" src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff&bold=true" alt="Admin">
                     <div class="hidden md:block">
                         <p class="text-sm font-semibold text-gray-900">Admin User</p>
                         <p class="text-xs text-gray-500">Administrator</p>
@@ -50,98 +51,98 @@
     <!-- Main Content -->
     <main class="p-6">
         <!-- Quick Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="stats-card rounded-2xl border border-gray-200 p-6">
+        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
+            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Equipment</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">142</p>
+                        <p class="text-sm font-medium text-gray-500">Total Equipment</p>
+                        <p class="mt-2 text-3xl font-bold text-gray-900">142</p>
                         <div class="flex items-center mt-2">
-                            <span class="text-green-500 text-sm font-medium flex items-center">
-                                <i class="fas fa-arrow-up mr-1 text-xs"></i>
+                            <span class="flex items-center text-sm font-medium text-green-500">
+                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
                                 12% increase
                             </span>
-                            <span class="text-gray-400 text-sm ml-2">from last month</span>
+                            <span class="ml-2 text-sm text-gray-400">from last month</span>
                         </div>
                     </div>
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-tools text-blue-500 text-xl"></i>
+                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
+                        <i class="text-xl text-blue-500 fas fa-tools"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-card rounded-2xl border border-gray-200 p-6">
+            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Active Users</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">256</p>
+                        <p class="text-sm font-medium text-gray-500">Active Users</p>
+                        <p class="mt-2 text-3xl font-bold text-gray-900">256</p>
                         <div class="flex items-center mt-2">
-                            <span class="text-green-500 text-sm font-medium flex items-center">
-                                <i class="fas fa-arrow-up mr-1 text-xs"></i>
+                            <span class="flex items-center text-sm font-medium text-green-500">
+                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
                                 8% increase
                             </span>
-                            <span class="text-gray-400 text-sm ml-2">from last month</span>
+                            <span class="ml-2 text-sm text-gray-400">from last month</span>
                         </div>
                     </div>
-                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-users text-green-500 text-xl"></i>
+                    <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl">
+                        <i class="text-xl text-green-500 fas fa-users"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-card rounded-2xl border border-gray-200 p-6">
+            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Active Transactions</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">38</p>
+                        <p class="text-sm font-medium text-gray-500">Active Transactions</p>
+                        <p class="mt-2 text-3xl font-bold text-gray-900">38</p>
                         <div class="flex items-center mt-2">
-                            <span class="text-red-500 text-sm font-medium flex items-center">
-                                <i class="fas fa-arrow-down mr-1 text-xs"></i>
+                            <span class="flex items-center text-sm font-medium text-red-500">
+                                <i class="mr-1 text-xs fas fa-arrow-down"></i>
                                 5% decrease
                             </span>
-                            <span class="text-gray-400 text-sm ml-2">from last week</span>
+                            <span class="ml-2 text-sm text-gray-400">from last week</span>
                         </div>
                     </div>
-                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-exchange-alt text-purple-500 text-xl"></i>
+                    <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl">
+                        <i class="text-xl text-purple-500 fas fa-exchange-alt"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-card rounded-2xl border border-gray-200 p-6">
+            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Pending Requests</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">18</p>
+                        <p class="text-sm font-medium text-gray-500">Pending Requests</p>
+                        <p class="mt-2 text-3xl font-bold text-gray-900">18</p>
                         <div class="flex items-center mt-2">
-                            <span class="text-green-500 text-sm font-medium flex items-center">
-                                <i class="fas fa-arrow-up mr-1 text-xs"></i>
+                            <span class="flex items-center text-sm font-medium text-green-500">
+                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
                                 15% increase
                             </span>
-                            <span class="text-gray-400 text-sm ml-2">from yesterday</span>
+                            <span class="ml-2 text-sm text-gray-400">from yesterday</span>
                         </div>
                     </div>
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-clipboard-list text-orange-500 text-xl"></i>
+                    <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-xl">
+                        <i class="text-xl text-orange-500 fas fa-clipboard-list"></i>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Charts and Activity Section -->
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 gap-6 mb-8 xl:grid-cols-3">
 
 
             <!-- Recent Activity -->
-            <div class="bg-white rounded-2xl border border-gray-200 p-6">
+            <div class="p-6 bg-white border border-gray-200 rounded-2xl">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
-                    <a href="#" class="text-blue-500 text-sm font-medium hover:text-blue-700">View All</a>
+                    <a href="#" class="text-sm font-medium text-blue-500 hover:text-blue-700">View All</a>
                 </div>
                 <div class="space-y-4">
                     <div class="flex items-start space-x-3">
-                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                            <i class="fas fa-exchange-alt text-blue-500 text-sm"></i>
+                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-blue-100 rounded-lg">
+                            <i class="text-sm text-blue-500 fas fa-exchange-alt"></i>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900">Projector borrowed</p>
@@ -149,8 +150,8 @@
                         </div>
                     </div>
                     <div class="flex items-start space-x-3">
-                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                            <i class="fas fa-check text-green-500 text-sm"></i>
+                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-green-100 rounded-lg">
+                            <i class="text-sm text-green-500 fas fa-check"></i>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900">Request approved</p>
@@ -158,8 +159,8 @@
                         </div>
                     </div>
                     <div class="flex items-start space-x-3">
-                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                            <i class="fas fa-tools text-purple-500 text-sm"></i>
+                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-purple-100 rounded-lg">
+                            <i class="text-sm text-purple-500 fas fa-tools"></i>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900">New equipment added</p>
@@ -167,8 +168,8 @@
                         </div>
                     </div>
                     <div class="flex items-start space-x-3">
-                        <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                            <i class="fas fa-user-plus text-orange-500 text-sm"></i>
+                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-orange-100 rounded-lg">
+                            <i class="text-sm text-orange-500 fas fa-user-plus"></i>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-900">New user registered</p>
@@ -180,32 +181,32 @@
         </div>
 
         <!-- Quick Actions & System Status -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <!-- Quick Actions -->
-            <div class="bg-white rounded-2xl border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">Quick Actions</h3>
+            <div class="p-6 bg-white border border-gray-200 rounded-2xl">
+                <h3 class="mb-6 text-lg font-semibold text-gray-900">Quick Actions</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <button class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-2 group-hover:bg-blue-500 transition-colors duration-200">
-                            <i class="fas fa-plus text-blue-500 group-hover:text-white"></i>
+                    <button class="flex flex-col items-center justify-center p-4 transition-all duration-200 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 group">
+                        <div class="flex items-center justify-center w-10 h-10 mb-2 transition-colors duration-200 bg-blue-100 rounded-lg group-hover:bg-blue-500">
+                            <i class="text-blue-500 fas fa-plus group-hover:text-white"></i>
                         </div>
                         <span class="text-sm font-medium text-gray-700">Add Equipment</span>
                     </button>
-                    <button class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-2 group-hover:bg-blue-500 transition-colors duration-200">
-                            <i class="fas fa-user-plus text-blue-500 group-hover:text-white"></i>
+                    <button class="flex flex-col items-center justify-center p-4 transition-all duration-200 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 group">
+                        <div class="flex items-center justify-center w-10 h-10 mb-2 transition-colors duration-200 bg-blue-100 rounded-lg group-hover:bg-blue-500">
+                            <i class="text-blue-500 fas fa-user-plus group-hover:text-white"></i>
                         </div>
                         <span class="text-sm font-medium text-gray-700">Add User</span>
                     </button>
-                    <button class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-2 group-hover:bg-blue-500 transition-colors duration-200">
-                            <i class="fas fa-clipboard-check text-blue-500 group-hover:text-white"></i>
+                    <button class="flex flex-col items-center justify-center p-4 transition-all duration-200 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 group">
+                        <div class="flex items-center justify-center w-10 h-10 mb-2 transition-colors duration-200 bg-blue-100 rounded-lg group-hover:bg-blue-500">
+                            <i class="text-blue-500 fas fa-clipboard-check group-hover:text-white"></i>
                         </div>
                         <span class="text-sm font-medium text-gray-700">Process Request</span>
                     </button>
-                    <button class="flex flex-col items-center justify-center p-4 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-2 group-hover:bg-blue-500 transition-colors duration-200">
-                            <i class="fas fa-chart-bar text-blue-500 group-hover:text-white"></i>
+                    <button class="flex flex-col items-center justify-center p-4 transition-all duration-200 border border-gray-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 group">
+                        <div class="flex items-center justify-center w-10 h-10 mb-2 transition-colors duration-200 bg-blue-100 rounded-lg group-hover:bg-blue-500">
+                            <i class="text-blue-500 fas fa-chart-bar group-hover:text-white"></i>
                         </div>
                         <span class="text-sm font-medium text-gray-700">View Reports</span>
                     </button>
@@ -213,16 +214,16 @@
             </div>
 
             <!-- System Status -->
-            <div class="bg-white rounded-2xl border border-gray-200 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">System Status</h3>
+            <div class="p-6 bg-white border border-gray-200 rounded-2xl">
+                <h3 class="mb-6 text-lg font-semibold text-gray-900">System Status</h3>
                 <div class="space-y-4">
                     <div>
                         <div class="flex justify-between mb-2">
                             <span class="text-sm font-medium text-gray-700">Server Uptime</span>
                             <span class="text-sm font-medium text-gray-900">99.8%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 99.8%"></div>
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-green-500 rounded-full" style="width: 99.8%"></div>
                         </div>
                     </div>
                     <div>
@@ -230,8 +231,8 @@
                             <span class="text-sm font-medium text-gray-700">Database Performance</span>
                             <span class="text-sm font-medium text-gray-900">98%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-500 h-2 rounded-full" style="width: 98%"></div>
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-blue-500 rounded-full" style="width: 98%"></div>
                         </div>
                     </div>
                     <div>
@@ -239,8 +240,8 @@
                             <span class="text-sm font-medium text-gray-700">Storage Usage</span>
                             <span class="text-sm font-medium text-gray-900">65%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 65%"></div>
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-yellow-500 rounded-full" style="width: 65%"></div>
                         </div>
                     </div>
                     <div>
@@ -248,8 +249,8 @@
                             <span class="text-sm font-medium text-gray-700">Active Sessions</span>
                             <span class="text-sm font-medium text-gray-900">42</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-purple-500 h-2 rounded-full" style="width: 70%"></div>
+                        <div class="w-full h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-purple-500 rounded-full" style="width: 70%"></div>
                         </div>
                     </div>
                 </div>

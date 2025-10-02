@@ -1,18 +1,18 @@
 <!-- Sidebar Overlay -->
-<div class="sidebar-overlay fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" style="display: none;"></div>
+<div class="fixed inset-0 z-40 bg-black bg-opacity-50 sidebar-overlay md:hidden" style="display: none;"></div>
 
 <!-- Sidebar -->
-<div class="sidebar bg-gray-900 text-white w-80 fixed inset-y-0 left-0 z-50 flex flex-col">
+<div class="fixed inset-y-0 left-0 z-50 flex flex-col text-white bg-gray-900 sidebar w-80">
     <!-- Header -->
     <div class="p-6 border-b border-gray-700">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center">
-                {{-- <i class="fas fa-laptop-code text-white text-lg"></i> --}}
+            <div class="flex items-center justify-center w-10 h-10 rounded-xl">
+                {{-- <i class="text-lg text-white fas fa-laptop-code"></i> --}}
                 <img src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png" alt="">
             </div>
             <div>
                 <h1 class="text-xl font-bold text-white">CICT Equipment</h1>
-                <p class="text-gray-400 text-sm">Management System</p>
+                <p class="text-sm text-gray-400">Management System</p>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
                 <i class="fas fa-clipboard-list {{ request()->is('request*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>
             <span class="font-medium">Requests</span>
-            <span class="ml-auto bg-blue-500 text-white text-xs rounded-full px-2 py-1">12</span>
+            <span class="px-2 py-1 ml-auto text-xs text-white bg-blue-500 rounded-full">12</span>
         </a>
 
         <a href="{{ url('notification.php') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('notification*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
@@ -59,27 +59,28 @@
                 <i class="fas fa-bell {{ request()->is('notification*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>
             <span class="font-medium">Notifications</span>
-            <span class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1">3</span>
+            <span class="px-2 py-1 ml-auto text-xs text-white bg-red-500 rounded-full">3</span>
         </a>
     </nav>
 
     <!-- User Profile -->
     <div class="p-4 border-t border-gray-700">
-        <div class="flex items-center space-x-3 p-3 rounded-xl bg-gray-800">
-            <img class="h-10 w-10 rounded-xl object-cover" src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png" alt="Admin">
+        <div class="flex items-center p-3 space-x-3 bg-gray-800 rounded-xl">
+            <img class="object-cover w-10 h-10 rounded-xl" src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png" alt="Admin">
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-white truncate">Admin User</p>
-                <p class="text-xs text-gray-400 truncate">admin@cict.com</p>
+                <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
+                <p class="text-xs text-gray-400 truncate">{{ Auth::user()->email }}</p>
             </div>
+
             <div class="relative">
-                <button id="settingsBtn" class="text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none">
+                <button id="settingsBtn" class="text-gray-400 transition-colors duration-200 hover:text-white focus:outline-none">
                     <i class="fas fa-cog"></i>
                 </button>
-                <div id="logoutDropdown" class="hidden absolute right-0 mt-2 w-40 bg-gray-800 rounded-xl shadow-lg z-50">
+                <div id="logoutDropdown" class="absolute right-0 z-50 hidden w-40 mt-2 bg-gray-800 shadow-lg rounded-xl">
                     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="button" id="logoutBtn" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        <button type="button" id="logoutBtn" class="block w-full px-4 py-2 text-sm text-left text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl">
+                            <i class="mr-2 fas fa-sign-out-alt"></i> Logout
                         </button>
                     </form>
                 </div>

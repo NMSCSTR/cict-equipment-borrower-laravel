@@ -33,70 +33,70 @@
         <!-- Main Content -->
         <main class="p-6">
             @if (session('success'))
-                <div class="px-4 py-2 mb-4 text-green-800 bg-green-100 rounded">
-                    {{ session('success') }}
+                <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="mr-2 fas fa-check-circle"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
                 </div>
             @endif
 
             <!-- Equipment Table -->
-            <div class="bg-white border border-gray-200 shadow-sm rounded-xl">
-                <div class="py-4 overflow-x-auto">
-                    <table id="example" class="w-full display nowrap">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th>Equipment Name</th>
-                                <th>Description</th>
-                                <th>Total Quantity</th>
-                                <th>Available</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($equipment as $item)
-                                <tr class="transition-colors duration-150 hover:bg-gray-50">
-                                    <td>{{ $item->equipment_name }}</td>
-                                    <td class="max-w-xs truncate">{{ $item->description }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ $item->available_quantity }}</td>
-                                    <td>
-                                        @php
-                                            $statusColors = [
-                                                'Available' => 'bg-green-100 text-green-800',
-                                                'Unavailable' => 'bg-red-100 text-red-800',
-                                            ];
-                                            $statusColor = $statusColors[$item->status] ?? 'bg-gray-100 text-gray-800';
-                                        @endphp
-                                        <span
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
-                                            {{ ucfirst(str_replace('_', ' ', $item->status)) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="flex items-center space-x-2">
-                                            <button class="text-blue-600 edit-btn hover:text-blue-900"
-                                                data-id="{{ $item->id }}"
-                                                data-name="{{ $item->equipment_name }}"
-                                                data-description="{{ $item->description }}"
-                                                data-quantity="{{ $item->quantity }}"
-                                                data-available="{{ $item->available_quantity }}"
-                                                data-status="{{ $item->status }}">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
+            <table id="equipmentTable" class="w-full display nowrap">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th>Equipment Name</th>
+                        <th>Description</th>
+                        <th>Total Quantity</th>
+                        <th>Available</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($equipment as $item)
+                        <tr class="transition-colors duration-150 hover:bg-gray-50">
+                            <td>{{ $item->equipment_name }}</td>
+                            <td class="max-w-xs truncate">{{ $item->description }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ $item->available_quantity }}</td>
+                            <td>
+                                @php
+                                    $statusColors = [
+                                        'Available' => 'bg-green-100 text-green-800',
+                                        'Unavailable' => 'bg-red-100 text-red-800',
+                                    ];
+                                    $statusColor = $statusColors[$item->status] ?? 'bg-gray-100 text-gray-800';
+                                @endphp
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
+                                    {{ ucfirst(str_replace('_', ' ', $item->status)) }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-blue-600 edit-btn hover:text-blue-900" data-id="{{ $item->id }}"
+                                        data-name="{{ $item->equipment_name }}" data-description="{{ $item->description }}"
+                                        data-quantity="{{ $item->quantity }}"
+                                        data-available="{{ $item->available_quantity }}"
+                                        data-status="{{ $item->status }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
 
-                                            <button class="text-red-600 delete-btn hover:text-red-900"
-                                                data-id="{{ $item->id }}" data-name="{{ $item->equipment_name }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+                                    <button class="text-red-600 delete-btn hover:text-red-900"
+                                        data-id="{{ $item->id }}" data-name="{{ $item->equipment_name }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+    </div>
+    </div>
+    </main>
     </div>
 
     {{-- Include Modals (Add, Edit, Delete) --}}
@@ -107,13 +107,16 @@
     {{-- DataTables & Script --}}
     <script>
         $(document).ready(function() {
-            let table = $('#myTable').DataTable({
+            let table = $('#equipmentTable').DataTable({
                 responsive: true,
                 pageLength: 10,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
                 language: {
-                    search: "",
-                    searchPlaceholder: "Search equipment...",
+                    search: "🔍 ",
+                    searchPlaceholder: "Search equipment..."
                 }
             });
 
@@ -136,6 +139,11 @@
                 $('#delete-form').attr('action', '/admin/equipment/' + id);
                 $('#delete-modal').removeClass('hidden');
             });
+
+            $('#confirm-delete').on('click', function () {
+                $('#delete-form').submit();
+            });
+
 
             // Add modal
             $('#open-add-modal').on('click', function() {
@@ -162,17 +170,20 @@
             padding: 0.5rem 0.75rem;
             margin-left: 0.5rem;
         }
+
         .dataTables_wrapper .dataTables_length select {
             border: 1px solid #d1d5db;
             border-radius: 0.5rem;
             padding: 0.25rem 0.5rem;
         }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.4rem 0.75rem;
             margin: 0 0.125rem;
         }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background: #3b82f6;
             color: white !important;

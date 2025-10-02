@@ -67,11 +67,11 @@ class AuthenticateUser extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
+            'user_type' => 'required|in:Admin,Instructor,Student',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'contact_number' => 'nullable|string|max:15',
-            'user_type' => 'required|in:admin,instructor,student',
         ]);
 
         $user = User::create([
@@ -82,14 +82,7 @@ class AuthenticateUser extends Controller
             'contact_number' => $validatedData['contact_number'] ?? null,
         ]);
 
-        Auth::login($user);
+        return redirect()->back()->with('success', 'User added successfully!');
 
-        if ($user->user_type === 'admin') {
-            return redirect(route('admin.dashboard'));
-        } elseif ($user->user_type === 'instructor') {
-            return redirect(route('instructor.dashboard'));
-        } else {
-            return redirect(route('student.dashboard'));
-        }
     }
 }

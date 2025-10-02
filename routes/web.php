@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/equipment/update', [EquipmentController::class, 'update'])->name('admin.equipment.update');
         Route::delete('/admin/equipment/{id}', [EquipmentController::class, 'destroy'])->name('admin.equipment.destroy');
         Route::get('/admin/users', [User::class, 'adminUser'])->name('admin.users');
-        Route::post('/admin/users', [User::class, 'store'])->name('admin.users.store');
+        Route::post('admin/users', [AuthenticateUser::class, 'register'])->name('admin.user.register');
         Route::post('/admin/users/update', [User::class, 'update'])->name('admin.users.update');
         Route::delete('/admin/users/{id}', [User::class, 'destroy'])->name('admin.users.destroy');
     });
