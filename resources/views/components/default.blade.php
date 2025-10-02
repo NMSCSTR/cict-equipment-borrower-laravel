@@ -16,9 +16,13 @@
          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
          <!-- Include DataTables -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.tailwindcss.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.3.4/css/dataTables.tailwindcss.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/dataTables.tailwindcss.min.js"></script>
+        <script src=""></script>
+        <script src=""></script>
+        <script src=""></script>
 
         <style>
             body {
@@ -37,6 +41,6 @@
         <div class="my-4"></div>
         @yield("content")
         @stack('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></>
     </body>
 </html>

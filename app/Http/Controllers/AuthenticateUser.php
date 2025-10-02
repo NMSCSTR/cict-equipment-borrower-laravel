@@ -35,6 +35,7 @@ class AuthenticateUser extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+            $request->session()->flash('welcome', 'Welcome back, ' . $user->name . '!');
 
             if ($user->user_type === 'Admin') {
                 return redirect()->intended(route('admin.dashboard'));
@@ -77,7 +78,7 @@ class AuthenticateUser extends Controller
             'user_type' => $validatedData['user_type'],
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']), 
+            'password' => Hash::make($validatedData['password']),
             'contact_number' => $validatedData['contact_number'] ?? null,
         ]);
 

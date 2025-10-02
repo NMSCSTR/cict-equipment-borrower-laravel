@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User as UserModel; // Import with alias
 
 class User extends Controller
 {
@@ -11,14 +12,13 @@ class User extends Controller
      */
     public function index()
     {
-        //
         return view('login');
-
     }
 
     public function adminUser()
     {
-        return view('admin.user');
+        $users = UserModel::all(); // Use the alias
+        return view('admin.user', compact('users'));
     }
 
     /**
@@ -26,7 +26,7 @@ class User extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -35,7 +35,6 @@ class User extends Controller
     public function store(Request $request)
     {
         //
-
     }
 
     /**
@@ -43,8 +42,7 @@ class User extends Controller
      */
     public function show(string $id)
     {
-        //
-        $user = User::findOrFail($id);
+        $user = UserModel::findOrFail($id); // Use the alias
         return view('user.show', compact('user'));
     }
 

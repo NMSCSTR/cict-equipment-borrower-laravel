@@ -6,8 +6,9 @@
     <!-- Header -->
     <div class="p-6 border-b border-gray-700">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
-                <i class="fas fa-laptop-code text-white text-lg"></i>
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center">
+                {{-- <i class="fas fa-laptop-code text-white text-lg"></i> --}}
+                <img src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png" alt="">
             </div>
             <div>
                 <h1 class="text-xl font-bold text-white">CICT Equipment</h1>
@@ -18,6 +19,12 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-6 space-y-2">
+        <a href="{{ route('admin.dashboard') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
+            <div class="w-6 text-center">
+                <i class="fas fa-dashboard {{ request()->is('equipment*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
+            </div>
+            <span class="font-medium">Dashboard</span>
+        </a>
         <a href="{{ route('admin.equipment') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
             <div class="w-6 text-center">
                 <i class="fas fa-tools {{ request()->is('equipment*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
@@ -59,7 +66,7 @@
     <!-- User Profile -->
     <div class="p-4 border-t border-gray-700">
         <div class="flex items-center space-x-3 p-3 rounded-xl bg-gray-800">
-            <img class="h-10 w-10 rounded-xl object-cover border-2 border-blue-500" src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff&bold=true" alt="Admin">
+            <img class="h-10 w-10 rounded-xl object-cover" src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png" alt="Admin">
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-semibold text-white truncate">Admin User</p>
                 <p class="text-xs text-gray-400 truncate">admin@cict.com</p>
