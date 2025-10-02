@@ -59,3 +59,44 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+
+## Laravel command
+<div>
+    <p class="text-gray-500 text-sm font-medium">Total Equipment</p>
+    <p class="text-2xl font-bold text-gray-900 mt-1">{{ $equipment->count() }}</p>
+</div>
+
+
+<div>
+    <p class="text-gray-500 text-sm font-medium">Available</p>
+    <p class="text-2xl font-bold text-green-600 mt-1">
+        {{ $equipment->where('status', 'available')->sum('available_quantity') }}
+    </p>
+</div>
+
+    @foreach($equipment as $item)
+<td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm font-medium text-gray-900">{{ $item->equipment_name }}</div>
+</td>
+
+<td class="px-6 py-4 whitespace-nowrap">
+    @php
+        $statusColors = [
+            'available' => 'bg-green-100 text-green-800',
+            'in_use' => 'bg-blue-100 text-blue-800',
+            'maintenance' => 'bg-yellow-100 text-yellow-800',
+            'out_of_service' => 'bg-red-100 text-red-800'
+        ];
+        $statusColor = $statusColors[$item->status] ?? 'bg-gray-100 text-gray-800';
+    @endphp
+    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
+        {{ ucfirst(str_replace('_', ' ', $item->status)) }}
+    </span>
+</td>
+
+    @endforeach

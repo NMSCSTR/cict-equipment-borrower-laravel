@@ -18,7 +18,7 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-6 space-y-2">
-        <a href="{{ route('admin.equpment') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
+        <a href="{{ route('admin.equipment') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('equipment*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">
             <div class="w-6 text-center">
                 <i class="fas fa-tools {{ request()->is('equipment*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>

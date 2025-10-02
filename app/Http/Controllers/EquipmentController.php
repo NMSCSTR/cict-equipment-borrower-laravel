@@ -13,10 +13,9 @@ class EquipmentController extends Controller
     public function index()
     {
         //
-        return view('admin.equipment');
+        // return view('admin.equipment');
         $equipment = Equipment::all();
-        // return view('admin.equipment', compact('equipment'));
-        return $equipment;
+        return view('admin.equipment', compact('equipment'));
 
     }
 
@@ -50,21 +49,37 @@ class EquipmentController extends Controller
     public function edit(Equipment $equipment)
     {
         //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Equipment $equipment)
+    public function update(Request $request)
     {
         //
+        $validated = $request->validate([
+            'equipment_name' => 'required',
+            'description' => 'max:500',
+            'quantity' => 'required|integer',
+            'available_quantity' => 'required|integer',
+            'status' => 'required',
+        ]);
+
+
+        $update = Equipment::where('id', $request->id)->update($validated);
+        return redirect()->back()->with('success', 'Equipment updated successfully.');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Equipment $equipment)
+    public function destroy($id)
     {
         //
+        $equipment = Equipment::findOrFail($id);
+        $equipment->delete();
+        return redirect()->back()->with('success', 'Equipment deleted successfully.');
     }
 }
