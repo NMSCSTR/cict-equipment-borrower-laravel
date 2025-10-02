@@ -6,6 +6,14 @@
 @include('components.admin.navbar')
 
 <div class="min-h-screen bg-gray-50 md:ml-80">
+    @if (session('success'))
+        <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
+            <div class="flex items-center">
+                <i class="mr-2 fas fa-check-circle"></i>
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
+    @endif
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
@@ -88,9 +96,9 @@
 </div>
 
 <!-- Modals -->
-{{-- @include('transactions.modals.add')
-@include('transactions.modals.edit')
-@include('transactions.modals.delete') --}}
+@include('components.admin.transaction.add-modal')
+@include('components.admin.transaction.edit-modal')
+@include('components.admin.transaction.delete-modal')
 
 
 <script>

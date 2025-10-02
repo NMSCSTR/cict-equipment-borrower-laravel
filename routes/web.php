@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/users/update', [User::class, 'update'])->name('admin.users.update');
         Route::delete('/admin/users/{id}', [User::class, 'destroy'])->name('admin.users.destroy');
         Route::get('/admin/transaction', [BorrowTransactionController::class, 'index'])->name('admin.transaction');
+        Route::post('/admin/transaction', [BorrowTransactionController::class, 'store'])->name('admin.transaction.store');
+        Route::post('/admin/transaction/update', [BorrowTransactionController::class, 'update'])->name('admin.transaction.update');
+        Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
     });
 });
 

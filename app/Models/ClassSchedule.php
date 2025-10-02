@@ -11,7 +11,7 @@ class ClassSchedule extends Model
 
     public function instructor()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function borrowTransactions()
     {

@@ -26,6 +26,6 @@ class BorrowTransaction extends Model
 
     public function returnLog()
     {
-        return $this->hasOne(ReturnLogs::class, 'transaction_id');
+        return $this->hasOne(ReturnLog::class, 'transaction_id');
     }
 }

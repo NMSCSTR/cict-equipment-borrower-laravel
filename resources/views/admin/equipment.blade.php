@@ -80,12 +80,12 @@
                                         data-quantity="{{ $item->quantity }}"
                                         data-available="{{ $item->available_quantity }}"
                                         data-status="{{ $item->status }}">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit"></i> Edit
                                     </button>
 
                                     <button class="text-red-600 delete-btn hover:text-red-900"
                                         data-id="{{ $item->id }}" data-name="{{ $item->equipment_name }}">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash"></i> delete
                                     </button>
                                 </div>
                             </td>

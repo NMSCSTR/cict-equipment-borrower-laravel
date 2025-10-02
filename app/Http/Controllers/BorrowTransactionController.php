@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BorrowTransaction;
+use App\Models\User;
+use App\Models\Equipment;
+use App\Models\ClassSchedule;
 use Illuminate\Http\Request;
 
 class BorrowTransactionController extends Controller
@@ -14,7 +17,16 @@ class BorrowTransactionController extends Controller
     {
         //
         $transactions = BorrowTransaction::all();
-        return view('admin.transaction', compact('transactions'));
+        $users = User::all();
+        $equipment = Equipment::all();
+        $classSchedules = ClassSchedule::with('instructor')
+            ->whereHas('instructor', function ($query) {
+                $query->where('user_type', 'Instructor'); // your column is user_type, not role
+            })
+            ->get();
+
+
+        return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
     }
 
     /**
@@ -34,11 +46,11 @@ class BorrowTransactionController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'equipment_id' => 'required|exists:equipment,id',
-            'borrowed_date' => 'required|date',
-            'return_date' => 'required|date|after_or_equal:borrowed_date',
+            'borrow_date' => 'required|date',
+            'return_date' => 'required|date|after_or_equal:borrow_date',
             'quantity' => 'required|integer|min:1',
             'purpose' => 'required|string|max:255',
-            'status' => 'required|in:borrowed,returned,overdue',
+            'status' => 'required|in:Borrowed,Returned,Overdue',
             'remarks' => 'nullable|string',
             'class_schedule_id' => 'nullable|exists:class_schedules,id',
         ]);
