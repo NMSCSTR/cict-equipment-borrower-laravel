@@ -12,7 +12,13 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $notifications = Notification::all();
+        return view('admin.notification', compact('notifications'));
+    }
+    public function countNotif()
+    {
+        $countNotifs = Notification::count();
+        return view('components.admin.navbar', compact('countNotifs'));
     }
 
     /**

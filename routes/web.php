@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticateUser;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\BorrowTransactionController;
 use App\Http\Controllers\ItemRequestController;
+use App\Http\Controllers\NotificationController;
 use App\Mail\ReturnNotification;
 use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/', function () {
 // });
 
 Route::get('/send-return-alerts', [BorrowTransactionController::class, 'sendReturnAlertNotification']);
+Route::get('components/admin/navbar', [NotificationController::class, 'countNotif'])->name('admin.navbar');
 Route::get('/login', [User::class, 'index'])->name('login');
 Route::post('/login', [AuthenticateUser::class, 'store'])->name('login.store');
 Route::post('/logout', [AuthenticateUser::class, 'destroy'])->name('logout');
@@ -51,6 +53,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/transaction', [BorrowTransactionController::class, 'store'])->name('admin.transaction.store');
         Route::post('/admin/transaction/update', [BorrowTransactionController::class, 'update'])->name('admin.transaction.update');
         Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
+        Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('admin.notifications');
+
+
     });
 
     Route::middleware(['userType:Instructor'])->group(function () {

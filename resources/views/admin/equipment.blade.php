@@ -15,7 +15,7 @@
                     </button>
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">Equipment Management</h1>
-                        <p class="text-sm text-gray-500">Manage all equipment and inventory</p>
+                        <p class="text-sm text-gray-500">Manage all equipment</p>
                     </div>
                 </div>
 

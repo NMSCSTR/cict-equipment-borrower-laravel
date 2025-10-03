@@ -94,59 +94,85 @@
                 </div>
         </main>
     </div>
-
+    
     <!-- Add User Modal -->
-    <div id="add-modal"  class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-        <div class="w-full max-w-md mx-4 bg-white shadow-2xl rounded-xl">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Add User</h3>
+    <div id="add-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="w-full max-w-lg mx-4 overflow-hidden bg-white shadow-2xl rounded-xl">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-semibold text-gray-900">➕ Add User</h3>
+                <button type="button" id="cancel-add" class="text-gray-400 transition hover:text-gray-600">
+                    ✕
+                </button>
             </div>
-            <form action="{{ route('admin.user.register') }}" method="POST" class="p-6 space-y-4">
+
+            <!-- Form -->
+            <form action="{{ route('admin.user.register') }}" method="POST" class="p-6 space-y-5">
                 @csrf
+
+                <!-- Name -->
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Name</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Full Name</label>
                     <input type="text" name="name" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
+
+                <!-- Email -->
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Email Address</label>
                     <input type="email" name="email" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
+
+                <!-- User Type -->
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">User Type</label>
-                    <select name="user_type"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <select name="user_type" required
+                        class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="" disabled selected>-- Select User Type --</option>
                         <option value="Admin">Admin</option>
                         <option value="Instructor">Instructor</option>
                         <option value="Student">Student</option>
                     </select>
                 </div>
+
+                <!-- Contact -->
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Contact Number</label>
                     <input type="text" name="contact_number"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" name="password" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Confirm Password</label>
-                    <input type="password" name="password_confirmation" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <div class="flex justify-end pt-4 space-x-3 border-t">
+                <!-- Password -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" name="password" required
+                            class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-700">Confirm Password</label>
+                        <input type="password" name="password_confirmation" required
+                            class="w-full px-4 py-2 transition border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-end pt-4 space-x-3 border-t border-gray-200">
                     <button type="button" id="cancel-add"
-                        class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+                        class="px-4 py-2 text-gray-600 transition bg-gray-100 rounded-lg hover:bg-gray-200">
+                        Cancel
+                    </button>
                     <button type="submit"
-                        class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">Add User</button>
+                        class="px-5 py-2 text-white transition bg-blue-600 rounded-lg shadow-sm hover:bg-blue-700">
+                        Add User
+                    </button>
                 </div>
             </form>
         </div>
     </div>
+
 
     <!-- Edit User Modal -->
     <div id="edit-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
