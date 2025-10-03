@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticateUser;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\BorrowTransactionController;
 use App\Http\Controllers\ItemRequestController;
+use App\Mail\ReturnNotification;
 use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test-mail', function () {
+    $details = [
+        'title' => 'Test Reminder',
+        'body' => 'This is just a test email.'
+    ];
+
+    Mail::to('samson.bacus@nmsc.edu.ph')->send(new ReturnNotification($details));
+
+    return 'Test email sent!';
+});
+
+Route::get('/send-return-alerts', [BorrowTransactionController::class, 'sendReturnAlertNotification']);
 Route::get('/login', [User::class, 'index'])->name('login');
 Route::post('/login', [AuthenticateUser::class, 'store'])->name('login.store');
 Route::post('/logout', [AuthenticateUser::class, 'destroy'])->name('logout');

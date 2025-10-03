@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Mail;
 use App\Models\BorrowTransaction;
+use App\Mail\ReturnNotification;
 use App\Models\User;
 use App\Models\Equipment;
 use App\Models\ClassSchedule;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class BorrowTransactionController extends Controller
 {
@@ -35,6 +39,10 @@ class BorrowTransactionController extends Controller
             ->whereNotNull('class_schedule_id')
             ->get();
     }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -78,6 +86,30 @@ class BorrowTransactionController extends Controller
 
         BorrowTransaction::create($validated);
         return redirect()->back()->with('success', 'Transaction created successfully.');
+    }
+
+    public function sendReturnAlertNotification()
+    {
+        $today = Carbon::today()->toDateString();
+
+        // Find all borrow transactions with return_date == today and status still "Borrowed"
+        $transactions = BorrowTransaction::with('user')
+            ->whereDate('return_date', $today)
+            ->where('status', 'Borrowed')
+            ->get();
+
+        foreach ($transactions as $transaction) {
+            if ($transaction->user && $transaction->user->email) {
+                $details = [
+                    'title' => 'Return Reminder',
+                    'body' => "Hello {$transaction->user->name}, please return the equipment you borrowed ({$transaction->equipment->name}) today ({$transaction->return_date})."
+                ];
+
+                Mail::to($transaction->user->email)->send(new ReturnNotification($details));
+            }
+        }
+
+        return "Return notifications sent for today.";
     }
 
     /**
