@@ -13,16 +13,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test-mail', function () {
-    $details = [
-        'title' => 'Test Reminder',
-        'body' => 'This is just a test email.'
-    ];
+// Route::get('/test-mail', function () {
+//     $details = [
+//         'title' => 'Test Reminder',
+//         'body' => 'This is just a test email.'
+//     ];
 
-    Mail::to('rhondel.pagobo@nmsc.edu.ph')->send(new ReturnNotification($details));
+//     Mail::to('rhondel.pagobo@nmsc.edu.ph')->send(new ReturnNotification($details));
 
-    return 'Test email sent!';
-});
+//     return 'Test email sent!';
+// });
 
 Route::get('/send-return-alerts', [BorrowTransactionController::class, 'sendReturnAlertNotification']);
 Route::get('/login', [User::class, 'index'])->name('login');

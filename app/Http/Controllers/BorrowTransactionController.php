@@ -1,16 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Mail;
-use App\Models\BorrowTransaction;
 use App\Mail\ReturnNotification;
-use App\Models\User;
-use App\Models\Equipment;
+use App\Models\BorrowTransaction;
 use App\Models\ClassSchedule;
-use Illuminate\Http\Request;
+use App\Models\Equipment;
+use App\Models\Notification;
+use App\Models\User;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BorrowTransactionController extends Controller
 {
@@ -20,15 +19,14 @@ class BorrowTransactionController extends Controller
     public function index()
     {
         //
-        $transactions = BorrowTransaction::all();
-        $users = User::all();
-        $equipment = Equipment::all();
+        $transactions   = BorrowTransaction::all();
+        $users          = User::all();
+        $equipment      = Equipment::all();
         $classSchedules = ClassSchedule::with('instructor')
             ->whereHas('instructor', function ($query) {
                 $query->where('user_type', 'Instructor');
             })
             ->get();
-
 
         return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
     }
@@ -39,10 +37,6 @@ class BorrowTransactionController extends Controller
             ->whereNotNull('class_schedule_id')
             ->get();
     }
-
-
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -59,20 +53,20 @@ class BorrowTransactionController extends Controller
     {
         //
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'equipment_id' => 'required|exists:equipment,id',
-            'borrow_date' => 'required|date',
-            'return_date' => 'required|date|after_or_equal:borrow_date',
-            'quantity' => 'required|integer|min:1',
-            'purpose' => 'required|string|max:255',
-            'status' => 'required|in:Borrowed,Returned,Overdue',
-            'remarks' => 'nullable|string',
+            'user_id'           => 'required|exists:users,id',
+            'equipment_id'      => 'required|exists:equipment,id',
+            'borrow_date'       => 'required|date',
+            'return_date'       => 'required|date|after_or_equal:borrow_date',
+            'quantity'          => 'required|integer|min:1',
+            'purpose'           => 'required|string|max:255',
+            'status'            => 'required|in:Borrowed,Returned,Overdue',
+            'remarks'           => 'nullable|string',
             'class_schedule_id' => 'nullable|exists:class_schedules,id',
         ]);
 
         $equipment = Equipment::findOrFail($validated['equipment_id']);
 
-        if ($validated['status'] === 'Borrowed'){
+        if ($validated['status'] === 'Borrowed') {
             if ($equipment->available_quantity < $validated['quantity']) {
                 return redirect()->back()
                     ->withErrors(['quantity' => 'Not enough equipment available.'])
@@ -93,7 +87,7 @@ class BorrowTransactionController extends Controller
         $today = Carbon::today()->toDateString();
 
         // Find all borrow transactions with return_date == today and status still "Borrowed"
-        $transactions = BorrowTransaction::with('user')
+        $transactions = BorrowTransaction::with(['user', 'equipment'])
             ->whereDate('return_date', $today)
             ->where('status', 'Borrowed')
             ->get();
@@ -102,14 +96,24 @@ class BorrowTransactionController extends Controller
             if ($transaction->user && $transaction->user->email) {
                 $details = [
                     'title' => 'Return Reminder',
-                    'body' => "Hello {$transaction->user->name}, please return the equipment you borrowed ({$transaction->equipment->name}) today ({$transaction->return_date})."
+                    'body'  => "Hello {$transaction->user->name}, please return the equipment you borrowed ({$transaction->equipment->equipment_name}) today ("
+                    . Carbon::parse($transaction->return_date)->format('F j, Y') . ").",
                 ];
 
+                // Send the email
                 Mail::to($transaction->user->email)->send(new ReturnNotification($details));
+
+                // Save the notification into DB
+                Notification::create([
+                    'user_id'           => $transaction->user->id,
+                    'message'           => $details['body'],
+                    'notification_type' => 'Return Notice',
+                    'send_date'         => Carbon::now(),
+                ]);
             }
         }
 
-        return "Return notifications sent for today.";
+        return "Return notifications sent and logged for today.";
     }
 
     /**
@@ -134,20 +138,20 @@ class BorrowTransactionController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'id' => 'required|exists:borrow_transactions,id',
-            'user_id' => 'required|exists:users,id',
-            'equipment_id' => 'required|exists:equipment,id',
-            'borrow_date' => 'required|date',
-            'return_date' => 'nullable|date|after_or_equal:borrow_date',
-            'quantity' => 'required|integer|min:1',
-            'purpose' => 'required|string|max:255',
-            'status' => 'required|in:Borrowed,Returned,Overdue',
-            'remarks' => 'nullable|string',
+            'id'                => 'required|exists:borrow_transactions,id',
+            'user_id'           => 'required|exists:users,id',
+            'equipment_id'      => 'required|exists:equipment,id',
+            'borrow_date'       => 'required|date',
+            'return_date'       => 'nullable|date|after_or_equal:borrow_date',
+            'quantity'          => 'required|integer|min:1',
+            'purpose'           => 'required|string|max:255',
+            'status'            => 'required|in:Borrowed,Returned,Overdue',
+            'remarks'           => 'nullable|string',
             'class_schedule_id' => 'nullable|exists:class_schedules,id',
         ]);
 
         $transaction = BorrowTransaction::findOrFail($validated['id']);
-        $equipment = Equipment::findOrFail($validated['equipment_id']);
+        $equipment   = Equipment::findOrFail($validated['equipment_id']);
 
         // Calculate quantity difference if equipment changed
         if ($transaction->equipment_id != $validated['equipment_id']) {
@@ -188,8 +192,6 @@ class BorrowTransactionController extends Controller
         return redirect()->back()->with('success', 'Transaction updated successfully.');
     }
 
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -197,7 +199,7 @@ class BorrowTransactionController extends Controller
     {
         //
         $transaction = BorrowTransaction::findOrFail($id);
-        $equipment = Equipment::findOrFail($transaction->equipment_id);
+        $equipment   = Equipment::findOrFail($transaction->equipment_id);
         if ($transaction->status === 'Borrowed') {
             // If the transaction is still marked as 'Borrowed', return the equipment to available quantity
             $equipment->available_quantity += $transaction->quantity;
