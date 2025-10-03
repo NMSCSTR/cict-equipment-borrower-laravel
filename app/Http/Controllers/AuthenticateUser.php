@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -7,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\ItemRequest;
 use App\Models\BorrowTransaction;
+use App\Models\Equipment;
 
 class AuthenticateUser extends Controller
 {
@@ -16,12 +16,14 @@ class AuthenticateUser extends Controller
         return view('admin.dashboard');
     }
 
+
     public function instructorView()
     {
         $userId = Auth::id();
         $requests = ItemRequest::where('user_id', $userId)->with('equipment')->get();
         $transactions = BorrowTransaction::where('user_id', $userId)->with('equipment')->get();
-        return view('instructor.dashboard', compact('requests'));
+        $equipments = Equipment::all();
+        return view('instructor.dashboard', compact('requests', 'transactions', 'equipments'));
     }
 
     public function studentView()

@@ -33,11 +33,11 @@
                 <textarea name="remarks" id="edit-remarks" rows="3"
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
             </div>
-
+{{--
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Requested Date</label>
                 <p id="edit-requested-date" class="font-semibold text-gray-900"></p>
-            </div>
+            </div> --}}
 
             <div class="flex justify-end space-x-2">
                 <button type="button" id="cancel-edit"
