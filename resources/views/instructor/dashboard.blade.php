@@ -3,62 +3,75 @@
 @section('title', 'Instructor - CICT Equipment Borrower System')
 
 @section('content')
-<div class="min-h-screen bg-gray-50">
+<div class="flex flex-col min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div class="flex items-center justify-between px-6 py-4">
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-md">
+        <div class="flex flex-wrap items-center justify-between px-4 py-4 md:px-8">
+            <!-- Left: Title -->
             <div class="flex items-center space-x-4">
-                <button id="menu-toggle" class="text-gray-500 hover:text-gray-700 md:hidden">
-                    <i class="text-xl fas fa-bars"></i>
+                <button id="menu-toggle" class="text-gray-600 hover:text-gray-800 md:hidden">
+                    <i class="text-2xl fas fa-bars"></i>
                 </button>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Equipment Management</h1>
+                    <h1 class="text-xl font-bold text-gray-900 md:text-2xl">Equipment Management</h1>
                     <p class="text-sm text-gray-500">Manage all equipment and inventory</p>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-4">
-                <!-- Add Equipment Button -->
+            <!-- Right: Buttons -->
+            <div class="flex items-center mt-3 space-x-3 md:mt-0">
+                <!-- Request Item Button -->
                 <button id="open-add-modal"
-                    class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition bg-blue-500 rounded-lg shadow hover:bg-blue-600">
-                    <i class="fas fa-plus"></i>
+                    class="flex items-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg shadow md:text-base hover:bg-blue-700">
+                    <i class="mr-2 fas fa-plus"></i>
                     <span>Request Item</span>
                 </button>
+
+                <!-- Logout -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center px-4 py-2 text-sm font-medium text-red-600 transition border border-red-600 rounded-lg shadow md:text-base hover:bg-red-600 hover:text-white">
+                        <i class="mr-2 fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
             </div>
+
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="p-6">
+    <main class="flex-1 p-4 space-y-10 md:p-8">
         @if (session('success'))
-            <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded-lg shadow-sm" role="alert">
-                <div class="flex items-center">
-                    <i class="mr-2 fas fa-check-circle"></i>
-                    <span>{{ session('success') }}</span>
-                </div>
+            <div class="flex items-center px-4 py-3 text-green-800 bg-green-100 border-l-4 border-green-500 rounded-lg shadow-sm">
+                <i class="mr-2 fas fa-check-circle"></i>
+                <span>{{ session('success') }}</span>
             </div>
         @endif
 
-        <!-- Equipment Table -->
-        <div class="mb-10">
-            <h2 class="mb-4 text-xl font-semibold text-gray-700">My Equipment Requests</h2>
-            <div class="p-4 overflow-x-auto bg-white rounded-lg shadow">
-                <table id="requestTable" class="w-full text-sm">
-                    <thead class="text-left text-gray-700 bg-gray-100">
+        <!-- Equipment Requests -->
+        <section>
+            <h2 class="flex items-center mb-3 text-lg font-semibold text-gray-700 md:text-xl">
+                <i class="mr-2 text-blue-600 fas fa-list"></i> My Equipment Requests
+            </h2>
+            <div class="p-4 overflow-x-auto bg-white shadow-lg rounded-xl">
+                <table id="requestTable" class="w-full text-sm md:text-base">
+                    <thead class="text-gray-700 bg-gray-100">
                         <tr>
-                            <th class="px-4 py-2">Equipment Name</th>
-                            <th class="px-4 py-2">Quantity</th>
-                            <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Remarks</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-3">Equipment Name</th>
+                            <th class="px-4 py-3">Quantity</th>
+                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Remarks</th>
+                            <th class="px-4 py-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($requests as $request)
-                            <tr class="transition-colors duration-150 hover:bg-gray-50">
-                                <td class="px-4 py-2">{{ $request->equipment->equipment_name }}</td>
-                                <td class="px-4 py-2">{{ $request->quantity }}</td>
-                                <td class="px-4 py-2">
+                            <tr class="transition border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">{{ $request->equipment->equipment_name }}</td>
+                                <td class="px-4 py-3">{{ $request->quantity }}</td>
+                                <td class="px-4 py-3">
                                     @php
                                         $statusColors = [
                                             'Approved' => 'bg-green-100 text-green-800',
@@ -66,25 +79,25 @@
                                         ];
                                         $statusColor = $statusColors[$request->status] ?? 'bg-gray-100 text-gray-800';
                                     @endphp
-                                    <span class="px-2 inline-flex text-xs font-semibold rounded-full {{ $statusColor }}">
+                                    <span class="px-2 py-1 inline-flex text-xs font-semibold rounded-full {{ $statusColor }}">
                                         {{ ucfirst(str_replace('_', ' ', $request->status)) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-2">{{ $request->remarks ?? '---' }}</td>
-                                <td class="px-4 py-2">
-                                    <div class="flex items-center space-x-2">
-                                        <button class="px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 edit-btn"
+                                <td class="px-4 py-3">{{ $request->remarks ?? '---' }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex flex-wrap gap-2">
+                                        <button class="px-3 py-1 text-xs text-white bg-blue-600 rounded-lg md:text-sm hover:bg-blue-700 edit-btn"
                                             data-id="{{ $request->id }}"
                                             data-equipment-name="{{ $request->equipment->equipment_name }}"
                                             data-quantity="{{ $request->quantity }}"
                                             data-status="{{ $request->status }}"
                                             data-remarks="{{ $request->remarks }}">
-                                            <i class="fas fa-edit"></i> Edit
+                                            <i class="mr-1 fas fa-edit"></i>Edit
                                         </button>
-                                        <button class="px-3 py-1 text-white bg-red-600 rounded hover:bg-red-700 delete-btn"
+                                        <button class="px-3 py-1 text-xs text-white bg-red-600 rounded-lg md:text-sm hover:bg-red-700 delete-btn"
                                             data-id="{{ $request->id }}"
                                             data-equipment-name="{{ $request->equipment->equipment_name }}">
-                                            <i class="fas fa-trash"></i> Delete
+                                            <i class="mr-1 fas fa-trash"></i>Delete
                                         </button>
                                     </div>
                                 </td>
@@ -93,33 +106,35 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
-        <!-- Borrow Transactions Table -->
-        <div>
-            <h2 class="mb-4 text-xl font-semibold text-gray-700">My Borrow Transactions</h2>
-            <div class="p-4 overflow-x-auto bg-white rounded-lg shadow">
-                <table id="transactionTable" class="w-full text-sm">
-                    <thead class="text-left text-gray-700 bg-gray-100">
+        <!-- Borrow Transactions -->
+        <section>
+            <h2 class="flex items-center mb-3 text-lg font-semibold text-gray-700 md:text-xl">
+                <i class="mr-2 text-indigo-600 fas fa-history"></i> My Borrow Transactions
+            </h2>
+            <div class="p-4 overflow-x-auto bg-white shadow-lg rounded-xl">
+                <table id="transactionTable" class="w-full text-sm md:text-base">
+                    <thead class="text-gray-700 bg-gray-100">
                         <tr>
-                            <th class="px-4 py-2">Equipment</th>
-                            <th class="px-4 py-2">Quantity</th>
-                            <th class="px-4 py-2">Borrow Date</th>
-                            <th class="px-4 py-2">Return Date</th>
-                            <th class="px-4 py-2">Purpose</th>
-                            <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Remarks</th>
+                            <th class="px-4 py-3">Equipment</th>
+                            <th class="px-4 py-3">Quantity</th>
+                            <th class="px-4 py-3">Borrow Date</th>
+                            <th class="px-4 py-3">Return Date</th>
+                            <th class="px-4 py-3">Purpose</th>
+                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($transactions as $tx)
-                            <tr class="transition-colors duration-150 hover:bg-gray-50">
-                                <td class="px-4 py-2">{{ $tx->equipment->equipment_name ?? '---' }}</td>
-                                <td class="px-4 py-2">{{ $tx->quantity }}</td>
-                                <td class="px-4 py-2">{{ $tx->borrow_date }}</td>
-                                <td class="px-4 py-2">{{ $tx->return_date ?? '---' }}</td>
-                                <td class="px-4 py-2">{{ $tx->purpose }}</td>
-                                <td class="px-4 py-2">
+                            <tr class="transition border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">{{ $tx->equipment->equipment_name ?? '---' }}</td>
+                                <td class="px-4 py-3">{{ $tx->quantity }}</td>
+                                <td class="px-4 py-3">{{ $tx->borrow_date }}</td>
+                                <td class="px-4 py-3">{{ $tx->return_date ?? '---' }}</td>
+                                <td class="px-4 py-3">{{ $tx->purpose }}</td>
+                                <td class="px-4 py-3">
                                     @php
                                         $txColors = [
                                             'Borrowed' => 'bg-yellow-100 text-yellow-800',
@@ -128,26 +143,26 @@
                                         ];
                                         $txColor = $txColors[$tx->status] ?? 'bg-gray-100 text-gray-800';
                                     @endphp
-                                    <span class="px-2 inline-flex text-xs font-semibold rounded-full {{ $txColor }}">
+                                    <span class="px-2 py-1 inline-flex text-xs font-semibold rounded-full {{ $txColor }}">
                                         {{ $tx->status }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-2">{{ $tx->remarks ?? '---' }}</td>
+                                <td class="px-4 py-3">{{ $tx->remarks ?? '---' }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
     </main>
 </div>
 
-{{-- Include Modals (Add, Edit, Delete) --}}
+{{-- Modals --}}
 @include('components.instructor.request-item-modal')
 @include('components.instructor.update-request-modal')
 @include('components.instructor.delete-request-modal')
 
-{{-- DataTables & Script --}}
+{{-- Scripts --}}
 <script>
     $(document).ready(function () {
         $('#requestTable, #transactionTable').DataTable({
@@ -193,7 +208,7 @@
             $('#add-modal, #edit-modal, #delete-modal').addClass('hidden');
         });
 
-        // Close when clicking outside
+        // Close on outside click
         $('#add-modal, #edit-modal, #delete-modal').on('click', function(e) {
             if (e.target === this) $(this).addClass('hidden');
         });
@@ -201,27 +216,25 @@
 </script>
 
 <style>
-    /* DataTable Styling */
+    /* DataTable Custom Styling */
     .dataTables_wrapper .dataTables_filter input {
         border: 1px solid #d1d5db;
         border-radius: 0.5rem;
         padding: 0.5rem 0.75rem;
         margin-left: 0.5rem;
     }
-
     .dataTables_wrapper .dataTables_length select {
         border: 1px solid #d1d5db;
         border-radius: 0.5rem;
         padding: 0.25rem 0.5rem;
     }
-
     .dataTables_wrapper .dataTables_paginate .paginate_button {
         border: 1px solid #d1d5db;
         border-radius: 0.375rem;
         padding: 0.4rem 0.75rem;
         margin: 0 0.125rem;
+        transition: all 0.2s;
     }
-
     .dataTables_wrapper .dataTables_paginate .paginate_button.current {
         background: #3b82f6;
         color: white !important;

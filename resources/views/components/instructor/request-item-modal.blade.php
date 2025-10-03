@@ -8,11 +8,13 @@
 
             <!-- Equipment dropdown -->
             <div class="mb-4">
-                <label for="equipment_id" class="block text-sm font-medium text-gray-700">Select Equipment</label>
+                <label for="equipment_id" class="block mb-1 text-sm font-medium text-gray-700">
+                    Select Equipment
+                </label>
                 <select name="equipment_id" id="equipment_id" required
-                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    class="block w-full px-3 py-2 text-gray-700 transition duration-150 ease-in-out border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <option value="" disabled selected>Select equipment</option>
-                    @foreach($equipments as $equipment)
+                    @foreach ($equipments as $equipment)
                         <option value="{{ $equipment->id }}">{{ $equipment->equipment_name }}</option>
                     @endforeach
                 </select>
@@ -20,10 +22,13 @@
 
             <!-- Quantity -->
             <div class="mb-4">
-                <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                <label for="quantity" class="block mb-1 text-sm font-medium text-gray-700">
+                    Quantity
+                </label>
                 <input type="number" name="quantity" id="quantity" min="1" required
-                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    class="block w-full px-3 py-2 text-gray-700 transition duration-150 ease-in-out border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
+
 
             <!-- Remarks -->
             <div class="mb-4">
@@ -32,13 +37,13 @@
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
             </div>
 
+            <!-- Buttons -->
             <div class="flex justify-end space-x-2">
                 <button type="button" id="cancel-add"
                     class="px-4 py-2 text-gray-800 bg-gray-300 rounded hover:bg-gray-400">
                     Cancel
                 </button>
-                <button type="submit"
-                    class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
                     Submit Request
                 </button>
             </div>
