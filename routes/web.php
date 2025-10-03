@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticateUser;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\BorrowTransactionController;
+use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::get('/welcome', function () {
 })->name('auth.welcome');
 
 
-// Only admins
+
 Route::middleware('auth')->group(function () {
     Route::middleware(['userType:Admin'])->group(function () {
         Route::get('/admin/dashboard', [AuthenticateUser::class, 'adminView'])->name('admin.dashboard');
@@ -38,18 +39,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/transaction/update', [BorrowTransactionController::class, 'update'])->name('admin.transaction.update');
         Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
     });
-});
 
-//Only Instructors
-Route::middleware('auth')->group(function () {
     Route::middleware(['userType:Instructor'])->group(function () {
         Route::get('/instructor/dashboard', [AuthenticateUser::class, 'instructorView'])->name('instructor.dashboard');
+        Route::post('/instructor/request', [ItemRequestController::class, 'store'])->name('instructor.request.store');
+        Route::post('/instructor/request/update', [ItemRequestController::class, 'update'])->name('instructor.request.update');
+        Route::delete('/instructor/request/{id}', [ItemRequestController::class, 'destroy'])->name('instructor.request.destroy');
     });
-});
 
-//Only Students
-Route::middleware('auth')->group(function () {
     Route::middleware(['userType:Student'])->group(function () {
         Route::get('/student/dashboard', [AuthenticateUser::class, 'studentView'])->name('student.dashboard');
     });
+
 });

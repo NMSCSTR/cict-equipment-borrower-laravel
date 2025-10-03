@@ -66,7 +66,9 @@ class BorrowTransactionController extends Controller
 
         if ($validated['status'] === 'Borrowed'){
             if ($equipment->available_quantity < $validated['quantity']) {
-                return redirect()->back()->withErrors(['quantity' => 'Not enough equipment available.']);
+                return redirect()->back()
+                    ->withErrors(['quantity' => 'Not enough equipment available.'])
+                    ->withInput();
             }
             $equipment->available_quantity -= $validated['quantity'];
 

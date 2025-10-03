@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\ItemRequest;
+use App\Models\BorrowTransaction;
 
 class AuthenticateUser extends Controller
 {
@@ -16,7 +18,10 @@ class AuthenticateUser extends Controller
 
     public function instructorView()
     {
-        return view('instructor.dashboard');
+        $userId = Auth::id();
+        $requests = ItemRequest::where('user_id', $userId)->with('equipment')->get();
+        $transactions = BorrowTransaction::where('user_id', $userId)->with('equipment')->get();
+        return view('instructor.dashboard', compact('requests'));
     }
 
     public function studentView()
@@ -39,10 +44,10 @@ class AuthenticateUser extends Controller
 
             if ($user->user_type === 'Admin') {
                 return redirect()->intended(route('admin.dashboard'));
-            } elseif ($user->user_type === 'instructor') {
-                return redirect(route('instructor.dashboard'));
+            } elseif ($user->user_type === 'Instructor') {
+                return redirect()->intended(route('instructor.dashboard'));
             } else {
-                return redirect(route('student.dashboard'));
+                return redirect()->intended(route('student.dashboard'));
             }
         }
 

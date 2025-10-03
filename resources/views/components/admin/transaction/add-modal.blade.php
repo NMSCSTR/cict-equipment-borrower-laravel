@@ -42,7 +42,7 @@
             <!-- Quantity -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Quantity</label>
-                <input type="number" name="quantity" min="1" required class="w-full mt-1 border-gray-300 rounded">
+                <input type="number" name="quantity" min="1" value="{{ old('quantity') }}" required class="w-full mt-1 border-gray-300 rounded">
             </div>
 
             <!-- Purpose -->

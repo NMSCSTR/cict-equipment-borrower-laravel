@@ -30,6 +30,19 @@
 
         <!-- Main Content -->
         <main class="p-6">
+            <!-- Error Message -->
+            @if ($errors->any())
+                <div class="px-4 py-3 mb-6 text-red-800 bg-red-100 border-l-4 border-red-500 rounded shadow-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="mr-2 fas fa-exclamation-circle"></i>
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             <!-- Success Message -->
             @if (session('success'))
                 <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
