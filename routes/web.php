@@ -19,7 +19,7 @@ Route::get('/test-mail', function () {
         'body' => 'This is just a test email.'
     ];
 
-    Mail::to('samson.bacus@nmsc.edu.ph')->send(new ReturnNotification($details));
+    Mail::to('rhondel.pagobo@nmsc.edu.ph')->send(new ReturnNotification($details));
 
     return 'Test email sent!';
 });

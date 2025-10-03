@@ -10,6 +10,8 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\RelatedPart;
 use Swift_Image;
 
 class ReturnNotification extends Mailable
@@ -31,17 +33,15 @@ class ReturnNotification extends Mailable
     {
         $logoPath = public_path('images/logo.png');
 
-        $this->withSwiftMessage(function ($message) use ($logoPath) {
-            $this->logo = $message->embed(Swift_Image::fromPath($logoPath));
-        });
-
         return $this->markdown('emails.return-notification')
-            ->with([
-                'details' => $this->details,
-                'logo'    => $this->logo, // pass the CID string to Blade
-            ])
-            ->subject('Return Notice');
+            ->with(['details' => $this->details])
+            ->subject('Return Notice')
+            ->withSwiftMessage(function ($message) use ($logoPath) {
+                $cid = $message->embed(\Swift_Image::fromPath($logoPath));
+                $this->details['logo'] = $cid;
+            });
     }
+
     /**
      * Get the message envelope.
      */
