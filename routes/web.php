@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/transaction/update', [BorrowTransactionController::class, 'update'])->name('admin.transaction.update');
         Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
         Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('admin.notifications');
+        Route::get('/admin/request', [ItemRequestController::class, 'index'])->name('admin.request');
 
 
     });
