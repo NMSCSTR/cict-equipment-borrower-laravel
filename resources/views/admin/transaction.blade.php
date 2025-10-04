@@ -88,7 +88,7 @@
                             </td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    <button class="text-blue-600 edit-btn hover:text-blue-900"
+                                    <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                         data-id="{{ $tx->id }}"
                                         data-user="{{ $tx->user_id }}"
                                         data-equipment="{{ $tx->equipment_id }}"
@@ -99,12 +99,12 @@
                                         data-status="{{ $tx->status }}"
                                         data-remarks="{{ $tx->remarks }}"
                                         data-class="{{ $tx->class_schedule_id }}">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <button class="text-red-600 delete-btn hover:text-red-900"
+                                    <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                         data-id="{{ $tx->id }}"
                                         data-name="{{ $tx->user?->name ?? 'Deleted User' }} - {{ $tx->equipment?->equipment_name ?? 'Deleted Equipment' }}">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
                             </td>

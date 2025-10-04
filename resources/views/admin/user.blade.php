@@ -73,18 +73,18 @@
                                     <td>{{ $user->user_type }}</td>
                                     <td>{{ $user->contact_number ?? 'N/A' }}</td>
                                     <td>
-                                        <button class="text-blue-600 edit-btn"
+                                        <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                             data-id="{{ $user->id }}"
                                             data-name="{{ $user->name }}"
                                             data-email="{{ $user->email }}"
                                             data-user_type="{{ $user->user_type }}"
                                             data-contact="{{ $user->contact_number }}">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i> Edit
                                         </button>
-                                        <button class="text-red-600 delete-btn"
+                                        <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                             data-id="{{ $user->id }}"
                                             data-name="{{ $user->name }}">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </td>
                                 </tr>
@@ -94,7 +94,7 @@
                 </div>
         </main>
     </div>
-    
+
     <!-- Add User Modal -->
     <div id="add-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
         <div class="w-full max-w-lg mx-4 overflow-hidden bg-white shadow-2xl rounded-xl">

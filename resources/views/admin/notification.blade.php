@@ -47,7 +47,7 @@
                             <td>{{ $notif->user->name }}</td>
                             <td class="max-w-xs truncate">{{ $notif->message }}</td>
                             <td>{{ $notif->notification_type }}</td>
-                            <td>{{ $notif->send_date ? \Carbon\Carbon::parse($notif->send_date)->format('Y-m-d H:i:s') : 'N/A' }}</td>
+                            <td>{{ $notif->send_date ? \Carbon\Carbon::parse($notif->send_date)->format('M j, Y g:i A') : 'N/A' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

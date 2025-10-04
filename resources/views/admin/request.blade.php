@@ -56,7 +56,7 @@
                             <td>{{ $request->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
                             <td>{{ $request->quantity }}</td>
                             <td>{{ \Carbon\Carbon::parse($request->requested_date)->format('F j, Y') }}</td>
-                            <td>{{ $request->remarks }}</td>
+                            <td>{{ $request->remarks ?? '---' }}</td>
                             <td>
                                 @php
                                     $statusColors = [
@@ -71,19 +71,19 @@
                             </td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    <button class="text-blue-600 edit-btn hover:text-blue-900"
+                                    <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                         data-id="{{ $request->id }}"
                                         data-user="{{ $request->user_id }}"
                                         data-equipment="{{ $request->equipment_id }}"
                                         data-quantity="{{ $request->quantity }}"
                                         data-status="{{ $request->status }}"
                                         data-remarks="{{ $request->remarks }}">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <button class="text-red-600 delete-btn hover:text-red-900"
+                                    <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                         data-id="{{ $request->id }}"
                                         data-name="{{ $request->user?->name ?? 'Deleted User' }} - {{ $request->equipment?->equipment_name ?? 'Deleted Equipment' }}">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
                             </td>
