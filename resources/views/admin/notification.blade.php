@@ -8,24 +8,14 @@
     <div class="min-h-screen bg-gray-50 md:ml-80">
         <!-- Header -->
         <header class="bg-white border-b border-gray-200 shadow-sm">
-            <div class="flex items-center justify-between px-6 py-4">
-                <div class="flex items-center space-x-4">
+            <div class="flex px-6 py-4 justffy-between notids-center">
+                <div class="flex spacf-x-4 notids-center">
                     <button id="menu-toggle" class="text-gray-500 hover:text-gray-700 md:hidden">
                         <i class="text-xl fas fa-bars"></i>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Equipment Management</h1>
-                        <p class="text-sm text-gray-500">Manage all equipment</p>
+                        <h1 class="text-2xl font-bold text-gray-900">Notification History</h1>
                     </div>
-                </div>
-
-                <div class="flex items-center space-x-4">
-                    <!-- Add Equipment Button -->
-                    <button id="open-add-modal"
-                        class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-blue-500 hover:bg-blue-600 rounded-xl">
-                        <i class="fas fa-plus"></i>
-                        <span>Add Equipment</span>
-                    </button>
                 </div>
             </div>
         </header>
@@ -34,7 +24,7 @@
         <main class="p-6">
             @if (session('success'))
                 <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
-                    <div class="flex items-center">
+                    <div class="flex notifs-center">
                         <i class="mr-2 fas fa-check-circle"></i>
                         <span>{{ session('success') }}</span>
                     </div>
@@ -42,53 +32,22 @@
             @endif
 
             <!-- Equipment Table -->
-            <table id="equipmentTable" class="w-full display nowrap">
+            <table id="notificationTable" class="w-full display nowrap">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th>Equipment Name</th>
-                        <th>Description</th>
-                        <th>Total Quantity</th>
-                        <th>Available</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>Borrower</th>
+                        <th>Message</th>
+                        <th>Notification type</th>
+                        <th>Send date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($equipment as $item)
+                    @foreach ($notifications as $notif)
                         <tr class="transition-colors duration-150 hover:bg-gray-50">
-                            <td>{{ $item->equipment_name }}</td>
-                            <td class="max-w-xs truncate">{{ $item->description }}</td>
-                            <td>{{ $item->quantity }}</td>
-                            <td>{{ $item->available_quantity }}</td>
-                            <td>
-                                @php
-                                    $statusColors = [
-                                        'Available' => 'bg-green-100 text-green-800',
-                                        'Unavailable' => 'bg-red-100 text-red-800',
-                                    ];
-                                    $statusColor = $statusColors[$item->status] ?? 'bg-gray-100 text-gray-800';
-                                @endphp
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColor }}">
-                                    {{ ucfirst(str_replace('_', ' ', $item->status)) }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="flex items-center space-x-2">
-                                    <button class="text-blue-600 edit-btn hover:text-blue-900" data-id="{{ $item->id }}"
-                                        data-name="{{ $item->equipment_name }}" data-description="{{ $item->description }}"
-                                        data-quantity="{{ $item->quantity }}"
-                                        data-available="{{ $item->available_quantity }}"
-                                        data-status="{{ $item->status }}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-
-                                    <button class="text-red-600 delete-btn hover:text-red-900"
-                                        data-id="{{ $item->id }}" data-name="{{ $item->equipment_name }}">
-                                        <i class="fas fa-trash"></i> delete
-                                    </button>
-                                </div>
-                            </td>
+                            <td>{{ $notif->user->name }}</td>
+                            <td class="max-w-xs truncate">{{ $notif->message }}</td>
+                            <td>{{ $notif->notification_type }}</td>
+                            <td>{{ $notif->send_date ? \Carbon\Carbon::parse($notif->send_date)->format('Y-m-d H:i:s') : 'N/A' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -107,7 +66,7 @@
     {{-- DataTables & Script --}}
     <script>
         $(document).ready(function() {
-            let table = $('#equipmentTable').DataTable({
+            let table = $('#notificationTable').DataTable({
                 responsive: true,
                 pageLength: 10,
                 lengthMenu: [
@@ -135,7 +94,7 @@
             $('.delete-btn').on('click', function() {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
-                $('#delete-item-name').text(name);
+                $('#delete-notif-name').text(name);
                 $('#delete-form').attr('action', '/admin/equipment/' + id);
                 $('#delete-modal').removeClass('hidden');
             });

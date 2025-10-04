@@ -18,7 +18,6 @@ class BorrowTransactionController extends Controller
      */
     public function index()
     {
-        //
         $transactions   = BorrowTransaction::all();
         $users          = User::all();
         $equipment      = Equipment::all();

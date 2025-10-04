@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -13,7 +15,8 @@ class NotificationController extends Controller
     public function index()
     {
         $notifications = Notification::all();
-        return view('admin.notification', compact('notifications'));
+        $users = User::all();
+        return view('admin.notification', compact('notifications', 'users'));
     }
     public function countNotif()
     {
