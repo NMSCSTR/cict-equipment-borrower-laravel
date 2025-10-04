@@ -13,7 +13,9 @@ class ReturnLogController extends Controller
     public function index()
     {
         //
-        
+        $returnLogs = ReturnLog::with('user', 'equipment')->orderBy('returned_at', 'desc')->get();
+        return view('admin.logs', compact('returnLogs'));
+
 
     }
 

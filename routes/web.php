@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticateUser;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\BorrowTransactionController;
 use App\Http\Controllers\ItemRequestController;
+use App\Http\Controllers\ReturnLogsController;
 use App\Http\Controllers\NotificationController;
 use App\Mail\ReturnNotification;
 use App\Http\Controllers\User;
@@ -55,6 +56,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
         Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('admin.notifications');
         Route::get('/admin/request', [ItemRequestController::class, 'index'])->name('admin.request');
+
+        Route::get('/admin/logs', [ReturnLogsController::class, 'index'])->name('admin.logs');
 
 
     });
