@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReturnLogs;
+use App\Models\ReturnLog;
 use App\Models\Equipment;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class ReturnLogsController extends Controller
     public function index()
     {
         //
-        $returnLogs = ReturnLogs::with('user', 'equipment')->orderBy('created_at', 'desc')->get();
+        $returnLogs = ReturnLog::with('users', 'equipment')->orderBy('created_at', 'desc')->get();
         // return view('admin.logs', compact('returnLogs'));
         return $returnLogs;
 

@@ -6,7 +6,7 @@ use App\Models\BorrowTransaction;
 use App\Models\ClassSchedule;
 use App\Models\Equipment;
 use App\Models\Notification;
-use App\Models\ReturnLogs;
+use App\Models\ReturnLog;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class BorrowTransactionController extends Controller
                 $equipment->save();
 
                 // Log return
-                ReturnLogs::create([
+                ReturnLog::create([
                     'borrow_transaction_id' => $transaction->id,
                     'return_date'           => now(),
                     'condition'             => 'Good', // You can later allow user input
