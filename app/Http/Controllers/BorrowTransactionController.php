@@ -34,8 +34,10 @@ class BorrowTransactionController extends Controller
     public function inlineUpdate(Request $request)
     {
         $request->validate([
-            'id'     => 'required|exists:borrow_transactions,id',
-            'status' => 'required|in:Borrowed,Returned,Overdue',
+            'id'       => 'required|exists:borrow_transactions,id',
+            'status'   => 'required|in:Borrowed,Returned,Overdue',
+            'condition'=> 'nullable|string|max:50',
+            'remarks'  => 'nullable|string|max:255',
         ]);
 
         $transaction = BorrowTransaction::findOrFail($request->id);
@@ -52,8 +54,9 @@ class BorrowTransactionController extends Controller
                 ReturnLog::create([
                     'borrow_transaction_id' => $transaction->id,
                     'return_date'           => now(),
-                    'condition'             => 'Good', // You can later allow user input
-                    'remarks'               => 'Auto logged from inline update',
+                    'condition'             => $request->condition ?? 'Good',
+                    'remarks'               => $request->remarks ?? 'Auto logged from inline update',
+                    'user_id'               => auth()->id(), // tracks who processed
                 ]);
             } elseif ($transaction->status === 'Returned' && $request->status === 'Borrowed') {
                 // Borrowed again
@@ -68,7 +71,7 @@ class BorrowTransactionController extends Controller
         $transaction->status = $request->status;
         $transaction->save();
 
-        return response()->json(['message' => 'Status updated successfully!']);
+        return redirect()->back()->with('success', 'Status updated successfully!');
     }
 
     public function getOnlyTransactionsHasClassSchedule()

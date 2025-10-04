@@ -72,13 +72,35 @@
                                         'Overdue' => 'bg-red-100 text-red-800',
                                     ];
                                 @endphp
-                                <select class="px-2 py-1 text-sm border rounded status-dropdown"
-                                    data-id="{{ $tx->id }}">
-                                    <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
-                                    <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
-                                    <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
+
+                                <select
+                                    class="px-3 py-2 text-sm font-medium transition border border-gray-300 rounded-full status-dropdown focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    data-id="{{ $tx->id }}"
+                                >
+                                    <option
+                                        value="Borrowed"
+                                        {{ $tx->status === 'Borrowed' ? 'selected' : '' }}
+                                        class="font-semibold text-yellow-800 bg-yellow-100"
+                                    >
+                                        Borrowed
+                                    </option>
+                                    <option
+                                        value="Returned"
+                                        {{ $tx->status === 'Returned' ? 'selected' : '' }}
+                                        class="font-semibold text-green-800 bg-green-100"
+                                    >
+                                        Returned
+                                    </option>
+                                    <option
+                                        value="Overdue"
+                                        {{ $tx->status === 'Overdue' ? 'selected' : '' }}
+                                        class="font-semibold text-red-800 bg-red-100"
+                                    >
+                                        Overdue
+                                    </option>
                                 </select>
                             </td>
+
                             <td>{{ $tx->remarks ?? '—' }}</td>
                             <td>
                                 @if ($tx->classSchedule)
@@ -120,6 +142,34 @@
 </div>
 
 <!-- Modals -->
+<!-- Return Log Modal -->
+<div id="returnLogModal" class="fixed inset-0 flex items-center justify-center hidden bg-black bg-opacity-50">
+    <div class="p-6 bg-white rounded-lg shadow-lg w-96">
+        <h2 class="mb-4 text-lg font-bold">Return Equipment</h2>
+
+        <form id="returnLogForm">
+            <input type="hidden" id="return-transaction-id">
+
+            <!-- Condition -->
+            <label class="block mb-1 text-sm font-medium text-gray-700">Condition</label>
+            <select id="return-condition" class="w-full p-2 mb-4 border rounded">
+                <option value="Good">Good</option>
+                <option value="Damaged">Damaged</option>
+                <option value="Needs Repair">Needs Repair</option>
+            </select>
+
+            <!-- Remarks -->
+            <label class="block mb-1 text-sm font-medium text-gray-700">Remarks</label>
+            <textarea id="return-remarks" class="w-full p-2 mb-4 border rounded" placeholder="Optional remarks..."></textarea>
+
+            <div class="flex justify-end space-x-2">
+                <button type="button" id="cancelReturn" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
+                <button type="submit" class="px-3 py-1 text-white bg-green-600 rounded">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @include('components.admin.transaction.add-modal')
 @include('components.admin.transaction.edit-modal')
 @include('components.admin.transaction.delete-modal')
@@ -184,24 +234,53 @@ $(document).ready(function () {
         let status = $(this).val();
         let id = $(this).data('id');
 
+        if (status === "Returned") {
+            $('#return-transaction-id').val(id);
+            $('#returnLogModal').removeClass('hidden');
+        } else {
+            updateStatus(id, status); // Borrowed/Overdue skip modal
+        }
+    });
+
+    // Cancel modal
+    $('#cancelReturn').click(function () {
+        $('#returnLogModal').addClass('hidden');
+    });
+
+    // Submit modal
+    $('#returnLogForm').submit(function (e) {
+        e.preventDefault();
+
+        let id = $('#return-transaction-id').val();
+        let condition = $('#return-condition').val();
+        let remarks = $('#return-remarks').val();
+
+        updateStatus(id, "Returned", condition, remarks);
+        $('#returnLogModal').addClass('hidden');
+    });
+
+    function updateStatus(id, status, condition = null, remarks = null) {
         $.ajax({
             url: "{{ route('transactions.inlineUpdate') }}",
             method: "POST",
             data: {
                 _token: "{{ csrf_token() }}",
                 id: id,
-                status: status
+                status: status,
+                condition: condition,
+                remarks: remarks
             },
             success: function (res) {
                 alert(res.message);
-                location.reload(); // reload to refresh badge colors / quantities
+                location.reload();
             },
             error: function (xhr) {
                 alert("Error: " + xhr.responseText);
             }
         });
-    });
+    }
 });
+
 </script>
 
 

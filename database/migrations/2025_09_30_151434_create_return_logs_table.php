@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('return_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignIdFor(BorrowTransaction::class)->constrained()->onDelete('cascade');
             $table->date('return_date');
             $table->string('condition');
