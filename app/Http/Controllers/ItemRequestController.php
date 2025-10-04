@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ItemRequestController extends Controller
@@ -12,7 +13,10 @@ class ItemRequestController extends Controller
      */
     public function index()
     {
-        return view('admin.request');
+        $requests = ItemRequest::all();
+        $users = User::all();
+        return view('admin.request', compact('requests', 'users'));
+        // return $requests;
     }
 
     /**

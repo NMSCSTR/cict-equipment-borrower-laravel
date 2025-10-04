@@ -10,10 +10,7 @@
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
-            <h1 class="text-xl font-bold text-gray-800">Borrow Transactions</h1>
-            <button id="open-add-modal" class="px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700">
-                + Add Transaction
-            </button>
+            <h1 class="text-xl font-bold text-gray-800">Item Request</h1>
         </div>
     </header>
 
@@ -45,25 +42,21 @@
                     <tr>
                         <th>User</th>
                         <th>Equipment</th>
-                        <th>Borrow Date</th>
-                        <th>Return Date</th>
                         <th>Quantity</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
+                        <th>Requested date</th>
                         <th>Remarks</th>
-                        <th>Class Schedule</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($transactions as $tx)
+                    @foreach ($requests as $request)
                         <tr class="transition-colors duration-150 hover:bg-blue-50">
-                            <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
-                            <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
-                            <td>{{ $tx->borrow_date }}</td>
-                            <td>{{ $tx->return_date ?? 'N/A' }}</td>
-                            <td>{{ $tx->quantity }}</td>
-                            <td>{{ $tx->purpose }}</td>
+                            <td>{{ $request->user->name ?? 'Deleted User' }}</td>
+                            <td>{{ $request->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
+                            <td>{{ $request->quantity }}</td>
+                            <td>{{ \Carbon\Carbon::parse($request->requested_date)->format('F j, Y') }}</td>
+                            <td>{{ $request->remarks }}</td>
                             <td>
                                 @php
                                     $statusColors = [
@@ -72,38 +65,24 @@
                                         'Overdue' => 'bg-red-100 text-red-800',
                                     ];
                                 @endphp
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$tx->status] ?? 'bg-gray-100 text-gray-800' }}">
-                                    {{ $tx->status }}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$request->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                    {{ $request->status }}
                                 </span>
-                            </td>
-                            <td>{{ $tx->remarks ?? '—' }}</td>
-                            <td>
-                                @if ($tx->classSchedule)
-                                    {{ \Carbon\Carbon::parse($tx->classSchedule->schedule_time)->format('g:i A') }}
-                                    - {{ $tx->classSchedule->instructor?->name ?? 'No Instructor' }}
-                                    - {{ $tx->classSchedule->room }}
-                                @else
-                                    No Schedule
-                                @endif
                             </td>
                             <td>
                                 <div class="flex items-center space-x-2">
                                     <button class="text-blue-600 edit-btn hover:text-blue-900"
-                                        data-id="{{ $tx->id }}"
-                                        data-user="{{ $tx->user_id }}"
-                                        data-equipment="{{ $tx->equipment_id }}"
-                                        data-borrow="{{ $tx->borrow_date }}"
-                                        data-return="{{ $tx->return_date }}"
-                                        data-quantity="{{ $tx->quantity }}"
-                                        data-purpose="{{ $tx->purpose }}"
-                                        data-status="{{ $tx->status }}"
-                                        data-remarks="{{ $tx->remarks }}"
-                                        data-class="{{ $tx->class_schedule_id }}">
+                                        data-id="{{ $request->id }}"
+                                        data-user="{{ $request->user_id }}"
+                                        data-equipment="{{ $request->equipment_id }}"
+                                        data-quantity="{{ $request->quantity }}"
+                                        data-status="{{ $request->status }}"
+                                        data-remarks="{{ $request->remarks }}">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button class="text-red-600 delete-btn hover:text-red-900"
-                                        data-id="{{ $tx->id }}"
-                                        data-name="{{ $tx->user?->name ?? 'Deleted User' }} - {{ $tx->equipment?->equipment_name ?? 'Deleted Equipment' }}">
+                                        data-id="{{ $request->id }}"
+                                        data-name="{{ $request->user?->name ?? 'Deleted User' }} - {{ $request->equipment?->equipment_name ?? 'Deleted Equipment' }}">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -117,9 +96,9 @@
 </div>
 
 <!-- Modals -->
-@include('components.admin.transaction.add-modal')
+{{-- @include('components.admin.transaction.add-modal')
 @include('components.admin.transaction.edit-modal')
-@include('components.admin.transaction.delete-modal')
+@include('components.admin.transaction.delete-modal') --}}
 
 
 <script>
