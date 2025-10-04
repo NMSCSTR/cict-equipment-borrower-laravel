@@ -72,9 +72,12 @@
                                         'Overdue' => 'bg-red-100 text-red-800',
                                     ];
                                 @endphp
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$tx->status] ?? 'bg-gray-100 text-gray-800' }}">
-                                    {{ $tx->status }}
-                                </span>
+                                <select class="px-2 py-1 text-sm border rounded status-dropdown"
+                                    data-id="{{ $tx->id }}">
+                                    <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
+                                    <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
+                                    <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
+                                </select>
                             </td>
                             <td>{{ $tx->remarks ?? '—' }}</td>
                             <td>
@@ -174,6 +177,33 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<script>
+$(document).ready(function () {
+    $('.status-dropdown').change(function () {
+        let status = $(this).val();
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: "{{ route('transactions.inlineUpdate') }}",
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                id: id,
+                status: status
+            },
+            success: function (res) {
+                alert(res.message);
+                location.reload(); // reload to refresh badge colors / quantities
+            },
+            error: function (xhr) {
+                alert("Error: " + xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+
 
     {{-- Enhanced Styles for DataTables --}}
     <style>

@@ -43,7 +43,7 @@
             <div class="w-6 text-center">
                 <i class="fas fa-exchange-alt {{ request()->is('transaction*') ? 'text-blue-400' : 'text-gray-400' }}"></i>
             </div>
-            <span class="font-medium">Transactions</span>
+            <span class="font-medium">Borrow Transactions</span>
         </a>
 
         <a href="{{ route('admin.request') }}" class="nav-item flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-800 hover:text-white {{ request()->is('request*') ? 'active bg-gray-800 text-white' : 'text-gray-300' }}">

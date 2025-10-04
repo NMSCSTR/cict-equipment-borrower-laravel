@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/transaction', [BorrowTransactionController::class, 'store'])->name('admin.transaction.store');
         Route::post('/admin/transaction/update', [BorrowTransactionController::class, 'update'])->name('admin.transaction.update');
         Route::delete('/admin/transaction/{id}', [BorrowTransactionController::class, 'destroy'])->name('admin.transaction.destroy');
+        Route::post('/admin/transaction/inline-update', [BorrowTransactionController::class, 'inlineUpdate'])->name('transactions.inlineUpdate');
+
         Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('admin.notifications');
         Route::get('/admin/request', [ItemRequestController::class, 'index'])->name('admin.request');
         Route::post('/admin/request/approve', [ItemRequestController::class, 'requestActions'])->name('admin.request.approve');

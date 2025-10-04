@@ -6,6 +6,7 @@ use App\Models\BorrowTransaction;
 use App\Models\ClassSchedule;
 use App\Models\Equipment;
 use App\Models\Notification;
+use App\Models\ReturnLogs;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,6 +29,46 @@ class BorrowTransactionController extends Controller
             ->get();
 
         return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
+    }
+
+    public function inlineUpdate(Request $request)
+    {
+        $request->validate([
+            'id'     => 'required|exists:borrow_transactions,id',
+            'status' => 'required|in:Borrowed,Returned,Overdue',
+        ]);
+
+        $transaction = BorrowTransaction::findOrFail($request->id);
+        $equipment   = Equipment::findOrFail($transaction->equipment_id);
+
+        // Handle status change
+        if ($transaction->status !== $request->status) {
+            if ($request->status === 'Returned') {
+                // Add back equipment
+                $equipment->available_quantity += $transaction->quantity;
+                $equipment->save();
+
+                // Log return
+                ReturnLogs::create([
+                    'borrow_transaction_id' => $transaction->id,
+                    'return_date'           => now(),
+                    'condition'             => 'Good', // You can later allow user input
+                    'remarks'               => 'Auto logged from inline update',
+                ]);
+            } elseif ($transaction->status === 'Returned' && $request->status === 'Borrowed') {
+                // Borrowed again
+                if ($equipment->available_quantity < $transaction->quantity) {
+                    return response()->json(['message' => 'Not enough equipment available'], 422);
+                }
+                $equipment->available_quantity -= $transaction->quantity;
+                $equipment->save();
+            }
+        }
+
+        $transaction->status = $request->status;
+        $transaction->save();
+
+        return response()->json(['message' => 'Status updated successfully!']);
     }
 
     public function getOnlyTransactionsHasClassSchedule()
