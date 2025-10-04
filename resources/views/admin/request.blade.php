@@ -1,6 +1,6 @@
 @extends('components.default')
 
-@section('title', 'Borrow Transactions - CICT Equipment Borrower System')
+@section('title', 'Item Request - CICT Equipment Borrower System')
 
 @section('content')
 @include('components.admin.navbar')
@@ -37,7 +37,7 @@
     @endif
         <!-- DataTable -->
         <div class="p-4 bg-white rounded-lg shadow">
-            <table id="transactions-table" class="w-full display nowrap">
+            <table id="requestTable" class="w-full display nowrap">
                 <thead class="bg-gray-50">
                     <tr>
                         <th>User</th>
@@ -60,9 +60,9 @@
                             <td>
                                 @php
                                     $statusColors = [
-                                        'Borrowed' => 'bg-yellow-100 text-yellow-800',
-                                        'Returned' => 'bg-green-100 text-green-800',
-                                        'Overdue' => 'bg-red-100 text-red-800',
+                                        'pending' => 'bg-yellow-100 text-yellow-800',
+                                        'Approved' => 'bg-green-100 text-green-800',
+                                        'Declined' => 'bg-red-100 text-red-800',
                                     ];
                                 @endphp
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$request->status] ?? 'bg-gray-100 text-gray-800' }}">
@@ -71,22 +71,32 @@
                             </td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
-                                        data-id="{{ $request->id }}"
-                                        data-user="{{ $request->user_id }}"
-                                        data-equipment="{{ $request->equipment_id }}"
-                                        data-quantity="{{ $request->quantity }}"
-                                        data-status="{{ $request->status }}"
-                                        data-remarks="{{ $request->remarks }}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
-                                        data-id="{{ $request->id }}"
-                                        data-name="{{ $request->user?->name ?? 'Deleted User' }} - {{ $request->equipment?->equipment_name ?? 'Deleted Equipment' }}">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
+                                    @if ($request->status === 'pending')
+                                        <!-- Approve Button -->
+                                        <form action="{{ route('admin.request.approve') }}" method="POST" class="inline">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $request->id }}">
+                                            <button type="submit"
+                                                class="px-4 py-1 text-xs text-white bg-green-600 rounded md:text-sm hover:bg-green-700">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
+                                        </form>
+
+                                        <!-- Decline Button -->
+                                        <form action="{{ route('admin.request.decline') }}" method="POST" class="inline">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $request->id }}">
+                                            <button type="submit"
+                                                class="px-4 py-1 text-xs text-white bg-red-600 rounded md:text-sm hover:bg-red-700">
+                                                <i class="fas fa-times"></i> Decline
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="text-sm text-gray-500">No actions</span>
+                                    @endif
                                 </div>
                             </td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -95,60 +105,30 @@
     </main>
 </div>
 
-<!-- Modals -->
-{{-- @include('components.admin.transaction.add-modal')
-@include('components.admin.transaction.edit-modal')
-@include('components.admin.transaction.delete-modal') --}}
 
 
 <script>
 $(document).ready(function () {
-    let table = $('#transactions-table').DataTable({
+    let table = $('#requestTable').DataTable({
         responsive: true,
         pageLength: 10,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         language: {
             search: "🔍 ",
-            searchPlaceholder: "Search transactions..."
+            searchPlaceholder: "Search request..."
         }
     });
 
-    // Add modal
-    $('#open-add-modal').on('click', function() {
-        $('#add-modal').removeClass('hidden');
-    });
 
-    // Edit modal
+
+    // Approve modal
     $('.edit-btn').on('click', function() {
-        $('#edit-id').val($(this).data('id'));
-        $('#edit-user').val($(this).data('user'));
-        $('#edit-equipment').val($(this).data('equipment'));
-        $('#edit-borrow').val($(this).data('borrow'));
-        $('#edit-return').val($(this).data('return'));
-        $('#edit-quantity').val($(this).data('quantity'));
-        $('#edit-purpose').val($(this).data('purpose'));
-        $('#edit-status').val($(this).data('status'));
-        $('#edit-remarks').val($(this).data('remarks'));
-        $('#edit-class').val($(this).data('class'));
-        $('#edit-modal').removeClass('hidden');
+
     });
 
-    // Delete modal
-    $('.delete-btn').on('click', function() {
-        let id = $(this).data('id');
-        let name = $(this).data('name');
-        $('#delete-item-name').text(name);
-        $('#delete-form').attr('action', '/admin/transactions/' + id);
-        $('#delete-modal').removeClass('hidden');
-    });
-
-    // Cancel buttons
-    $('#cancel-add, #cancel-edit, #cancel-delete').on('click', function() {
-        $('#add-modal, #edit-modal, #delete-modal').addClass('hidden');
-    });
 
     // Close when clicking outside
-    $('#add-modal, #edit-modal, #delete-modal').on('click', function(e) {
+    $('#approve-modal').on('click', function(e) {
         if (e.target === this) $(this).addClass('hidden');
     });
 });

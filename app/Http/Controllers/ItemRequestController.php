@@ -19,6 +19,22 @@ class ItemRequestController extends Controller
         // return $requests;
     }
 
+    public function requestActions(Request $request)
+    {
+        $itemRequest = ItemRequest::findOrFail($request->id);
+
+        if ($request->route()->getName() === 'admin.request.approve') {
+            $itemRequest->status = 'Approved';
+        } elseif ($request->route()->getName() === 'admin.request.decline') {
+            $itemRequest->status = 'Declined';
+        }
+
+        $itemRequest->save();
+
+        return back()->with('success', 'Request has been ' . strtolower($itemRequest->status) . '.');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
