@@ -17,13 +17,13 @@ class AuthenticateUser extends Controller
     }
 
 
-    public function instructorView()
+    public function borrowerView()
     {
         $userId = Auth::id();
         $requests = ItemRequest::where('user_id', $userId)->with('equipment')->get();
         $transactions = BorrowTransaction::where('user_id', $userId)->with('equipment')->get();
         $equipments = Equipment::all();
-        return view('instructor.dashboard', compact('requests', 'transactions', 'equipments'));
+        return view('borrower.dashboard', compact('requests', 'transactions', 'equipments'));
     }
 
     public function studentView()
@@ -46,10 +46,8 @@ class AuthenticateUser extends Controller
 
             if ($user->user_type === 'Admin') {
                 return redirect()->intended(route('admin.dashboard'));
-            } elseif ($user->user_type === 'Instructor') {
-                return redirect()->intended(route('instructor.dashboard'));
             } else {
-                return redirect()->intended(route('student.dashboard'));
+                return redirect()->intended(route('borrower.dashboard'));
             }
         }
 
