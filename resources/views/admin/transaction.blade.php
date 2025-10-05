@@ -164,7 +164,7 @@
 
             <div class="flex justify-end space-x-2">
                 <button type="button" id="cancelReturn" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
-                <button type="submit" class="px-3 py-1 text-white bg-green-600 rounded">Confirm</button>
+                <button type="submit" class="px-3 py-1 text-white bg-gray-900 rounded">Confirm</button>
             </div>
         </form>
     </div>
@@ -238,7 +238,7 @@ $(document).ready(function () {
             $('#return-transaction-id').val(id);
             $('#returnLogModal').removeClass('hidden');
         } else {
-            updateStatus(id, status); // Borrowed/Overdue skip modal
+            updateStatus(id, status);
         }
     });
 
@@ -271,8 +271,15 @@ $(document).ready(function () {
                 remarks: remarks
             },
             success: function (res) {
-                alert(res.message);
-                location.reload();
+                Swal.fire({
+                    title: 'Success!',
+                    text: res.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#10B981' // Tailwind green-500
+                }).then(() => {
+                    location.reload();
+                });
             },
             error: function (xhr) {
                 alert("Error: " + xhr.responseText);

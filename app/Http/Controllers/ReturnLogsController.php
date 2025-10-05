@@ -16,7 +16,6 @@ class ReturnLogsController extends Controller
     {
         //
         $logs = ReturnLog::with(['borrower', 'receiver', 'equipment'])->orderBy('created_at', 'desc')->get();
-
         return view('admin.logs', compact('logs'));
         // return $returnLogs;
 

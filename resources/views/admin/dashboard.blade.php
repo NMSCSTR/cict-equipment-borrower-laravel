@@ -5,7 +5,7 @@
 @section("content")
     @include('components.admin.navbar')
 <div class="min-h-screen bg-gray-50 md:ml-80">
-    
+
     <!-- Top Header -->
     <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
@@ -50,84 +50,56 @@
 
     <!-- Main Content -->
     <main class="p-6">
-        <!-- Quick Stats -->
-        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
-            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500">Total Equipment</p>
-                        <p class="mt-2 text-3xl font-bold text-gray-900">142</p>
-                        <div class="flex items-center mt-2">
-                            <span class="flex items-center text-sm font-medium text-green-500">
-                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
-                                12% increase
-                            </span>
-                            <span class="ml-2 text-sm text-gray-400">from last month</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-xl">
-                        <i class="text-xl text-blue-500 fas fa-tools"></i>
-                    </div>
-                </div>
-            </div>
 
-            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
-                <div class="flex items-center justify-between">
+        <!-- Quick Stats (Compact Layout) -->
+        <section class="mb-6">
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <!-- Total Equipment -->
+                <div class="flex items-center justify-between p-4 transition border border-blue-100 bg-blue-50 rounded-xl hover:bg-blue-100">
                     <div>
-                        <p class="text-sm font-medium text-gray-500">Active Users</p>
-                        <p class="mt-2 text-3xl font-bold text-gray-900">256</p>
-                        <div class="flex items-center mt-2">
-                            <span class="flex items-center text-sm font-medium text-green-500">
-                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
-                                8% increase
-                            </span>
-                            <span class="ml-2 text-sm text-gray-400">from last month</span>
-                        </div>
+                        <p class="text-xs font-medium text-gray-600">Total Equipment</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $equipments->count() }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl">
-                        <i class="text-xl text-green-500 fas fa-users"></i>
+                    <div class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
+                        <i class="text-lg text-blue-500 fas fa-tools"></i>
                     </div>
                 </div>
-            </div>
 
-            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
-                <div class="flex items-center justify-between">
+                <!-- Active Users -->
+                <div class="flex items-center justify-between p-4 transition border border-green-100 bg-green-50 rounded-xl hover:bg-green-100">
                     <div>
-                        <p class="text-sm font-medium text-gray-500">Active Transactions</p>
-                        <p class="mt-2 text-3xl font-bold text-gray-900">38</p>
-                        <div class="flex items-center mt-2">
-                            <span class="flex items-center text-sm font-medium text-red-500">
-                                <i class="mr-1 text-xs fas fa-arrow-down"></i>
-                                5% decrease
-                            </span>
-                            <span class="ml-2 text-sm text-gray-400">from last week</span>
-                        </div>
+                        <p class="text-xs font-medium text-gray-600">Active Users</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $users->count() }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl">
-                        <i class="text-xl text-purple-500 fas fa-exchange-alt"></i>
+                    <div class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-lg">
+                        <i class="text-lg text-green-500 fas fa-users"></i>
                     </div>
                 </div>
-            </div>
 
-            <div class="p-6 border border-gray-200 stats-card rounded-2xl">
-                <div class="flex items-center justify-between">
+                <!-- Active Transactions -->
+                <div class="flex items-center justify-between p-4 transition border border-purple-100 bg-purple-50 rounded-xl hover:bg-purple-100">
                     <div>
-                        <p class="text-sm font-medium text-gray-500">Pending Requests</p>
-                        <p class="mt-2 text-3xl font-bold text-gray-900">18</p>
-                        <div class="flex items-center mt-2">
-                            <span class="flex items-center text-sm font-medium text-green-500">
-                                <i class="mr-1 text-xs fas fa-arrow-up"></i>
-                                15% increase
-                            </span>
-                            <span class="ml-2 text-sm text-gray-400">from yesterday</span>
-                        </div>
+                        <p class="text-xs font-medium text-gray-600">Transactions</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $transactions->count() }}</p>
                     </div>
-                    <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-xl">
-                        <i class="text-xl text-orange-500 fas fa-clipboard-list"></i>
+                    <div class="flex items-center justify-center w-10 h-10 bg-purple-100 rounded-lg">
+                        <i class="text-lg text-purple-500 fas fa-exchange-alt"></i>
+                    </div>
+                </div>
+
+                <!-- Pending Requests -->
+                <div class="flex items-center justify-between p-4 transition border border-orange-100 bg-orange-50 rounded-xl hover:bg-orange-100">
+                    <div>
+                        <p class="text-xs font-medium text-gray-600">Pending Requests</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $requests->count() }}</p>
+                    </div>
+                    <div class="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
+                        <i class="text-lg text-orange-500 fas fa-clipboard-list"></i>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
 
         <!-- Charts and Activity Section -->
         <div class="grid grid-cols-1 gap-6 mb-8 xl:grid-cols-3">
@@ -136,47 +108,28 @@
             <!-- Recent Activity -->
             <div class="p-6 bg-white border border-gray-200 rounded-2xl">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
-                    <a href="#" class="text-sm font-medium text-blue-500 hover:text-blue-700">View All</a>
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Return Logs</h3>
+                    <a href="{{ route('admin.logs') }}" class="text-sm font-medium text-blue-500 hover:text-blue-700">View All</a>
                 </div>
-                <div class="space-y-4">
-                    <div class="flex items-start space-x-3">
+                @foreach ($returnLogs as $returnLog)
+                    <div class="flex items-start mb-4 space-x-3">
                         <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-blue-100 rounded-lg">
-                            <i class="text-sm text-blue-500 fas fa-exchange-alt"></i>
+                            <i class="text-sm text-blue-500 fas fa-undo"></i>
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-gray-900">Projector borrowed</p>
-                            <p class="text-xs text-gray-500">John Doe • 2 hours ago</p>
+                            <p class="text-sm font-medium text-gray-900">
+                                {{ $returnLog->equipment->equipment_name ?? 'N/A' }}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                Borrowed by: {{ $returnLog->borrower->name ?? 'N/A' }}<br>
+                                Received by: {{ $returnLog->receiver->name ?? 'N/A' }} •
+                                {{ $returnLog->created_at->diffForHumans() }}
+                            </p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-3">
-                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-green-100 rounded-lg">
-                            <i class="text-sm text-green-500 fas fa-check"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">Request approved</p>
-                            <p class="text-xs text-gray-500">Sarah Wilson • 5 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3">
-                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-purple-100 rounded-lg">
-                            <i class="text-sm text-purple-500 fas fa-tools"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">New equipment added</p>
-                            <p class="text-xs text-gray-500">System • Yesterday</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3">
-                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-orange-100 rounded-lg">
-                            <i class="text-sm text-orange-500 fas fa-user-plus"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">New user registered</p>
-                            <p class="text-xs text-gray-500">Michael Brown • 2 days ago</p>
-                        </div>
-                    </div>
-                </div>
+                    <hr class="my-2">
+                @endforeach
+
             </div>
         </div>
 
@@ -210,49 +163,6 @@
                         </div>
                         <span class="text-sm font-medium text-gray-700">View Reports</span>
                     </button>
-                </div>
-            </div>
-
-            <!-- System Status -->
-            <div class="p-6 bg-white border border-gray-200 rounded-2xl">
-                <h3 class="mb-6 text-lg font-semibold text-gray-900">System Status</h3>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700">Server Uptime</span>
-                            <span class="text-sm font-medium text-gray-900">99.8%</span>
-                        </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-green-500 rounded-full" style="width: 99.8%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700">Database Performance</span>
-                            <span class="text-sm font-medium text-gray-900">98%</span>
-                        </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-blue-500 rounded-full" style="width: 98%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700">Storage Usage</span>
-                            <span class="text-sm font-medium text-gray-900">65%</span>
-                        </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-yellow-500 rounded-full" style="width: 65%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-sm font-medium text-gray-700">Active Sessions</span>
-                            <span class="text-sm font-medium text-gray-900">42</span>
-                        </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-purple-500 rounded-full" style="width: 70%"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

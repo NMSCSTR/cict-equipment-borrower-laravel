@@ -7,13 +7,19 @@ use App\Models\User;
 use App\Models\ItemRequest;
 use App\Models\BorrowTransaction;
 use App\Models\Equipment;
+use App\Models\ReturnLog;
 
 class AuthenticateUser extends Controller
 {
     //
     public function adminView()
     {
-        return view('admin.dashboard');
+        $equipments = Equipment::all();
+        $users = User::all();
+        $transactions = BorrowTransaction::all();
+        $requests = ItemRequest::all();
+        $returnLogs = ReturnLog::with(['borrower', 'receiver', 'equipment'])->orderBy('created_at', 'desc')->get();
+        return view('admin.dashboard', compact('equipments', 'users', 'transactions', 'requests', 'returnLogs'));
     }
 
 
@@ -23,6 +29,7 @@ class AuthenticateUser extends Controller
         $requests = ItemRequest::where('user_id', $userId)->with('equipment')->get();
         $transactions = BorrowTransaction::where('user_id', $userId)->with('equipment')->get();
         $equipments = Equipment::all();
+        $users = User::all();
         return view('borrower.dashboard', compact('requests', 'transactions', 'equipments'));
     }
 
