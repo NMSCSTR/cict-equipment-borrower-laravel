@@ -78,8 +78,11 @@ class ItemRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemRequest $itemRequest)
+    public function destroy($id)
     {
         //
+        $itemRequest = ItemRequest::findOrFail($id);
+        $itemRequest->delete();
+        return back()->with('success', 'Request has been deleted.');
     }
 }
