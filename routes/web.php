@@ -73,8 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/borrower/request/{id}', [ItemRequestController::class, 'destroy'])->name('instructor.request.destroy');
     });
 
-    // Route::middleware(['userType:Student'])->group(function () {
-    //     Route::get('/student/dashboard', [AuthenticateUser::class, 'studentView'])->name('student.dashboard');
-    // });
+    Route::middleware(['userType:Student'])->group(function () {
+        Route::get('/student/dashboard', [AuthenticateUser::class, 'studentView'])->name('student.dashboard');
+    });
 
 });
