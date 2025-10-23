@@ -14,9 +14,15 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $notifications = Notification::all();
-        $users = User::all();
-        return view('admin.notification', compact('notifications', 'users'));
+        // $notifications = Notification::all();
+        // $users = User::all();
+        // return view('admin.notification', compact('notifications', 'users'));
+
+        // with eager loading
+        $notifications = Notification::with('user')->get();
+        return view('admin.notification', compact('notifications'));
+
+
     }
     public function countNotif()
     {

@@ -27,10 +27,7 @@ class AuthenticateUser extends Controller
         $users        = User::with(['borrowTransactions', 'itemRequests'])->get();
         $transactions = BorrowTransaction::with(['user', 'equipment'])->get();
         $requests     = ItemRequest::with(['user', 'equipment'])->get();
-        $returnLogs   = ReturnLog::with(['borrower', 'receiver', 'equipment'])
-            ->latest()
-            ->get();
-
+        $returnLogs   = ReturnLog::with(['borrower', 'receiver', 'equipment'])->latest()->get();
         return view('admin.dashboard', compact('equipments', 'users', 'transactions', 'requests', 'returnLogs'));
 
     }

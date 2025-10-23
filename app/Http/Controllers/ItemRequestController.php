@@ -13,9 +13,14 @@ class ItemRequestController extends Controller
      */
     public function index()
     {
-        $requests = ItemRequest::all();
-        $users = User::all();
-        return view('admin.request', compact('requests', 'users'));
+        // $requests = ItemRequest::all();
+        // $users = User::all();
+        // return view('admin.request', compact('requests', 'users'));
+
+        // With eager loading
+        $requests = ItemRequest::with(['user', 'equipment'])->get();
+        return view('admin.request', compact('requests'));
+
         // return $requests;
     }
 
