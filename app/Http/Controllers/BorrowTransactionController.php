@@ -19,9 +19,21 @@ class BorrowTransactionController extends Controller
      */
     public function index()
     {
-        $transactions   = BorrowTransaction::all();
-        $users          = User::all();
-        $equipment      = Equipment::all();
+        // $transactions   = BorrowTransaction::all();
+        // $users          = User::all();
+        // $equipment      = Equipment::all();
+        // $classSchedules = ClassSchedule::with('instructor')
+        //     ->whereHas('instructor', function ($query) {
+        //         $query->where('user_type', 'Instructor');
+        //     })
+        //     ->get();
+
+        // return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
+
+        // with eager loading improvements
+        $transactions = BorrowTransaction::with(['user', 'equipment', 'classSchedule'])->get();
+        $users = User::with('borrowTransactions')->get();
+        $equipment = Equipment::with('borrowTransactions')->get();
         $classSchedules = ClassSchedule::with('instructor')
             ->whereHas('instructor', function ($query) {
                 $query->where('user_type', 'Instructor');
@@ -29,15 +41,16 @@ class BorrowTransactionController extends Controller
             ->get();
 
         return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
+
     }
 
     public function inlineUpdate(Request $request)
     {
         $request->validate([
-            'id'       => 'required|exists:borrow_transactions,id',
-            'status'   => 'required|in:Borrowed,Returned,Overdue',
-            'condition'=> 'nullable|string|max:50',
-            'remarks'  => 'nullable|string|max:255',
+            'id'        => 'required|exists:borrow_transactions,id',
+            'status'    => 'required|in:Borrowed,Returned,Overdue',
+            'condition' => 'nullable|string|max:50',
+            'remarks'   => 'nullable|string|max:255',
         ]);
 
         $transaction = BorrowTransaction::findOrFail($request->id);
