@@ -29,7 +29,7 @@ Route::get('/', function () {
 Route::get('/send-return-alerts', [BorrowTransactionController::class, 'sendReturnAlertNotification']);
 Route::get('components/admin/navbar', [NotificationController::class, 'countNotif'])->name('admin.navbar');
 Route::get('/login', [User::class, 'index'])->name('login');
-Route::post('/login', [AuthenticateUser::class, 'store'])->name('login.store');
+Route::post('/login', [AuthenticateUser::class, 'login'])->name('login.store');
 Route::post('/logout', [AuthenticateUser::class, 'destroy'])->name('logout');
 Route::post('/register', [AuthenticateUser::class, 'register'])->name('register');
 Route::get('/register', [AuthenticateUser::class, 'registerUser'])->name('register');
@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware(['userType:Instructor'])->group(function () {
-        Route::get('/borrower/dashboard', [AuthenticateUser::class, 'borrowerView'])->name('instructor.dashboard');
+        Route::get('/borrower/dashboard', [AuthenticateUser::class, 'borrowerView'])->name('borrower.dashboard');
         Route::post('/borrower/request', [ItemRequestController::class, 'store'])->name('instructor.request.store');
         Route::post('/borrower/request/update', [ItemRequestController::class, 'update'])->name('instructor.request.update');
         Route::delete('/borrower/request/{id}', [ItemRequestController::class, 'destroy'])->name('instructor.request.destroy');

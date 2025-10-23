@@ -1,35 +1,47 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Models\BorrowTransaction;
+use App\Models\Equipment;
+use App\Models\ItemRequest;
+use App\Models\ReturnLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use App\Models\ItemRequest;
-use App\Models\BorrowTransaction;
-use App\Models\Equipment;
-use App\Models\ReturnLog;
 
 class AuthenticateUser extends Controller
 {
     //
     public function adminView()
     {
-        $equipments = Equipment::all();
-        $users = User::all();
-        $transactions = BorrowTransaction::all();
-        $requests = ItemRequest::all();
-        $returnLogs = ReturnLog::with(['borrower', 'receiver', 'equipment'])->orderBy('created_at', 'desc')->get();
-        return view('admin.dashboard', compact('equipments', 'users', 'transactions', 'requests', 'returnLogs'));
-    }
+        // $equipments   = Equipment::all();
+        // $users        = User::all();
+        // $transactions = BorrowTransaction::all();
+        // $requests     = ItemRequest::all();
+        // $returnLogs   = ReturnLog::with(['borrower', 'receiver', 'equipment'])->orderBy('created_at', 'desc')->get();
+        // return view('admin.dashboard', compact('equipments', 'users', 'transactions', 'requests', 'returnLogs'));
 
+        //with eager loading
+        $equipments   = Equipment::with(['borrowTransactions', 'itemRequests'])->get();
+        $users        = User::with(['borrowTransactions', 'itemRequests'])->get();
+        $transactions = BorrowTransaction::with(['user', 'equipment'])->get();
+        $requests     = ItemRequest::with(['user', 'equipment'])->get();
+        $returnLogs   = ReturnLog::with(['borrower', 'receiver', 'equipment'])
+            ->latest()
+            ->get();
+
+        return view('admin.dashboard', compact('equipments', 'users', 'transactions', 'requests', 'returnLogs'));
+
+    }
 
     public function borrowerView()
     {
-        $userId = Auth::id();
-        $requests = ItemRequest::where('user_id', $userId)->with('equipment')->get();
+        $userId       = Auth::id();
+        $requests     = ItemRequest::where('user_id', $userId)->with('equipment')->get();
         $transactions = BorrowTransaction::where('user_id', $userId)->with('equipment')->get();
-        $equipments = Equipment::all();
-        $users = User::all();
+        $equipments   = Equipment::all();
+        $users        = User::all();
         return view('borrower.dashboard', compact('requests', 'transactions', 'equipments'));
     }
 
@@ -38,27 +50,38 @@ class AuthenticateUser extends Controller
         return view('student.dashboard');
     }
 
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            $credentials = $request->validate([
+                'email'    => 'required|email',
+                'password' => 'required',
+            ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
 
-            $user = Auth::user();
-            $request->session()->flash('welcome', 'Welcome back, ' . $user->name . '!');
+                $user = Auth::user();
+                $request->session()->flash('welcome', 'Welcome back, ' . $user->name . '!');
 
-            if ($user->user_type === 'Admin') {
-                return redirect()->intended(route('admin.dashboard'));
-            } else {
-                return redirect()->intended(route('borrower.dashboard'));
+                if ($user->user_type === 'Admin') {
+                    return redirect()->intended(route('admin.dashboard'));
+                } else {
+                    return redirect()->intended(route('borrower.dashboard'));
+                }
             }
-        }
 
-        return back()->withErrors(['email' => 'The provided credentials do not match on our records'])->onlyInput('email');
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
+
+        } catch (\Exception $e) {
+            \Log::error('Login error: ' . $e->getMessage());
+
+            return back()->withErrors([
+                'error' => 'Something went wrong. Please try again later.',
+            ]);
+        }
     }
 
     public function destroy(Request $request)
@@ -79,18 +102,18 @@ class AuthenticateUser extends Controller
     public function register(Request $request)
     {
         $validatedData = $request->validate([
-            'user_type' => 'required|in:Admin,Instructor,Student',
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'user_type'      => 'required|in:Admin,Instructor,Student',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|string|email|max:255|unique:users',
+            'password'       => 'required|string|min:8|confirmed',
             'contact_number' => 'nullable|string|max:15',
         ]);
 
         $user = User::create([
-            'user_type' => $validatedData['user_type'],
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'user_type'      => $validatedData['user_type'],
+            'name'           => $validatedData['name'],
+            'email'          => $validatedData['email'],
+            'password'       => Hash::make($validatedData['password']),
             'contact_number' => $validatedData['contact_number'] ?? null,
         ]);
 
