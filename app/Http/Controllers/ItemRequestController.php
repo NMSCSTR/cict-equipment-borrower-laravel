@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemRequest;
+use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ItemRequestController extends Controller
 {
@@ -53,7 +56,24 @@ class ItemRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'equipment_id' => 'required|exists:equipment,id',
+            'quantity' => 'required|integer|min:1',
+            'remarks' => 'nullable|string|max:1000',
+        ]);
+
+        ItemRequest::create([
+            'user_id' => Auth::id(),
+            'equipment_id' => $validated['equipment_id'],
+            'quantity' => $validated['quantity'],
+            'status' => 'Pending',
+            'requested_date' => Carbon::now()->toDateString(),
+            'remarks' => $validated['remarks'] ?? null,
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Your item request has been submitted successfully.');
     }
 
     /**

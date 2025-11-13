@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User as UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 // Import with alias
 
 class User extends Controller

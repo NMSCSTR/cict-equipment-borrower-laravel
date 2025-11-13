@@ -6,6 +6,7 @@ use App\Models\ReturnLog;
 use App\Models\Equipment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ReturnLogsController extends Controller
 {

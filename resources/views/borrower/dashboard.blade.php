@@ -5,41 +5,50 @@
 @section('content')
 <div class="flex flex-col min-h-screen bg-gray-50">
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-md">
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-md">
         <div class="flex flex-wrap items-center justify-between px-4 py-4 md:px-8">
-            <!-- Left: Title -->
+            <!-- Left: Logo + Title -->
             <div class="flex items-center space-x-4">
-                <button id="menu-toggle" class="text-gray-600 hover:text-gray-800 md:hidden">
+                <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
                     <i class="text-2xl fas fa-bars"></i>
                 </button>
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900 md:text-2xl">Equipment Management</h1>
-                    <p class="text-sm text-gray-500">Manage all equipment and inventory</p>
+
+                <!-- Logo + Text -->
+                <div class="flex items-center space-x-3">
+                    <img class="object-contain w-auto h-12 md:h-16"
+                        src="https://www.nmsc.edu.ph/application/files/9117/2319/6158/CICT_LOGO.png"
+                        alt="CICT Logo">
+
+                    <div class="flex flex-col">
+                        <h1 class="text-xl font-extrabold tracking-wide text-gray-900 md:text-2xl">
+                            BORROWER DASHBOARD
+                        </h1>
+                        <p class="mt-1 text-sm text-gray-500">
+                            View borrow transactions and Request Item
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <!-- Right: Buttons -->
             <div class="flex items-center mt-3 space-x-3 md:mt-0">
-                <!-- Request Item Button -->
                 <button id="open-add-modal"
-                    class="flex items-center px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-lg shadow md:text-base hover:bg-blue-700">
+                    class="flex items-center px-5 py-2 text-sm font-semibold text-white transition rounded-lg shadow-md bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700">
                     <i class="mr-2 fas fa-plus"></i>
-                    <span>Request Item</span>
+                    Request Item
                 </button>
 
-                <!-- Logout -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="flex items-center px-4 py-2 text-sm font-medium text-red-600 transition border border-red-600 rounded-lg shadow md:text-base hover:bg-red-600 hover:text-white">
-                        <i class="mr-2 fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
+                        class="flex items-center px-5 py-2 text-sm font-semibold text-red-600 transition border border-red-600 rounded-lg shadow-md hover:bg-red-600 hover:text-white">
+                        <i class="mr-2 fas fa-sign-out-alt"></i> Logout
                     </button>
                 </form>
             </div>
-
         </div>
     </header>
+
 
     <!-- Main Content -->
     <main class="flex-1 p-4 space-y-10 md:p-8">
@@ -74,8 +83,9 @@
                                 <td class="px-4 py-3">
                                     @php
                                         $statusColors = [
-                                            'Approved' => 'bg-green-100 text-green-800',
-                                            'Declined' => 'bg-red-100 text-red-800',
+                                            'Approved' => 'bg-green-100 text-green-800 font-semibold',
+                                            'Declined' => 'bg-red-100 text-red-800 font-semibold',
+                                            'Pending' => 'bg-yellow-100 text-yellow-800 font-semibold',
                                         ];
                                         $statusColor = $statusColors[$request->status] ?? 'bg-gray-100 text-gray-800';
                                     @endphp
