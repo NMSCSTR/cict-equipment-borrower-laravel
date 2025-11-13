@@ -14,7 +14,7 @@
                     <i class="text-xl fas fa-bars"></i>
                 </button>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">DASHBOARD</h1>
                     <p class="text-sm text-gray-500">Welcome back, Admin! Here's your overview.</p>
                 </div>
             </div>

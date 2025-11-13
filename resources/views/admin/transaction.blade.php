@@ -10,7 +10,7 @@
     <!-- Header -->
     <header class="bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-6 py-4">
-            <h1 class="text-xl font-bold text-gray-800">Borrow Transactions</h1>
+            <h1 class="text-xl font-bold text-gray-800">BORROW TRANSACTIONS</h1>
             <button id="open-add-modal" class="px-4 py-2 text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700">
                 + Add Transaction
             </button>

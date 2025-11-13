@@ -14,7 +14,7 @@
                         <i class="text-xl fas fa-bars"></i>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Return Logs</h1>
+                        <h1 class="text-2xl font-bold text-gray-900">RETURN LOGS</h1>
                         <p class="text-sm text-gray-500">History of returned equipment</p>
                     </div>
                 </div>

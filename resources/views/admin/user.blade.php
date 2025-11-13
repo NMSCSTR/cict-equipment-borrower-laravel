@@ -12,7 +12,7 @@
                         <i class="text-xl fas fa-bars"></i>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">User Management</h1>
+                        <h1 class="text-2xl font-bold text-gray-900">USER MANAGEMENT</h1>
                         <p class="text-sm text-gray-500">Manage all users of the system</p>
                     </div>
                 </div>

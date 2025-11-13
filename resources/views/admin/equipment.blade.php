@@ -14,7 +14,7 @@
                         <i class="text-xl fas fa-bars"></i>
                     </button>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Equipment Management</h1>
+                        <h1 class="text-2xl font-bold text-gray-900">EQUIPMENT MANAGEMENT</h1>
                         <p class="text-sm text-gray-500">Manage all equipment</p>
                     </div>
                 </div>

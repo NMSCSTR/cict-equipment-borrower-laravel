@@ -96,7 +96,7 @@
                                 <td class="px-4 py-3">{{ $request->remarks ?? '---' }}</td>
                                 <td class="px-4 py-3">
                                     <div class="flex flex-wrap gap-2">
-                                        <button class="px-3 py-1 text-xs text-white bg-blue-600 rounded-lg md:text-sm hover:bg-blue-700 edit-btn"
+                                        <button class="px-3 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                             data-id="{{ $request->id }}"
                                             data-equipment-name="{{ $request->equipment->equipment_name }}"
                                             data-quantity="{{ $request->quantity }}"
@@ -104,7 +104,7 @@
                                             data-remarks="{{ $request->remarks }}">
                                             <i class="mr-1 fas fa-edit"></i>Edit
                                         </button>
-                                        <button class="px-3 py-1 text-xs text-white bg-red-600 rounded-lg md:text-sm hover:bg-red-700 delete-btn"
+                                        <button class="px-3 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                             data-id="{{ $request->id }}"
                                             data-equipment-name="{{ $request->equipment->equipment_name }}">
                                             <i class="mr-1 fas fa-trash"></i>Delete
@@ -200,7 +200,7 @@
             const id = $(this).data('id');
             const name = $(this).data('equipment-name');
             $('#delete-item-name').text(name);
-            $('#delete-form').attr('action', '/instructor/item-request/' + id);
+            $('#delete-form').attr('action', '/borrower/request/' + id);
             $('#delete-modal').removeClass('hidden');
         });
 

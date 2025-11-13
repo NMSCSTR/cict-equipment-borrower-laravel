@@ -108,6 +108,9 @@ class ItemRequestController extends Controller
         //
         $itemRequest = ItemRequest::findOrFail($id);
         $itemRequest->delete();
-        return back()->with('success', 'Request has been deleted.');
+
+        return redirect()
+            ->back()
+            ->with('success', 'Your item request has been deleted successfully.');
     }
 }
