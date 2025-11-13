@@ -3,7 +3,7 @@
     <div class="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 class="mb-4 text-xl font-semibold">New Item Request</h2>
 
-        <form id="add-form" method="POST" action="{{ route('instructor.request.store') }}">
+        <form id="add-form" method="POST" action="#">
             @csrf
 
             <!-- Equipment dropdown -->

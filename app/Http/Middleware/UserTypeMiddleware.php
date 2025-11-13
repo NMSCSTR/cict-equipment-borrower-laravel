@@ -14,11 +14,11 @@ class UserTypeMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,$type): Response
+    public function handle(Request $request, Closure $next, ...$types): Response
     {
         $user = Auth::user();
 
-        if($user->user_type !== $type){
+        if(!in_array($user->user_type, $types)){
             abort(403,'Unauthorized access');
         }
         return $next($request);

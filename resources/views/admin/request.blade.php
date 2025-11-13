@@ -71,7 +71,7 @@
                             </td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    @if ($request->status === 'pending')
+                                    {{-- @if ($request->status === 'pending') --}}
                                         <!-- Approve Button -->
                                         <form action="{{ route('admin.request.approve') }}" method="POST" class="inline">
                                             @csrf
@@ -91,9 +91,9 @@
                                                 <i class="fas fa-times"></i> Decline
                                             </button>
                                         </form>
-                                    @else
+                                    {{-- @else
                                         <span class="text-sm text-gray-500">No actions</span>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </td>
 

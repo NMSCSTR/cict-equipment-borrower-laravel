@@ -65,16 +65,13 @@ Route::middleware('auth')->group(function () {
 
 
     });
-
-    Route::middleware(['userType:Instructor'])->group(function () {
+    
+    Route::middleware(['userType:Instructor,Student'])->group(function () {
         Route::get('/borrower/dashboard', [AuthenticateUser::class, 'borrowerView'])->name('borrower.dashboard');
-        Route::post('/borrower/request', [ItemRequestController::class, 'store'])->name('instructor.request.store');
-        Route::post('/borrower/request/update', [ItemRequestController::class, 'update'])->name('instructor.request.update');
-        Route::delete('/borrower/request/{id}', [ItemRequestController::class, 'destroy'])->name('instructor.request.destroy');
+        Route::post('/borrower/request', [ItemRequestController::class, 'store'])->name('borrower.request.store');
+        Route::post('/borrower/request/update', [ItemRequestController::class, 'update'])->name('borrower.request.update');
+        Route::delete('/borrower/request/{id}', [ItemRequestController::class, 'destroy'])->name('borrower.request.destroy');
     });
 
-    Route::middleware(['userType:Student'])->group(function () {
-        Route::get('/student/dashboard', [AuthenticateUser::class, 'studentView'])->name('student.dashboard');
-    });
 
 });

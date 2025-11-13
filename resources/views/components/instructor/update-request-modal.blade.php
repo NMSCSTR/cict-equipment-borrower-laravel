@@ -12,7 +12,7 @@
         </div>
 
         <!-- Modal Body -->
-        <form id="edit-form" method="POST" action="{{ route('instructor.request.update') }}" class="space-y-4">
+        <form id="edit-form" method="POST" action="#" class="space-y-4">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="edit-id">

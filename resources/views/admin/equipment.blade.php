@@ -99,7 +99,7 @@
     </main>
     </div>
 
-    {{-- Include Modals (Add, Edit, Delete) --}}
+    {{-- Modals For (Add, Edit, Delete) --}}
     @include('components.admin.equipment.add-equipment')
     @include('components.admin.equipment.edit-modal')
     @include('components.admin.equipment.delete-modal')
