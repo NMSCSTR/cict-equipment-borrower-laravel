@@ -36,12 +36,12 @@
                 <table id="logsTable" class="w-full text-sm display nowrap">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="px-4 py-2 text-left">Borrower</th>
-                            <th class="px-4 py-2 text-left">Equipment</th>
-                            <th class="px-4 py-2 text-left">Condition</th>
-                            <th class="px-4 py-2 text-left">Remarks</th>
-                            <th class="px-4 py-2 text-left">Return Date</th>
-                            <th class="px-4 py-2 text-left">Receive By</th>
+                            <th class="px-4 py-2 text-left">BORROWER</th>
+                            <th class="px-4 py-2 text-left">EQUIPMENT</th>
+                            <th class="px-4 py-2 text-left">CONDITION</th>
+                            <th class="px-4 py-2 text-left">REMARKS</th>
+                            <th class="px-4 py-2 text-left">RETURN DATE</th>
+                            <th class="px-4 py-2 text-left">RECEIVED BY</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@
 
                                 <!-- Return Date -->
                                 <td class="px-4 py-2 text-gray-600">
-                                    {{ \Carbon\Carbon::parse($log->return_date)->format('M j, Y g:i A') }}
+                                    {{ \Carbon\Carbon::parse($log->return_date)->format('M j, Y') }}
                                 </td>
 
                                 <!-- Receiver -->

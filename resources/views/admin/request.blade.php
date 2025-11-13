@@ -40,13 +40,13 @@
             <table id="requestTable" class="w-full display nowrap">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th>User</th>
-                        <th>Equipment</th>
-                        <th>Quantity</th>
-                        <th>Requested date</th>
-                        <th>Remarks</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>USER</th>
+                        <th>UQUIPMENT</th>
+                        <th>QUANTITY</th>
+                        <th>REQUESTED DATE</th>
+                        <th>REMARKS</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>

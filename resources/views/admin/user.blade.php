@@ -58,11 +58,11 @@
                     <table id="users-table" class="w-full display nowrap">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>User Type</th>
-                                <th>Contact</th>
-                                <th>Actions</th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th>USER TYPE</th>
+                                <th>CONTACT</th>
+                                <th>ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>

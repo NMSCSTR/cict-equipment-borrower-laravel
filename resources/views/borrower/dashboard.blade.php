@@ -1,6 +1,6 @@
 @extends('components.default')
 
-@section('title', 'Instructor - CICT Equipment Borrower System')
+@section('title', 'Borrower - CICT Equipment Borrower System')
 
 @section('content')
 <div class="flex flex-col min-h-screen bg-gray-50">

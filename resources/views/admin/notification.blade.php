@@ -35,10 +35,10 @@
             <table id="notificationTable" class="w-full display nowrap">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th>Borrower</th>
-                        <th>Message</th>
-                        <th>Notification type</th>
-                        <th>Send date</th>
+                        <th>BORROWER</th>
+                        <th>MESSAGE</th>
+                        <th>NOTIF TYPE</th>
+                        <th>SEND DATE</th>
                     </tr>
                 </thead>
                 <tbody>

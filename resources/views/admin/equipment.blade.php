@@ -45,12 +45,12 @@
             <table id="equipmentTable" class="w-full display nowrap">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th>Equipment Name</th>
-                        <th>Description</th>
-                        <th>Total Quantity</th>
-                        <th>Available</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>EQUIPMENT NAME</th>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>AVAILABLE QUANTITY</th>
+                        <th>STATUS</th>
+                        <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>

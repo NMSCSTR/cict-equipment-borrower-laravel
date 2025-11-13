@@ -44,16 +44,16 @@
                 class="w-full border-collapse display nowrap stripe hover responsive">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th>User</th>
-                        <th>Equipment</th>
-                        <th>Borrow Date</th>
-                        <th>Return Date</th>
-                        <th>Quantity</th>
-                        <th>Purpose</th>
-                        <th>Status</th>
-                        <th>Remarks</th>
-                        <th>Class Schedule</th>
-                        <th>Actions</th>
+                        <th>USER</th>
+                        <th>EQUIPMENT</th>
+                        <th>BORROW DATE</th>
+                        <th>RETURN DATE</th>
+                        <th>QUANTITY</th>
+                        <th>PURPOSE</th>
+                        <th>STATUS</th>
+                        <th>REMARKS</th>
+                        <th>CLASS SCHED</th>
+                        <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
