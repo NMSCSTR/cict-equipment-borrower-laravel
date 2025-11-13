@@ -12,7 +12,7 @@
         </div>
 
         <!-- Modal Body -->
-        <form id="edit-form" method="POST" action="#" class="space-y-4">
+        <form id="edit-form" method="POST" action="{{ route('borrower.request.update') }}" class="space-y-4">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="edit-id">
@@ -30,15 +30,6 @@
                     class="block w-full px-3 py-2 mt-1 transition border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <!-- Status -->
-            <div>
-                <label for="edit-status" class="block text-sm font-medium text-gray-700">Status</label>
-                <select name="status" id="edit-status"
-                    class="block w-full px-3 py-2 mt-1 transition border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option value="pending">Pending</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
 
             <!-- Remarks -->
             <div>

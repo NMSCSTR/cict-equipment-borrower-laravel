@@ -45,7 +45,7 @@
                     @foreach ($notifications as $notif)
                         <tr class="transition-colors duration-150 hover:bg-gray-50">
                             <td>{{ $notif->user->name }}</td>
-                            <td class="max-w-xs truncate">{{ $notif->message }}</td>
+                            <td class="break-words whitespace-normal">{{ $notif->message }}</td>
                             <td>{{ $notif->notification_type }}</td>
                             <td>{{ $notif->send_date ? \Carbon\Carbon::parse($notif->send_date)->format('M j, Y g:i A') : 'N/A' }}</td>
                         </tr>

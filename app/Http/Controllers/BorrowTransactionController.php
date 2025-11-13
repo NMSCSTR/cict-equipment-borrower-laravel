@@ -69,7 +69,7 @@ class BorrowTransactionController extends Controller
                     'return_date'           => now(),
                     'condition'             => $request->condition ?? 'Good',
                     'remarks'               => $request->remarks ?? 'Auto logged from inline update',
-                    'user_id'               => auth()->id(), // tracks who processed
+                    'user_id'               => auth()->id(),
                 ]);
             } elseif ($transaction->status === 'Returned' && $request->status === 'Borrowed') {
                 // Borrowed again

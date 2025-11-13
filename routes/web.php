@@ -65,11 +65,11 @@ Route::middleware('auth')->group(function () {
 
 
     });
-    
+
     Route::middleware(['userType:Instructor,Student'])->group(function () {
         Route::get('/borrower/dashboard', [AuthenticateUser::class, 'borrowerView'])->name('borrower.dashboard');
         Route::post('/borrower/request', [ItemRequestController::class, 'store'])->name('borrower.request.store');
-        Route::post('/borrower/request/update', [ItemRequestController::class, 'update'])->name('borrower.request.update');
+        Route::put('/borrower/request', [ItemRequestController::class, 'update'])->name('borrower.request.update');
         Route::delete('/borrower/request/{id}', [ItemRequestController::class, 'destroy'])->name('borrower.request.destroy');
     });
 

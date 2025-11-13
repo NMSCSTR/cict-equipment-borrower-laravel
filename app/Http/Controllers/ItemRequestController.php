@@ -97,7 +97,22 @@ class ItemRequestController extends Controller
      */
     public function update(Request $request, ItemRequest $itemRequest)
     {
-        //
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:item_requests,id',
+            'quantity' => 'required|integer|min:1',
+            'remarks' => 'nullable|string|max:1000',
+        ]);
+
+        $itemRequest = ItemRequest::findOrFail($validated['id']);
+
+        $itemRequest->update([
+            'quantity' => $validated['quantity'],
+            'remarks' => $validated['remarks'] ?? null,
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Request has been updated successfully.');
     }
 
     /**
