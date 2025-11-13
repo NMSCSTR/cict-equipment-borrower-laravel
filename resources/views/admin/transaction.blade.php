@@ -39,8 +39,9 @@
         </div>
     @endif
         <!-- DataTable -->
-        <div class="p-4 bg-white rounded-lg shadow">
-            <table id="transactions-table" class="w-full display nowrap">
+        <div class="p-4 overflow-x-auto bg-white rounded-lg shadow">
+            <table id="transactions-table"
+                class="w-full border-collapse display nowrap stripe hover responsive">
                 <thead class="bg-gray-50">
                     <tr>
                         <th>User</th>
@@ -60,47 +61,19 @@
                         <tr class="transition-colors duration-150 hover:bg-blue-50">
                             <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
                             <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
-                            <td>{{ $tx->borrow_date }}</td>
-                            <td>{{ $tx->return_date ?? 'N/A' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}</td>
+                            <td>{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : 'N/A' }}</td>
                             <td>{{ $tx->quantity }}</td>
                             <td>{{ $tx->purpose }}</td>
                             <td>
-                                @php
-                                    $statusColors = [
-                                        'Borrowed' => 'bg-yellow-100 text-yellow-800',
-                                        'Returned' => 'bg-green-100 text-green-800',
-                                        'Overdue' => 'bg-red-100 text-red-800',
-                                    ];
-                                @endphp
-
                                 <select
                                     class="px-3 py-2 text-sm font-medium transition border border-gray-300 rounded-full status-dropdown focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    data-id="{{ $tx->id }}"
-                                >
-                                    <option
-                                        value="Borrowed"
-                                        {{ $tx->status === 'Borrowed' ? 'selected' : '' }}
-                                        class="font-semibold text-yellow-800 bg-yellow-100"
-                                    >
-                                        Borrowed
-                                    </option>
-                                    <option
-                                        value="Returned"
-                                        {{ $tx->status === 'Returned' ? 'selected' : '' }}
-                                        class="font-semibold text-green-800 bg-green-100"
-                                    >
-                                        Returned
-                                    </option>
-                                    <option
-                                        value="Overdue"
-                                        {{ $tx->status === 'Overdue' ? 'selected' : '' }}
-                                        class="font-semibold text-red-800 bg-red-100"
-                                    >
-                                        Overdue
-                                    </option>
+                                    data-id="{{ $tx->id }}">
+                                    <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
+                                    <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
+                                    <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
                                 </select>
                             </td>
-
                             <td>{{ $tx->remarks ?? '—' }}</td>
                             <td>
                                 @if ($tx->classSchedule)
@@ -114,21 +87,11 @@
                             <td>
                                 <div class="flex items-center space-x-2">
                                     <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
-                                        data-id="{{ $tx->id }}"
-                                        data-user="{{ $tx->user_id }}"
-                                        data-equipment="{{ $tx->equipment_id }}"
-                                        data-borrow="{{ $tx->borrow_date }}"
-                                        data-return="{{ $tx->return_date }}"
-                                        data-quantity="{{ $tx->quantity }}"
-                                        data-purpose="{{ $tx->purpose }}"
-                                        data-status="{{ $tx->status }}"
-                                        data-remarks="{{ $tx->remarks }}"
-                                        data-class="{{ $tx->class_schedule_id }}">
+                                        data-id="{{ $tx->id }}">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
                                     <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
-                                        data-id="{{ $tx->id }}"
-                                        data-name="{{ $tx->user?->name ?? 'Deleted User' }} - {{ $tx->equipment?->equipment_name ?? 'Deleted Equipment' }}">
+                                        data-id="{{ $tx->id }}">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
@@ -179,8 +142,14 @@
 $(document).ready(function () {
     let table = $('#transactions-table').DataTable({
         responsive: true,
+        autoWidth: false,
         pageLength: 10,
+        scrollX: true,
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        columnDefs: [
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: -1 },
+            ],
         language: {
             search: "🔍 ",
             searchPlaceholder: "Search transactions..."
@@ -276,7 +245,7 @@ $(document).ready(function () {
                     text: res.message,
                     icon: 'success',
                     confirmButtonText: 'OK',
-                    confirmButtonColor: '#10B981' // Tailwind green-500
+                    confirmButtonColor: '#10B981'
                 }).then(() => {
                     location.reload();
                 });

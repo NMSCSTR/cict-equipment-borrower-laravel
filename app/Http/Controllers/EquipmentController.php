@@ -19,6 +19,14 @@ class EquipmentController extends Controller
 
     }
 
+    public function availableEquipment()
+    {
+        $availableEquipments = Equipment::where('status', 'Available')
+            ->where('available_quantity', '>', 0)
+            ->get();
+        return view('admin.transaction', compact('availableEquipments'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

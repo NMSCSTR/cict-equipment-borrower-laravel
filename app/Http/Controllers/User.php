@@ -67,7 +67,7 @@ class User extends Controller
             'user_type' => 'required|in:Admin,Instructor,Student',
             'name'      => 'required|string|max:255',
             'email'     => "required|string|email|max:255|unique:users,email,{$userId}",
-            'password'       => 'nullable|string|min:8|confirmed',
+            'password'       => 'nullable|string|min:4|confirmed',
             'contact_number' => 'nullable|string|max:15',
         ]);
 

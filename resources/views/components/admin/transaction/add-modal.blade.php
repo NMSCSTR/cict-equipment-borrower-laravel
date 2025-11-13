@@ -29,16 +29,29 @@
             </div>
 
             <!-- Equipment -->
+            {{-- <div>
+                <label class="block text-sm font-medium text-gray-700">Equipment</label>
+                <select name="equipment_id" required
+                    class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                    <option value="" disabled selected>-- Select Equipment --</option>
+                    @foreach ($availableEquipments as $eq)
+                        <option value="{{ $eq->id }}">{{ $eq->equipment_name }} ({{ $eq->available_quantity }} available)</option>
+                    @endforeach
+                </select>
+            </div> --}}
+            <!-- Equipment -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Equipment</label>
                 <select name="equipment_id" required
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" disabled selected>-- Select Equipment --</option>
-                    @foreach ($equipment as $eq)
+                    @foreach ($equipment->where('status', 'Available')->where('available_quantity', '>', 0) as $eq)
                         <option value="{{ $eq->id }}">{{ $eq->equipment_name }}</option>
                     @endforeach
                 </select>
             </div>
+
+
 
             <!-- Dates -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -15,10 +15,10 @@
                     CICT Equipment Borrower System
                 </span>
             </h1>
-
+{{--
             <p class="max-w-2xl text-lg text-gray-300 delay-150 lg:text-xl animate-fade-in">
                 Manage, monitor, and borrow CICT equipment easily with a seamless and secure system.
-            </p>
+            </p> --}}
 
             <div class="flex flex-col justify-center gap-4 delay-300 sm:flex-row lg:justify-start animate-fade-in">
                 <!-- Login Button -->
