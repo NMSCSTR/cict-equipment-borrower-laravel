@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('borrow_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->onDelete('set null');
-            $table->foreignIdFor(Equipment::class)->constrained()->onDelete('set null');
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Equipment::class)->constrained()->onDelete('cascade');
             $table->date('borrow_date');
             $table->date('return_date')->nullable();
             $table->integer('quantity');
