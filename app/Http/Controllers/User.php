@@ -19,7 +19,7 @@ class User extends Controller
 
     public function adminUser()
     {
-        $users = UserModel::where('user_type', '!=', 'Admin')->get();
+        $users = UserModel::all();
         return view('admin.user', compact('users'));
     }
 
