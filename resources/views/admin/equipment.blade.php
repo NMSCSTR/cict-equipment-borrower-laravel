@@ -83,10 +83,10 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
+                                    {{-- <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                         data-id="{{ $item->id }}" data-name="{{ $item->equipment_name }}">
                                         <i class="fas fa-trash"></i> Delete
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </td>
                         </tr>
