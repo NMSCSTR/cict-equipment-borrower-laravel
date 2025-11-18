@@ -111,7 +111,7 @@
 
 
         <!-- Charts and Activity Section -->
-        <div class="w-full">
+        <div class="w-full px-4 py-4">
             <!-- Recent Activity -->
             <div class="w-full p-6 bg-white border border-gray-200 rounded-2xl">
                 <div class="flex items-center justify-between mb-6">
@@ -142,7 +142,7 @@
 
 
         <!-- Quick Actions & System Status -->
-        <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+        <div class="w-full px-4 py-4">
             <!-- Quick Actions -->
             <div class="p-6 bg-white border border-gray-200 rounded-2xl">
                 <h3 class="mb-6 text-lg font-semibold text-gray-900">Quick Actions</h3>
