@@ -20,6 +20,12 @@
                 <div class="flex items-center space-x-4">
                     <!-- Add User Button -->
                     <button id="open-add-modal"
+                        class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-green-500 hover:bg-blue-600 rounded-xl">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Schedule</span>
+                    </button>
+                    <!-- Add User Button -->
+                    <button id="open-add-modal"
                         class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-blue-500 hover:bg-blue-600 rounded-xl">
                         <i class="fas fa-user-plus"></i>
                         <span>Add User</span>
@@ -81,11 +87,11 @@
                                             data-contact="{{ $user->contact_number }}">
                                             <i class="fas fa-edit"></i> Edit
                                         </button>
-                                        <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
+                                        {{-- <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                             data-id="{{ $user->id }}"
                                             data-name="{{ $user->name }}">
                                             <i class="fas fa-trash"></i> Delete
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 </tr>
                             @endforeach
