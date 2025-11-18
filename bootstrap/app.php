@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         // Your scheduled commands here
-        $schedule->command('notifications:return')->dailyAt('05:00');
+        $schedule->command('notifications:return')->everyMinute();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
