@@ -19,9 +19,9 @@
 
                 <div class="flex items-center space-x-4">
                     <!-- Add User Button -->
-                    <button id="open-add-modal"
+                    <button id="open-add-sched-modal"
                         class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-green-500 hover:bg-blue-600 rounded-xl">
-                        <i class="fas fa-user-plus"></i>
+                        <i class="fas fa-calendar-check"></i>
                         <span>Add Schedule</span>
                     </button>
                     <!-- Add User Button -->
@@ -100,6 +100,92 @@
                 </div>
         </main>
     </div>
+
+    <!-- Add Schedule Modal -->
+<div id="add-sched-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+    <div class="w-full max-w-lg mx-4 overflow-hidden bg-white shadow-2xl rounded-xl">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
+            <h3 class="text-lg font-semibold text-gray-900">➕ Add Class Schedule</h3>
+            <button type="button" id="cancel-sched" class="text-gray-400 hover:text-gray-600">✕</button>
+        </div>
+
+        <!-- Form -->
+        <form action="{{ route('admin.schedule.store') }}" method="POST" class="p-6 space-y-5">
+            @csrf
+
+            <!-- Instructor -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Instructor</label>
+                <select name="user_id" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option disabled selected>Select Instructor</option>
+                    @foreach ($instructors as $inst)
+                        <option value="{{ $inst->id }}">{{ $inst->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Year Level -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Year Level</label>
+                <input type="text" name="year_level" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Block Name -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Block Name</label>
+                <input type="text" name="block_name" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject Code -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Subject Code</label>
+                <input type="text" name="subject_code" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject Name -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Subject Name</label>
+                <input type="text" name="subject_name" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Schedule Time -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Schedule Time</label>
+                <input type="text" name="schedule_time" required
+                    placeholder="e.g., Mon/Wed 8:00 AM - 10:00 AM"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Room -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">Room</label>
+                <input type="text" name="room" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end pt-4 space-x-3 border-t border-gray-200">
+                <button type="button" id="cancel-sched"
+                    class="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-5 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700">
+                    Add Schedule
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
 
     <!-- Add User Modal -->
     <div id="add-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
@@ -273,6 +359,10 @@ $(document).ready(function() {
     // Open Add Modal
     $('#open-add-modal').on('click', function() {
         $('#add-modal').removeClass('hidden');
+    });
+
+    $('#open-add-sched-modal').on('click', function() {
+        $('#add-sched-modal').removeClass('hidden');
     });
 
     $('#cancel-add, #cancel-edit, #cancel-delete').on('click', function() {
