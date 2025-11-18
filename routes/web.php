@@ -5,6 +5,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\BorrowTransactionController;
 use App\Http\Controllers\ItemRequestController;
 use App\Http\Controllers\ReturnLogsController;
+use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\NotificationController;
 use App\Mail\ReturnNotification;
 use App\Http\Controllers\User;
@@ -49,6 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/users', [User::class, 'adminUser'])->name('admin.users');
         Route::post('admin/users', [AuthenticateUser::class, 'register'])->name('admin.user.register');
         Route::post('/admin/users/update', [User::class, 'update'])->name('admin.users.update');
+        Route::post('/admin/users/add-sched', [ClassScheduleController::class, 'store'])->name('admin.add-sched');
         Route::delete('/admin/users/{id}', [User::class, 'destroy'])->name('admin.users.destroy');
         Route::get('/admin/transaction', [BorrowTransactionController::class, 'index'])->name('admin.transaction');
         Route::post('/admin/transaction', [BorrowTransactionController::class, 'store'])->name('admin.transaction.store');
@@ -62,6 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/request/decline', [ItemRequestController::class, 'requestActions'])->name('admin.request.decline');
 
         Route::get('/admin/logs', [ReturnLogsController::class, 'index'])->name('admin.logs');
+
 
 
     });
