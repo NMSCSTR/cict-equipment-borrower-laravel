@@ -20,9 +20,10 @@ class User extends Controller
     public function adminUser()
     {
         $users = UserModel::all();
-        return view('admin.user', compact('users'));
-    }
+        $instructors = UserModel::where('user_type', 'Instructor')->get();
 
+        return view('admin.user', compact('users', 'instructors'));
+    }
     /**
      * Show the form for creating a new resource.
      */
