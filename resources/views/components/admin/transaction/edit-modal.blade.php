@@ -86,7 +86,7 @@
                     <option value="">-- None --</option>
                     @foreach ($classSchedules as $schedule)
                         <option value="{{ $schedule->id }}">
-                            {{ \Carbon\Carbon::parse($schedule->schedule_time)->format('g:i A') }}
+                            {{ $schedule->schedule_time }}
                             - {{ $schedule->instructor?->name ?? 'No Instructor' }}
                             - {{ $schedule->room }}
                         </option>
