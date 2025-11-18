@@ -18,8 +18,8 @@ Route::get('/', function () {
 
 Route::get('/test-mail', function () {
     $details = [
-        'title' => 'Test Reminder',
-        'body' => 'This is just a test email.'
+        'title' => 'RETURN NOW',
+        'body' => 'ANG EMUHA IS EMUHA UG AND DILI DILI JUD NA EMUHA PALIHUG KO ULI DIRI SA OFFICE'
     ];
 
     Mail::to('jesselve.aljas@nmsc.edu.ph')->send(new ReturnNotification($details));
