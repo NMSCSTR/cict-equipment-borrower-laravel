@@ -69,6 +69,7 @@
                         <th>EMAIL</th>
                         <th>USER TYPE</th>
                         <th>CONTACT</th>
+                        <th>Class Schedule</th>
                         <th>ACTIONS</th>
                     </tr>
                 </thead>
@@ -79,6 +80,22 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->user_type }}</td>
                         <td>{{ $user->contact_number ?? 'N/A' }}</td>
+                        <td>
+                            @if ($user->classSchedules->count() > 0)
+                            <ul class="text-sm text-gray-700">
+                                @foreach ($user->classSchedules as $sched)
+                                <li>
+                                    {{ $sched->subject_code }} - {{ $sched->subject_name }}
+                                    ({{ $sched->schedule_time }})
+                                    - Room: {{ $sched->room }}
+                                </li>
+                                @endforeach
+                            </ul>
+                            @else
+                            <span class="text-gray-400">No schedules</span>
+                            @endif
+                        </td>
+
                         <td>
                             <button
                                 class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
