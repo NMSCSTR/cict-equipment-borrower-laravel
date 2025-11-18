@@ -20,7 +20,7 @@
             <div class="flex items-center space-x-4">
                 <!-- Add User Button -->
                 <button id="open-add-sched-modal"
-                    class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-green-500 hover:bg-blue-600 rounded-xl">
+                    class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors duration-200 bg-green-500 hover:bg-green-600 rounded-xl">
                     <i class="fas fa-calendar-check"></i>
                     <span>Add Schedule</span>
                 </button>
