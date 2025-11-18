@@ -77,7 +77,7 @@
                             <td>{{ $tx->remarks ?? '—' }}</td>
                             <td>
                                 @if ($tx->classSchedule)
-                                    {{ \Carbon\Carbon::parse($tx->classSchedule->schedule_time)->format('g:i A') }}
+                                    {{ $tx->classSchedule->schedule_time }}
                                     - {{ $tx->classSchedule->instructor?->name ?? 'No Instructor' }}
                                     - {{ $tx->classSchedule->room }}
                                 @else
