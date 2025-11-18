@@ -142,11 +142,16 @@ class BorrowTransactionController extends Controller
     {
         $today = Carbon::today()->toDateString();
 
+        // BorrowTransaction::whereDate('return_date', '<', Carbon::today())
+        //     ->where('status', 'Borrowed')
+        //     ->update(['status' => 'Overdue']);
+
         // Find all borrow transactions with return_date == today and status still "Borrowed"
         $transactions = BorrowTransaction::with(['user', 'equipment'])
             ->whereDate('return_date', $today)
             ->where('status', 'Borrowed')
             ->get();
+
 
         foreach ($transactions as $transaction) {
             if ($transaction->user && $transaction->user->email) {
@@ -157,7 +162,8 @@ class BorrowTransactionController extends Controller
                 ];
 
                 // Send the email
-                Mail::to($transaction->user->email)->send(new ReturnNotification($details));
+                // Mail::to($transaction->user->email)->send(new ReturnNotification($details));
+                Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
 
                 // Save the notification into DB
                 Notification::create([
@@ -166,10 +172,12 @@ class BorrowTransactionController extends Controller
                     'notification_type' => 'Return Notice',
                     'send_date'         => Carbon::now(),
                 ]);
+
             }
         }
 
-        return "Return notifications sent and logged for today.";
+        // return "Return notifications sent and logged for today.";
+        return count($transactions) . " return notifications sent and logged for today.";
     }
 
     /**
