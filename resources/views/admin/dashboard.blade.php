@@ -102,39 +102,37 @@
 
 
         <!-- Charts and Activity Section -->
-        <div class="grid grid-cols-1 gap-6 mb-8 xl:grid-cols-3">
-
-
-            <!-- Recent Activity -->
-            <div class="p-6 bg-white border border-gray-200 rounded-2xl">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">Recent Return Logs</h3>
-                    <a href="{{ route('admin.logs') }}" class="text-sm font-medium text-blue-500 hover:text-blue-700">View All</a>
-                </div>
-                @foreach ($returnLogs as $returnLog)
-                    <div class="flex items-start mb-4 space-x-3">
-                        <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-blue-100 rounded-lg">
-                            <i class="text-sm text-blue-500 fas fa-undo"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">
-                                {{ $returnLog->equipment->equipment_name ?? 'N/A' }}
-                            </p>
-                            <p class="text-xs text-gray-500">
-                                Borrowed by: {{ $returnLog->borrower->name ?? 'N/A' }}<br>
-                                Received by: {{ $returnLog->receiver->name ?? 'N/A' }} •
-                                {{ $returnLog->created_at->diffForHumans() }}
-                            </p>
-                        </div>
-                    </div>
-                    <hr class="my-2">
-                @endforeach
-
-            </div>
+        <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+    <!-- Recent Activity -->
+    <div class="w-full p-6 bg-white border border-gray-200 rounded-2xl">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Return Logs</h3>
+            <a href="{{ route('admin.logs') }}" class="text-sm font-medium text-blue-500 hover:text-blue-700">View All</a>
         </div>
+        @foreach ($returnLogs as $returnLog)
+            <div class="flex items-start mb-4 space-x-3">
+                <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 mt-1 bg-blue-100 rounded-lg">
+                    <i class="text-sm text-blue-500 fas fa-undo"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-900">
+                        {{ $returnLog->equipment->equipment_name ?? 'N/A' }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        Borrowed by: {{ $returnLog->borrower->name ?? 'N/A' }}<br>
+                        Received by: {{ $returnLog->receiver->name ?? 'N/A' }} •
+                        {{ $returnLog->created_at->diffForHumans() }}
+                    </p>
+                </div>
+            </div>
+            <hr class="my-2">
+        @endforeach
+    </div>
+</div>
+
 
         <!-- Quick Actions & System Status -->
-        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div class="grid grid-cols-1 gap-6 mb-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             <!-- Quick Actions -->
             <div class="p-6 bg-white border border-gray-200 rounded-2xl">
                 <h3 class="mb-6 text-lg font-semibold text-gray-900">Quick Actions</h3>
