@@ -143,39 +143,31 @@
 @include('components.admin.transaction.add-modal')
 @include('components.admin.transaction.edit-modal')
 @include('components.admin.transaction.delete-modal')
-<!-- Correct way to pass data using data attribute -->
-<div id="equipment-data" data-equipment="@json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toJson())" style="display:none;"></div>
+
 
 <script>
-    // Retrieve the equipment data from the 'data-equipment' attribute of the element
-    const equipmentData = JSON.parse(document.getElementById('equipment-data').getAttribute('data-equipment'));
+document.getElementById('equipment-select').addEventListener('change', function() {
+    const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
+    const quantitiesDiv = document.getElementById('equipment-quantities');
 
-    document.getElementById('equipment-select').addEventListener('change', function() {
-        const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
-        const quantitiesDiv = document.getElementById('equipment-quantities');
+    // Clear existing quantity fields
+    quantitiesDiv.innerHTML = '';
 
-        // Clear existing quantity fields
-        quantitiesDiv.innerHTML = '';
-
-        // Generate a quantity input field for each selected equipment
-        equipmentIds.forEach((equipmentId) => {
-            const equipmentName = equipmentData[equipmentId];  // Get the equipment name from the JSON object
-
-            const quantityField = document.createElement('div');
-            quantityField.classList.add('space-y-2');
-            quantityField.innerHTML = `
-                <label class="block text-sm font-medium text-gray-700">Quantity for ${equipmentName}</label>
-                <input type="number" name="quantities[${equipmentId}]" min="1" required
-                    class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-            `;
-            quantitiesDiv.appendChild(quantityField);
-        });
+    // Generate a quantity input field for each selected equipment
+    equipmentIds.forEach((equipmentId) => {
+        const quantityField = document.createElement('div');
+        quantityField.classList.add('space-y-2');
+        quantityField.innerHTML = `
+            <label class="block text-sm font-medium text-gray-700">Quantity for Equipment #${equipmentId}</label>
+            <input type="number" name="quantities[${equipmentId}]" min="1" required
+                class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+        `;
+        quantitiesDiv.appendChild(quantityField);
     });
+});
+
+
 </script>
-
-
-
-
 
 <script>
     $(document).ready(function () {
