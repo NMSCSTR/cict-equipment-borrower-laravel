@@ -200,23 +200,22 @@
     });
 
     // Edit modal
-$('.edit-btn').on('click', function() {
-    $('#edit-id').val($(this).data('id'));
-    $('#edit-user').val($(this).data('user'));
-    $('#edit-equipment').val($(this).data('equipment'));
-    $('#edit-borrow').val($(this).data('borrow'));
-    $('#edit-return').val($(this).data('return'));
-    $('#edit-quantity').val($(this).data('quantity'));
-    $('#edit-purpose').val($(this).data('purpose'));
-    $('#edit-status').val($(this).data('status'));
-    $('#edit-remarks').val($(this).data('remarks'));
-    $('#edit-class').val($(this).data('class'));
-    $('#edit-modal').removeClass('hidden');
-});
+    $('#transactions-table').on('click', '.edit-btn', function() {
+        $('#edit-id').val($(this).data('id'));
+        $('#edit-user').val($(this).data('user'));
+        $('#edit-equipment').val($(this).data('equipment'));
+        $('#edit-borrow').val($(this).data('borrow'));
+        $('#edit-return').val($(this).data('return'));
+        $('#edit-quantity').val($(this).data('quantity'));
+        $('#edit-purpose').val($(this).data('purpose'));
+        $('#edit-status').val($(this).data('status'));
+        $('#edit-remarks').val($(this).data('remarks'));
+        $('#edit-class').val($(this).data('class'));
+        $('#edit-modal').removeClass('hidden');
+    });
 
 
-    // Delete modal
-    $('.delete-btn').on('click', function() {
+    $('#transactions-table').on('click', '.delete-btn', function() {
         let id = $(this).data('id');
         let name = $(this).data('name');
         $('#delete-item-name').text(name);
