@@ -242,4 +242,30 @@ w
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        // Show the logout confirmation modal when logout button is clicked
+        $('#logout-btn').on('click', function () {
+            $('#logout-modal').removeClass('hidden');
+        });
+
+        // Handle clicking "Cancel" to close the modal
+        $('#cancel-logout').on('click', function () {
+            $('#logout-modal').addClass('hidden');
+        });
+
+        // Handle clicking "Logout" to submit the logout form
+        $('#confirm-logout').on('click', function () {
+            $('#logout-form').submit();
+        });
+
+        // Close the modal if clicked outside
+        $('#logout-modal').on('click', function (e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
+            }
+        });
+    });
+</script>
+
 @endsection
