@@ -22,7 +22,7 @@
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" disabled selected>-- Select User --</option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -34,7 +34,7 @@
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" disabled selected>-- Select Equipment --</option>
                     @foreach ($equipment->where('status', 'Available')->where('available_quantity', '>', 0) as $eq)
-                        <option value="{{ $eq->id }}">{{ $eq->equipment_name }}</option>
+                    <option value="{{ $eq->id }}">{{ $eq->equipment_name }}</option>
                     @endforeach
                 </select>
                 <small class="text-gray-600">Hold Ctrl or Command to select multiple items.</small>
@@ -91,11 +91,11 @@
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" selected>-- None --</option>
                     @foreach ($classSchedules as $schedule)
-                        <option value="{{ $schedule->id }}">
-                            {{ $schedule->schedule_time }}
-                            - {{ $schedule->instructor?->name ?? 'No Instructor' }}
-                            - {{ $schedule->room }}
-                        </option>
+                    <option value="{{ $schedule->id }}">
+                        {{ $schedule->schedule_time }}
+                        - {{ $schedule->instructor?->name ?? 'No Instructor' }}
+                        - {{ $schedule->room }}
+                    </option>
                     @endforeach
                 </select>
             </div>
