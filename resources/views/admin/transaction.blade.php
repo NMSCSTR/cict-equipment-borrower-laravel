@@ -146,6 +146,7 @@
 <script>
 
     const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toArray());
+    console.log(equipmentData);  // Check the output in the browser console
 
     document.getElementById('equipment-select').addEventListener('change', function() {
         const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
