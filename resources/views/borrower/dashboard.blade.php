@@ -9,9 +9,9 @@
         <div class="flex flex-wrap items-center justify-between px-4 py-4 md:px-8">
             <!-- Left: Logo + Title -->
             <div class="flex items-center space-x-4">
-                {{-- <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
+                <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
                     <i class="text-2xl fas fa-bars"></i>
-                </button> --}}
+                </button>
 
                 <!-- Logo + Text -->
                 <div class="flex items-center space-x-3">
@@ -48,7 +48,6 @@
             </div>
         </div>
     </header>
-
 
     <!-- Main Content -->
     <main class="flex-1 p-4 space-y-10 md:p-8">
@@ -224,31 +223,4 @@
         });
     });
 </script>
-
-<style>
-    /* DataTable Custom Styling */
-    .dataTables_wrapper .dataTables_filter input {
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        padding: 0.5rem 0.75rem;
-        margin-left: 0.5rem;
-    }
-    .dataTables_wrapper .dataTables_length select {
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        padding: 0.25rem 0.5rem;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-        padding: 0.4rem 0.75rem;
-        margin: 0 0.125rem;
-        transition: all 0.2s;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background: #3b82f6;
-        color: white !important;
-        border-color: #3b82f6;
-    }
-</style>
 @endsection
