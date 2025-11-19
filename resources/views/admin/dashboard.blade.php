@@ -99,7 +99,7 @@
                 <div
                     class="flex items-center justify-between p-4 transition border border-orange-100 bg-orange-50 rounded-xl hover:bg-orange-100">
                     <div>
-                        <p class="text-xs font-medium text-gray-600">Pending Requests</p>
+                        <p class="text-xs font-medium text-gray-600">Total Requests</p>
                         <p class="text-2xl font-bold text-gray-900">{{ $requests->count() }}</p>
                     </div>
                     <div class="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
