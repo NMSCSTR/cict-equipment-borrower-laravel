@@ -9,9 +9,9 @@
         <div class="flex flex-wrap items-center justify-between px-4 py-4 md:px-8">
             <!-- Left: Logo + Title -->
             <div class="flex items-center space-x-4">
-                <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
+                {{-- <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
                     <i class="text-2xl fas fa-bars"></i>
-                </button>
+                </button> --}}
 
                 <!-- Logo + Text -->
                 <div class="flex items-center space-x-3">
@@ -38,13 +38,15 @@
                     Request Item
                 </button>
 
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" id="logout-form" class="hidden">
                     @csrf
-                    <button type="submit"
-                        class="flex items-center px-5 py-2 text-sm font-semibold text-red-600 transition border border-red-600 rounded-lg shadow-md hover:bg-red-600 hover:text-white">
-                        <i class="mr-2 fas fa-sign-out-alt"></i> Logout
-                    </button>
                 </form>
+
+                <button type="button" id="logout-btn"
+                    class="flex items-center px-5 py-2 text-sm font-semibold text-red-600 transition border border-red-600 rounded-lg shadow-md hover:bg-red-600 hover:text-white">
+                    <i class="mr-2 fas fa-sign-out-alt"></i> Logout
+                </button>
+
             </div>
         </div>
     </header>
@@ -165,6 +167,23 @@
         </section>
     </main>
 </div>
+
+<!-- Logout Confirmation Modal -->
+<div id="logout-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-500 bg-opacity-50">
+    <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800">Confirm Logout</h3>
+        <p class="mb-6 text-sm text-gray-600">Are you sure you want to log out?</p>
+        <div class="flex justify-between">
+            <button id="cancel-logout" class="px-5 py-2 text-sm font-semibold text-gray-600 bg-gray-300 rounded-lg hover:bg-gray-400">
+                Cancel
+            </button>
+            <button id="confirm-logout" class="px-5 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700">
+                Logout
+            </button>
+        </div>
+    </div>
+</div>
+w
 
 {{-- Modals --}}
 @include('components.instructor.request-item-modal')
