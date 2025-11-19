@@ -18,30 +18,30 @@
     </header>
 
     <main class="p-6">
-    @if ($errors->any())
+        @if ($errors->any())
         <div class="px-4 py-3 mb-6 text-red-800 bg-red-100 border-l-4 border-red-500 rounded shadow-sm" role="alert">
             <div class="flex items-center">
                 <i class="mr-2 fas fa-exclamation-circle"></i>
                 <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                    <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         </div>
-    @endif
-    @if (session('success'))
-        <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm" role="alert">
+        @endif
+        @if (session('success'))
+        <div class="px-4 py-3 mb-6 text-green-800 bg-green-100 border-l-4 border-green-500 rounded shadow-sm"
+            role="alert">
             <div class="flex items-center">
                 <i class="mr-2 fas fa-check-circle"></i>
                 <span>{{ session('success') }}</span>
             </div>
         </div>
-    @endif
+        @endif
         <!-- DataTable -->
         <div class="p-4 overflow-x-auto bg-white rounded-lg shadow">
-            <table id="transactions-table"
-                class="w-full border-collapse display nowrap stripe hover responsive">
+            <table id="transactions-table" class="w-full border-collapse display nowrap stripe hover responsive">
                 <thead class="bg-gray-50">
                     <tr>
                         <th>USER</th>
@@ -58,45 +58,51 @@
                 </thead>
                 <tbody>
                     @foreach ($transactions as $tx)
-                        <tr class="transition-colors duration-150 hover:bg-blue-50">
-                            <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
-                            <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
-                            <td>{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}</td>
-                            <td>{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : 'N/A' }}</td>
-                            <td>{{ $tx->quantity }}</td>
-                            <td>{{ $tx->purpose }}</td>
-                            <td>
-                                <select
-                                    class="px-3 py-2 text-sm font-medium transition border border-gray-300 rounded-full status-dropdown focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    <tr class="transition-colors duration-150 hover:bg-blue-50">
+                        <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
+                        <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}</td>
+                        <td>{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : 'N/A' }}
+                        </td>
+                        <td>{{ $tx->quantity }}</td>
+                        <td>{{ $tx->purpose }}</td>
+                        <td>
+                            <select
+                                class="px-3 py-2 text-sm font-medium transition border border-gray-300 rounded-full status-dropdown focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                data-id="{{ $tx->id }}">
+                                <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed
+                                </option>
+                                <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned
+                                </option>
+                                <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue
+                                </option>
+                            </select>
+                        </td>
+                        <td>{{ $tx->remarks ?? '—' }}</td>
+                        <td>
+                            @if ($tx->classSchedule)
+                            {{ $tx->classSchedule->schedule_time }}
+                            - {{ $tx->classSchedule->instructor?->name ?? 'No Instructor' }}
+                            - {{ $tx->classSchedule->room }}
+                            @else
+                            No Schedule
+                            @endif
+                        </td>
+                        <td>
+                            <div class="flex items-center space-x-2">
+                                <button
+                                    class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                     data-id="{{ $tx->id }}">
-                                    <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
-                                    <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
-                                    <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
-                                </select>
-                            </td>
-                            <td>{{ $tx->remarks ?? '—' }}</td>
-                            <td>
-                                @if ($tx->classSchedule)
-                                    {{ $tx->classSchedule->schedule_time }}
-                                    - {{ $tx->classSchedule->instructor?->name ?? 'No Instructor' }}
-                                    - {{ $tx->classSchedule->room }}
-                                @else
-                                    No Schedule
-                                @endif
-                            </td>
-                            <td>
-                                <div class="flex items-center space-x-2">
-                                    <button class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
-                                        data-id="{{ $tx->id }}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    {{-- <button class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
-                                        data-id="{{ $tx->id }}">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button> --}}
-                                </div>
-                            </td>
-                        </tr>
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                {{-- <button
+                                    class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
+                                    data-id="{{ $tx->id }}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button> --}}
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -123,7 +129,8 @@
 
             <!-- Remarks -->
             <label class="block mb-1 text-sm font-medium text-gray-700">Remarks</label>
-            <textarea id="return-remarks" class="w-full p-2 mb-4 border rounded" placeholder="Optional remarks..."></textarea>
+            <textarea id="return-remarks" class="w-full p-2 mb-4 border rounded"
+                placeholder="Optional remarks..."></textarea>
 
             <div class="flex justify-end space-x-2">
                 <button type="button" id="cancelReturn" class="px-3 py-1 bg-gray-300 rounded">Cancel</button>
@@ -139,7 +146,27 @@
 
 
 <script>
-$(document).ready(function () {
+    document.querySelector('select[name="equipment[]"]').addEventListener('change', function() {
+    const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
+    const quantityContainer = document.getElementById('equipment-quantities');
+    quantityContainer.innerHTML = ''; // Clear any existing inputs
+
+    equipmentIds.forEach(equipmentId => {
+        const quantityInput = document.createElement('div');
+        quantityInput.classList.add('flex', 'items-center', 'space-x-3');
+        quantityInput.innerHTML = `
+            <label class="block text-sm font-medium text-gray-700">Quantity for Equipment ${equipmentId}</label>
+            <input type="number" name="quantities[${equipmentId}]" min="1" required
+                class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+        `;
+        quantityContainer.appendChild(quantityInput);
+    });
+});
+
+</script>
+
+<script>
+    $(document).ready(function () {
     let table = $('#transactions-table').DataTable({
         responsive: true,
         autoWidth: false,
@@ -198,7 +225,7 @@ $(document).ready(function () {
 </script>
 
 <script>
-$(document).ready(function () {
+    $(document).ready(function () {
     $('.status-dropdown').change(function () {
         let status = $(this).val();
         let id = $(this).data('id');
@@ -260,70 +287,77 @@ $(document).ready(function () {
 </script>
 
 
-    {{-- Enhanced Styles for DataTables --}}
-    <style>
-        .dataTables_filter input {
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            margin-left: 0.5rem;
-        }
-        .dataTables_length select {
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            margin-left: 0.5rem;
-        }
-        .dataTables_wrapper .dataTables_paginate {
-            padding: 0;
-            margin: 0;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            padding: 0.5rem 0.75rem;
-            margin-left: 0.25rem;
-            font-size: 0.875rem;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #e5e7eb;
-            border-color: #d1d5db;
-            color: #374151;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            background: #2563eb;
-            border-color: #2563eb;
-            color: white;
-        }
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
-            background: #f9fafb;
-            color: #9ca3af;
-            border-color: #d1d5db;
-            cursor: not-allowed;
-        }
+{{-- Enhanced Styles for DataTables --}}
+<style>
+    .dataTables_filter input {
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+    }
 
-        /* Custom spacing for table footer */
-        #pagination-container {
-            min-height: 2.5rem;
-            display: flex;
-            align-items: center;
-        }
+    .dataTables_length select {
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        margin-left: 0.5rem;
+    }
 
-        /* Ensure proper spacing in table footer */
-        .dataTables_wrapper .dataTables_info {
-            padding: 0;
-            margin: 0;
-        }
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 0;
+        margin: 0;
+    }
 
-        /* Modal content styling */
-        .modal-content {
-            pointer-events: auto;
-        }
-    </style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        margin-left: 0.25rem;
+        font-size: 0.875rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #e5e7eb;
+        border-color: #d1d5db;
+        color: #374151;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: white;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+        background: #f9fafb;
+        color: #9ca3af;
+        border-color: #d1d5db;
+        cursor: not-allowed;
+    }
+
+    /* Custom spacing for table footer */
+    #pagination-container {
+        min-height: 2.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Ensure proper spacing in table footer */
+    .dataTables_wrapper .dataTables_info {
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Modal content styling */
+    .modal-content {
+        pointer-events: auto;
+    }
+</style>
 @endsection

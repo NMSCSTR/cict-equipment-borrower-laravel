@@ -31,9 +31,9 @@ class BorrowTransactionController extends Controller
         // return view('admin.transaction', compact('transactions', 'users', 'equipment', 'classSchedules'));
 
         // with eager loading improvements
-        $transactions = BorrowTransaction::with(['user', 'equipment', 'classSchedule'])->get();
-        $users = User::with('borrowTransactions')->get();
-        $equipment = Equipment::with('borrowTransactions')->get();
+        $transactions   = BorrowTransaction::with(['user', 'equipment', 'classSchedule'])->get();
+        $users          = User::with('borrowTransactions')->get();
+        $equipment      = Equipment::with('borrowTransactions')->get();
         $classSchedules = ClassSchedule::with('instructor')
             ->whereHas('instructor', function ($query) {
                 $query->where('user_type', 'Instructor');
@@ -107,34 +107,62 @@ class BorrowTransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the input
         $validated = $request->validate([
             'user_id'           => 'required|exists:users,id',
-            'equipment_id'      => 'required|exists:equipment,id',
+            'equipment'         => 'required|array|min:1',
+            'equipment.*'       => 'exists:equipment,id',
+            'quantities'        => 'required|array|min:1',
+            'quantities.*'      => 'integer|min:1',
             'borrow_date'       => 'required|date',
             'return_date'       => 'required|date|after_or_equal:borrow_date',
-            'quantity'          => 'required|integer|min:1',
             'purpose'           => 'required|string|max:255',
             'status'            => 'required|in:Borrowed,Returned,Overdue',
             'remarks'           => 'nullable|string',
             'class_schedule_id' => 'nullable|exists:class_schedules,id',
         ]);
 
-        $equipment = Equipment::findOrFail($validated['equipment_id']);
+        $userId          = $validated['user_id'];
+        $borrowDate      = $validated['borrow_date'];
+        $returnDate      = $validated['return_date'];
+        $status          = $validated['status'];
+        $remarks         = $validated['remarks'] ?? null;
+        $classScheduleId = $validated['class_schedule_id'] ?? null;
+        $purpose         = $validated['purpose'];
 
-        if ($validated['status'] === 'Borrowed') {
-            if ($equipment->available_quantity < $validated['quantity']) {
-                return redirect()->back()
-                    ->withErrors(['quantity' => 'Not enough equipment available.'])
-                    ->withInput();
+        // Loop through each selected equipment
+        foreach ($validated['equipment'] as $equipmentId) {
+            $quantity = $validated['quantities'][$equipmentId]; // Get the quantity for each equipment item
+
+            $equipment = Equipment::findOrFail($equipmentId);
+
+            // Check if enough equipment is available
+            if ($status === 'Borrowed') {
+                if ($equipment->available_quantity < $quantity) {
+                    return redirect()->back()
+                        ->withErrors(['quantity' => 'Not enough equipment available.'])
+                        ->withInput();
+                }
+
+                // Update the equipment's available quantity
+                $equipment->available_quantity -= $quantity;
+                $equipment->save();
             }
-            $equipment->available_quantity -= $validated['quantity'];
 
-            $equipment->save();
-
+            // Create a BorrowTransaction record for each equipment item
+            BorrowTransaction::create([
+                'user_id'           => $userId,
+                'equipment_id'      => $equipmentId,
+                'borrow_date'       => $borrowDate,
+                'return_date'       => $returnDate,
+                'quantity'          => $quantity,
+                'purpose'           => $purpose,
+                'status'            => $status,
+                'remarks'           => $remarks,
+                'class_schedule_id' => $classScheduleId,
+            ]);
         }
 
-        BorrowTransaction::create($validated);
         return redirect()->back()->with('success', 'Transaction created successfully.');
     }
 
@@ -151,7 +179,6 @@ class BorrowTransactionController extends Controller
             ->whereDate('return_date', $today)
             ->where('status', 'Borrowed')
             ->get();
-
 
         foreach ($transactions as $transaction) {
             if ($transaction->user && $transaction->user->email) {

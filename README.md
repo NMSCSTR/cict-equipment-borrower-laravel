@@ -115,3 +115,8 @@ Migrations
     $table->text('remarks')->nullable();
     $table->foreignIdFor(ClassSchedule::class)->nullable()->constrained()->onDelete('set null');
     $table->timestamps();
+
+
+
+git fetch origin main
+git reset --hard FETCH_HEAD
