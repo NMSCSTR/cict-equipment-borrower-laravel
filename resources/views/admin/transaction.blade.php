@@ -145,11 +145,8 @@
 @include('components.admin.transaction.delete-modal')
 
 <script>
-    // Properly output the equipment data as a JSON object in JavaScript
-    const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id'))->reduce((acc, item) => {
-        acc[item.id] = item.equipment_name;
-        return acc;
-    }, {});
+    // Ensure the PHP data is properly encoded as a JSON object
+    const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id').toArray());
 
     // Listen for changes on the equipment select dropdown
     document.getElementById('equipment-select').addEventListener('change', function() {
@@ -174,6 +171,7 @@
         });
     });
 </script>
+
 
 
 <script>
