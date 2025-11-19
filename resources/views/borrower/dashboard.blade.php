@@ -105,11 +105,11 @@
                                             data-remarks="{{ $request->remarks }}">
                                             <i class="mr-1 fas fa-edit"></i>Edit
                                         </button>
-                                        <button class="px-3 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
+                                        {{-- <button class="px-3 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                             data-id="{{ $request->id }}"
                                             data-equipment-name="{{ $request->equipment->equipment_name }}">
                                             <i class="mr-1 fas fa-trash"></i>Delete
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </td>
                             </tr>
