@@ -144,20 +144,19 @@
 @include('components.admin.transaction.edit-modal')
 @include('components.admin.transaction.delete-modal')
 <script>
-    // Ensure @json correctly outputs an array of equipment names indexed by their IDs
+
     const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toArray());
 
-    // Listen for changes on the equipment select dropdown
+n
     document.getElementById('equipment-select').addEventListener('change', function() {
         const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
         const quantitiesDiv = document.getElementById('equipment-quantities');
 
-        // Clear any existing quantity fields
+
         quantitiesDiv.innerHTML = '';
 
-        // Generate a quantity input field for each selected equipment
         equipmentIds.forEach(function(equipmentId) {
-            const equipmentName = equipmentData[equipmentId];  // Get the equipment name from the JSON object
+            const equipmentName = equipmentData[equipmentId];
 
             const quantityField = document.createElement('div');
             quantityField.classList.add('space-y-2');
