@@ -147,7 +147,6 @@
 
     const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toArray());
 
-n
     document.getElementById('equipment-select').addEventListener('change', function() {
         const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
         const quantitiesDiv = document.getElementById('equipment-quantities');
