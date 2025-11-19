@@ -144,7 +144,7 @@
 @include('components.admin.transaction.edit-modal')
 @include('components.admin.transaction.delete-modal')
 <script>
-    // Ensure that the data is properly passed into JavaScript
+    // Ensure @json correctly outputs an array of equipment names indexed by their IDs
     const equipmentData = @json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toArray());
 
     // Listen for changes on the equipment select dropdown
@@ -170,6 +170,7 @@
         });
     });
 </script>
+
 
 
 
