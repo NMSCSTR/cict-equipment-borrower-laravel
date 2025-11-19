@@ -9,9 +9,9 @@
         <div class="flex flex-wrap items-center justify-between px-4 py-4 md:px-8">
             <!-- Left: Logo + Title -->
             <div class="flex items-center space-x-4">
-                <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
+                {{-- <button id="menu-toggle" class="text-gray-600 hover:text-gray-900 md:hidden">
                     <i class="text-2xl fas fa-bars"></i>
-                </button>
+                </button> --}}
 
                 <!-- Logo + Text -->
                 <div class="flex items-center space-x-3">
