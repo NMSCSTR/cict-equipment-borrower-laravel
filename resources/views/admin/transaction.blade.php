@@ -150,10 +150,10 @@ document.getElementById('equipment-select').addEventListener('change', function(
     const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
     const quantitiesDiv = document.getElementById('equipment-quantities');
 
-    // Clear existing quantity fields
+
     quantitiesDiv.innerHTML = '';
 
-    // Generate a quantity input field for each selected equipment
+
     equipmentIds.forEach((equipmentId) => {
         const quantityField = document.createElement('div');
         quantityField.classList.add('space-y-2');
