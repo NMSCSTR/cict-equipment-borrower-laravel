@@ -142,7 +142,7 @@
 
 
         <!-- Quick Actions & System Status -->
-        <div class="w-full px-4 py-4">
+        {{-- <div class="w-full px-4 py-4">
             <!-- Quick Actions -->
             <div class="p-6 bg-white border border-gray-200 rounded-2xl">
                 <h3 class="mb-6 text-lg font-semibold text-gray-900">Quick Actions</h3>
@@ -181,7 +181,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </main>
 </div>
 
