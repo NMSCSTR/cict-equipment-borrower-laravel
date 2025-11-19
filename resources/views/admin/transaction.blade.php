@@ -92,9 +92,16 @@
                             <div class="flex items-center space-x-2">
                                 <button
                                     class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
-                                    data-id="{{ $tx->id }}">
+                                    data-id="{{ $tx->id }}" data-user="{{ $tx->user->id ?? '' }}"
+                                    data-equipment="{{ $tx->equipment->id ?? '' }}"
+                                    data-borrow="{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}"
+                                    data-return="{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : '' }}"
+                                    data-quantity="{{ $tx->quantity }}" data-purpose="{{ $tx->purpose }}"
+                                    data-status="{{ $tx->status }}" data-remarks="{{ $tx->remarks ?? '' }}"
+                                    data-class="{{ $tx->classSchedule->id ?? '' }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
+
                                 {{-- <button
                                     class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
                                     data-id="{{ $tx->id }}">
@@ -146,7 +153,7 @@
 
 
 <script>
-document.getElementById('equipment-select').addEventListener('change', function() {
+    document.getElementById('equipment-select').addEventListener('change', function() {
     const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
     const quantitiesDiv = document.getElementById('equipment-quantities');
 
@@ -193,19 +200,20 @@ document.getElementById('equipment-select').addEventListener('change', function(
     });
 
     // Edit modal
-    $('.edit-btn').on('click', function() {
-        $('#edit-id').val($(this).data('id'));
-        $('#edit-user').val($(this).data('user'));
-        $('#edit-equipment').val($(this).data('equipment'));
-        $('#edit-borrow').val($(this).data('borrow'));
-        $('#edit-return').val($(this).data('return'));
-        $('#edit-quantity').val($(this).data('quantity'));
-        $('#edit-purpose').val($(this).data('purpose'));
-        $('#edit-status').val($(this).data('status'));
-        $('#edit-remarks').val($(this).data('remarks'));
-        $('#edit-class').val($(this).data('class'));
-        $('#edit-modal').removeClass('hidden');
-    });
+$('.edit-btn').on('click', function() {
+    $('#edit-id').val($(this).data('id'));
+    $('#edit-user').val($(this).data('user'));
+    $('#edit-equipment').val($(this).data('equipment'));
+    $('#edit-borrow').val($(this).data('borrow'));
+    $('#edit-return').val($(this).data('return'));
+    $('#edit-quantity').val($(this).data('quantity'));
+    $('#edit-purpose').val($(this).data('purpose'));
+    $('#edit-status').val($(this).data('status'));
+    $('#edit-remarks').val($(this).data('remarks'));
+    $('#edit-class').val($(this).data('class'));
+    $('#edit-modal').removeClass('hidden');
+});
+
 
     // Delete modal
     $('.delete-btn').on('click', function() {
