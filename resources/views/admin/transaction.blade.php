@@ -143,8 +143,8 @@
 @include('components.admin.transaction.add-modal')
 @include('components.admin.transaction.edit-modal')
 @include('components.admin.transaction.delete-modal')
-<!-- Add the data attribute to a hidden div or script element -->
-<div id="equipment-data" data-equipment='@json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toJson())' style="display:none;"></div>
+<!-- Correct way to pass data using data attribute -->
+<div id="equipment-data" data-equipment="@json($equipment->where('status', 'Available')->where('available_quantity', '>', 0)->pluck('equipment_name', 'id')->toJson())" style="display:none;"></div>
 
 <script>
     // Retrieve the equipment data from the 'data-equipment' attribute of the element
