@@ -146,22 +146,26 @@
 
 
 <script>
-    document.querySelector('select[name="equipment[]"]').addEventListener('change', function() {
+document.getElementById('equipment-select').addEventListener('change', function() {
     const equipmentIds = Array.from(this.selectedOptions).map(option => option.value);
-    const quantityContainer = document.getElementById('equipment-quantities');
-    quantityContainer.innerHTML = ''; // Clear any existing inputs
+    const quantitiesDiv = document.getElementById('equipment-quantities');
 
-    equipmentIds.forEach(equipmentId => {
-        const quantityInput = document.createElement('div');
-        quantityInput.classList.add('flex', 'items-center', 'space-x-3');
-        quantityInput.innerHTML = `
-            <label class="block text-sm font-medium text-gray-700">Quantity for Equipment ${equipmentId}</label>
+    // Clear existing quantity fields
+    quantitiesDiv.innerHTML = '';
+
+    // Generate a quantity input field for each selected equipment
+    equipmentIds.forEach((equipmentId) => {
+        const quantityField = document.createElement('div');
+        quantityField.classList.add('space-y-2');
+        quantityField.innerHTML = `
+            <label class="block text-sm font-medium text-gray-700">Quantity for Equipment #${equipmentId}</label>
             <input type="number" name="quantities[${equipmentId}]" min="1" required
                 class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
         `;
-        quantityContainer.appendChild(quantityInput);
+        quantitiesDiv.appendChild(quantityField);
     });
 });
+
 
 </script>
 

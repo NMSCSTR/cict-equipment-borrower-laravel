@@ -7,8 +7,7 @@
             <h2 class="flex items-center text-xl font-bold text-gray-800">
                 <i class="mr-2 text-blue-600 fas fa-exchange-alt"></i> Add Transaction
             </h2>
-            <button type="button" id="cancel-add"
-                class="text-lg font-bold text-gray-500 transition hover:text-red-600">
+            <button type="button" id="cancel-add" class="text-lg font-bold text-gray-500 transition hover:text-red-600">
                 ✕
             </button>
         </div>
@@ -16,9 +15,9 @@
         <form action="{{ route('admin.transaction.store') }}" method="POST" class="space-y-5">
             @csrf
 
-            <!-- User -->
+            <!-- User Selection -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">User</label>
+                <label class="block text-sm font-medium text-gray-700">Select User</label>
                 <select name="user_id" required
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" disabled selected>-- Select User --</option>
@@ -28,27 +27,25 @@
                 </select>
             </div>
 
-            <!-- Equipment -->
+            <!-- Equipment Selection -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">Equipment</label>
-                <select name="equipment[]" multiple required
+                <label class="block text-sm font-medium text-gray-700">Select Equipment</label>
+                <select name="equipment[]" id="equipment-select" multiple required
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="" disabled selected>-- Select Equipment --</option>
                     @foreach ($equipment->where('status', 'Available')->where('available_quantity', '>', 0) as $eq)
                         <option value="{{ $eq->id }}">{{ $eq->equipment_name }}</option>
                     @endforeach
                 </select>
+                <small class="text-gray-600">Hold Ctrl or Command to select multiple items.</small>
             </div>
 
-            <!-- Quantities -->
+            <!-- Dynamically Generated Quantity Fields -->
             <div id="equipment-quantities" class="space-y-4">
-                <!-- Dynamically generated quantity fields will go here -->
+                <!-- Quantity fields will appear here after selecting equipment -->
             </div>
 
-
-
-
-            <!-- Dates -->
+            <!-- Borrow and Return Dates -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Borrow Date</label>
@@ -62,23 +59,16 @@
                 </div>
             </div>
 
-            <!-- Quantity -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Quantity</label>
-                <input type="number" name="quantity" min="1" required value="{{ old('quantity') }}"
-                    class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-            </div>
-
-            <!-- Purpose -->
+            <!-- Purpose of Borrowing -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Purpose</label>
                 <input type="text" name="purpose" required
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
             </div>
 
-            <!-- Status -->
+            <!-- Status Selection -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">Status</label>
+                <label class="block text-sm font-medium text-gray-700">Transaction Status</label>
                 <select name="status" required
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                     <option value="Borrowed">Borrowed</option>
@@ -89,12 +79,12 @@
 
             <!-- Remarks -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">Remarks</label>
+                <label class="block text-sm font-medium text-gray-700">Remarks (Optional)</label>
                 <textarea name="remarks" rows="2"
                     class="w-full px-3 py-2 mt-1 transition border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"></textarea>
             </div>
 
-            <!-- Class Schedule -->
+            <!-- Class Schedule (Optional) -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Class Schedule (Optional)</label>
                 <select name="class_schedule_id"
@@ -118,7 +108,7 @@
                 </button>
                 <button type="submit"
                     class="px-5 py-2 text-white transition bg-blue-600 rounded-lg shadow-md hover:bg-blue-700">
-                    <i class="mr-1 fas fa-save"></i> Save
+                    <i class="mr-1 fas fa-save"></i> Create Transaction
                 </button>
             </div>
         </form>
