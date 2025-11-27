@@ -67,22 +67,20 @@
                         <td>{{ $tx->quantity }}</td>
                         <td>{{ $tx->purpose }}</td>
                         <td>
-                            <select
-                                class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
+                            <select class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
                                 focus:outline-none focus:ring-2 focus:ring-blue-500
                                 {{ $tx->status === 'Borrowed' ? 'border-yellow-400 text-yellow-600 bg-yellow-100' : '' }}
                                 {{ $tx->status === 'Returned' ? 'border-green-500 text-green-600 bg-green-100' : '' }}
                                 {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : '' }}"
-                                data-id="{{ $tx->id }}"
-                            >
-                                <option value="Borrowed" class="text-yellow-600"
-                                    {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
+                                data-id="{{ $tx->id }}">
+                                <option value="Borrowed" class="text-yellow-600" {{ $tx->status === 'Borrowed' ?
+                                    'selected' : '' }}>Borrowed</option>
 
-                                <option value="Returned" class="text-green-600"
-                                    {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
+                                <option value="Returned" class="text-green-600" {{ $tx->status === 'Returned' ?
+                                    'selected' : '' }}>Returned</option>
 
-                                <option value="Overdue" class="text-red-600"
-                                    {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
+                                <option value="Overdue" class="text-red-600" {{ $tx->status === 'Overdue' ? 'selected' :
+                                    '' }}>Overdue</option>
                             </select>
                         </td>
                         <td>{{ $tx->remarks ?? '—' }}</td>
@@ -112,10 +110,10 @@
                                     class="px-4 py-1 text-xs text-white bg-green-600 md:text-sm hover:bg-green-700 send-email-btn"
                                     data-id="{{ $tx->id }}"
                                     data-user-email="{{ $tx->user->email ?? '' }}"
-                                    data-user="{{ $tx->user->id ?? '' }}"
                                 >
                                     <i class="fas fa-envelope"></i> Send Email
                                 </button>
+
 
 
                                 {{-- <button
@@ -130,6 +128,39 @@
                 </tbody>
             </table>
         </div>
+
+
+        <!-- Email Modal -->
+        <div id="emailModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+            <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+
+                <!-- Modal Header -->
+                <h2 class="mb-4 text-xl font-semibold">Send Email</h2>
+
+                <!-- Email (disabled) -->
+                <label class="block mb-1 text-sm font-medium">Recipient Email</label>
+                <input type="email" id="modalEmail" disabled
+                    class="w-full px-3 py-2 mb-4 bg-gray-100 border rounded cursor-not-allowed">
+
+                <!-- Message -->
+                <label class="block mb-1 text-sm font-medium">Message</label>
+                <textarea id="modalMessage" rows="4"
+                    class="w-full px-3 py-2 border rounded focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Type your message here..."></textarea>
+
+                <!-- Buttons -->
+                <div class="flex justify-end mt-4 space-x-2">
+                    <button id="closeEmailModal" class="px-4 py-2 text-white bg-gray-400 rounded hover:bg-gray-500">
+                        Close
+                    </button>
+
+                    <button id="sendEmailConfirm" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
+                        Send Email
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 
@@ -312,6 +343,41 @@
 });
 
 </script>
+
+<script>
+    // Open Modal
+    document.querySelectorAll('.send-email-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const userEmail = this.getAttribute('data-user-email');
+            const modal = document.getElementById('emailModal');
+
+            // Fill modal inputs
+            document.getElementById('modalEmail').value = userEmail;
+            document.getElementById('modalMessage').value = "";
+
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // Close Modal
+    document.getElementById('closeEmailModal').addEventListener('click', () => {
+        document.getElementById('emailModal').classList.add('hidden');
+    });
+
+    // Send Email Button Inside Modal
+    document.getElementById('sendEmailConfirm').addEventListener('click', () => {
+        const email = document.getElementById('modalEmail').value;
+        const message = document.getElementById('modalMessage').value;
+
+        // You can post this to your backend route here
+        console.log("Sending email to:", email);
+        console.log("Message:", message);
+
+        // Close modal after sending
+        document.getElementById('emailModal').classList.add('hidden');
+    });
+</script>
+
 
 
 {{-- Enhanced Styles for DataTables --}}
