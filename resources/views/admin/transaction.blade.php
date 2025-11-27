@@ -108,6 +108,15 @@
                                     data-class="{{ $tx->classSchedule->id ?? '' }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
+                                <button
+                                    class="px-4 py-1 text-xs text-white bg-green-600 md:text-sm hover:bg-green-700 send-email-btn"
+                                    data-id="{{ $tx->id }}"
+                                    data-user-email="{{ $tx->user->email ?? '' }}"
+                                    data-user="{{ $tx->user->id ?? '' }}"
+                                >
+                                    <i class="fas fa-envelope"></i> Send Email
+                                </button>
+
 
                                 {{-- <button
                                     class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
