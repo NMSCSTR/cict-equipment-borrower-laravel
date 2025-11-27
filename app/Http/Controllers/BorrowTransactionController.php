@@ -185,7 +185,7 @@ class BorrowTransactionController extends Controller
                 'body'  => "Hello {$transaction->user->name}, please return the equipment you borrowed ({$transaction->equipment->equipment_name}).",
             ];
 
-            Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
+            Mail::to($transaction->user->email)->send(new ReturnNotification($details));
         }
 
         // CUSTOM EMAIL
@@ -195,7 +195,7 @@ class BorrowTransactionController extends Controller
                 'title' => 'Message from Admin',
                 'body'  => $message,
             ];
-            
+
             Mail::to($transaction->user->email)->send(new ReturnNotification($details));
 
         }
