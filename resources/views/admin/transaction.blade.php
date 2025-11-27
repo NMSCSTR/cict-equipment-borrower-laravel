@@ -67,16 +67,22 @@
                         <td>{{ $tx->quantity }}</td>
                         <td>{{ $tx->purpose }}</td>
                         <td>
-                            <select class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
-    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-    {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : 'border-gray-300' }}"
-                                data-id="{{ $tx->id }}">
-                                <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed
-                                </option>
-                                <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned
-                                </option>
-                                <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue
-                                </option>
+                            <select
+                                class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
+                                focus:outline-none focus:ring-2 focus:ring-blue-500
+                                {{ $tx->status === 'Borrowed' ? 'border-yellow-400 text-yellow-600 bg-yellow-100' : '' }}
+                                {{ $tx->status === 'Returned' ? 'border-green-500 text-green-600 bg-green-100' : '' }}
+                                {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : '' }}"
+                                data-id="{{ $tx->id }}"
+                            >
+                                <option value="Borrowed" class="text-yellow-600"
+                                    {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed</option>
+
+                                <option value="Returned" class="text-green-600"
+                                    {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned</option>
+
+                                <option value="Overdue" class="text-red-600"
+                                    {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
                             </select>
                         </td>
                         <td>{{ $tx->remarks ?? '—' }}</td>
