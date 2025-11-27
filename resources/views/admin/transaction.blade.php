@@ -108,9 +108,7 @@
                                 </button>
                                 <button
                                     class="px-4 py-1 text-xs text-white bg-green-600 md:text-sm hover:bg-green-700 send-email-btn"
-                                    data-id="{{ $tx->id }}"
-                                    data-user-email="{{ $tx->user->email ?? '' }}"
-                                >
+                                    data-id="{{ $tx->id }}" data-user-email="{{ $tx->user->email ?? '' }}">
                                     <i class="fas fa-envelope"></i> Send Email
                                 </button>
 
@@ -129,12 +127,10 @@
             </table>
         </div>
 
-
         <!-- Email Modal -->
         <div id="emailModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
             <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
 
-                <!-- Modal Header -->
                 <h2 class="mb-4 text-xl font-semibold">Send Email</h2>
 
                 <!-- Email (disabled) -->
@@ -142,11 +138,20 @@
                 <input type="email" id="modalEmail" disabled
                     class="w-full px-3 py-2 mb-4 bg-gray-100 border rounded cursor-not-allowed">
 
-                <!-- Message -->
-                <label class="block mb-1 text-sm font-medium">Message</label>
-                <textarea id="modalMessage" rows="4"
-                    class="w-full px-3 py-2 border rounded focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Type your message here..."></textarea>
+                <!-- Email Type Select -->
+                <label class="block mb-1 text-sm font-medium">Email Type</label>
+                <select id="emailType" class="w-full px-3 py-2 mb-4 border rounded focus:ring-blue-500">
+                    <option value="template">Use Template</option>
+                    <option value="custom">Write Custom Message</option>
+                </select>
+
+                <!-- Custom Message -->
+                <div id="customMessageBox" class="hidden">
+                    <label class="block mb-1 text-sm font-medium">Message</label>
+                    <textarea id="modalMessage" rows="4"
+                        class="w-full px-3 py-2 border rounded focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Type your message here..."></textarea>
+                </div>
 
                 <!-- Buttons -->
                 <div class="flex justify-end mt-4 space-x-2">
@@ -160,6 +165,7 @@
                 </div>
             </div>
         </div>
+
 
     </main>
 </div>
@@ -343,40 +349,56 @@
 });
 
 </script>
-
 <script>
-    // Open Modal
+    let selectedTransactionId = null;
+
+    // Open modal
     document.querySelectorAll('.send-email-btn').forEach(btn => {
         btn.addEventListener('click', function () {
+            selectedTransactionId = this.getAttribute('data-id');
             const userEmail = this.getAttribute('data-user-email');
-            const modal = document.getElementById('emailModal');
 
-            // Fill modal inputs
             document.getElementById('modalEmail').value = userEmail;
             document.getElementById('modalMessage').value = "";
 
-            modal.classList.remove('hidden');
+            document.getElementById('emailModal').classList.remove('hidden');
         });
     });
 
-    // Close Modal
+    // Show/hide custom message box
+    document.getElementById('emailType').addEventListener('change', function () {
+        document.getElementById('customMessageBox').classList.toggle('hidden', this.value !== 'custom');
+    });
+
+    // Close modal
     document.getElementById('closeEmailModal').addEventListener('click', () => {
         document.getElementById('emailModal').classList.add('hidden');
     });
 
-    // Send Email Button Inside Modal
+    // Send email
     document.getElementById('sendEmailConfirm').addEventListener('click', () => {
-        const email = document.getElementById('modalEmail').value;
+        const type = document.getElementById('emailType').value;
         const message = document.getElementById('modalMessage').value;
 
-        // You can post this to your backend route here
-        console.log("Sending email to:", email);
-        console.log("Message:", message);
-
-        // Close modal after sending
-        document.getElementById('emailModal').classList.add('hidden');
+        fetch(`/send-email/${selectedTransactionId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                type: type,
+                message: message
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+            document.getElementById('emailModal').classList.add('hidden');
+        });
     });
 </script>
+
 
 
 

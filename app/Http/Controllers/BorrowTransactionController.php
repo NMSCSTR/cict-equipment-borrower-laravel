@@ -166,6 +166,42 @@ class BorrowTransactionController extends Controller
         return redirect()->back()->with('success', 'Transaction created successfully.');
     }
 
+    public function sendManualEmail(Request $request, $id)
+    {
+        $transaction = BorrowTransaction::with(['user', 'equipment'])->findOrFail($id);
+
+        if (! $transaction->user || ! $transaction->user->email) {
+            return response()->json(['message' => 'User has no email address.'], 400);
+        }
+
+        $type    = $request->type;
+        $message = $request->message;
+
+        // TEMPLATE EMAIL
+        if ($type === 'template') {
+
+            $details = [
+                'title' => 'Return Reminder',
+                'body'  => "Hello {$transaction->user->name}, please return the equipment you borrowed ({$transaction->equipment->equipment_name}).",
+            ];
+
+            Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
+        }
+
+        // CUSTOM EMAIL
+        else if ($type === 'custom') {
+
+            $details = [
+                'title' => 'Message from Admin',
+                'body'  => $message,
+            ];
+
+            Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
+        }
+
+        return response()->json(['message' => 'Email sent successfully!']);
+    }
+
     public function sendReturnAlertNotification()
     {
         $today = Carbon::today()->toDateString();
