@@ -58,32 +58,54 @@
                 </thead>
                 <tbody>
                     @foreach ($transactions as $tx)
+                    @php
+                    $returnDate = $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : null;
+                    $isDueToday = $returnDate === now()->format('Y-m-d');
+                    @endphp
+
                     <tr class="transition-colors duration-150 hover:bg-blue-50">
+
                         <td>{{ $tx->user->name ?? 'Deleted User' }}</td>
+
                         <td>{{ $tx->equipment->equipment_name ?? 'Deleted Equipment' }}</td>
+
                         <td>{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}</td>
-                        <td>{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : 'N/A' }}
+
+                        <!-- Return Date Column -->
+                        <td @if($isDueToday) style="background-color:#ffcccc; color:#a30000; font-weight:bold;" @endif>
+                            {{ $returnDate ?? 'N/A' }}
                         </td>
+
                         <td>{{ $tx->quantity }}</td>
+
                         <td>{{ $tx->purpose }}</td>
+
                         <td>
                             <select class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
-                                focus:outline-none focus:ring-2 focus:ring-blue-500
-                                {{ $tx->status === 'Borrowed' ? 'border-yellow-400 text-yellow-600 bg-yellow-100' : '' }}
-                                {{ $tx->status === 'Returned' ? 'border-green-500 text-green-600 bg-green-100' : '' }}
-                                {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : '' }}"
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
+                        {{ $tx->status === 'Borrowed' ? 'border-yellow-400 text-yellow-600 bg-yellow-100' : '' }}
+                        {{ $tx->status === 'Returned' ? 'border-green-500 text-green-600 bg-green-100' : '' }}
+                        {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : '' }}"
                                 data-id="{{ $tx->id }}">
                                 <option value="Borrowed" class="text-yellow-600" {{ $tx->status === 'Borrowed' ?
-                                    'selected' : '' }}>Borrowed</option>
+                                    'selected' : '' }}>
+                                    Borrowed
+                                </option>
 
                                 <option value="Returned" class="text-green-600" {{ $tx->status === 'Returned' ?
-                                    'selected' : '' }}>Returned</option>
+                                    'selected' : '' }}>
+                                    Returned
+                                </option>
 
                                 <option value="Overdue" class="text-red-600" {{ $tx->status === 'Overdue' ? 'selected' :
-                                    '' }}>Overdue</option>
+                                    '' }}>
+                                    Overdue
+                                </option>
                             </select>
                         </td>
+
                         <td>{{ $tx->remarks ?? '—' }}</td>
+
                         <td>
                             @if ($tx->classSchedule)
                             {{ $tx->classSchedule->schedule_time }}
@@ -93,37 +115,37 @@
                             No Schedule
                             @endif
                         </td>
+
                         <td>
                             <div class="flex items-center space-x-2">
+
+                                <!-- EDIT BUTTON -->
                                 <button
                                     class="px-4 py-1 text-xs text-white bg-blue-600 md:text-sm hover:bg-blue-700 edit-btn"
                                     data-id="{{ $tx->id }}" data-user="{{ $tx->user->id ?? '' }}"
                                     data-equipment="{{ $tx->equipment->id ?? '' }}"
                                     data-borrow="{{ \Carbon\Carbon::parse($tx->borrow_date)->format('Y-m-d') }}"
-                                    data-return="{{ $tx->return_date ? \Carbon\Carbon::parse($tx->return_date)->format('Y-m-d') : '' }}"
-                                    data-quantity="{{ $tx->quantity }}" data-purpose="{{ $tx->purpose }}"
-                                    data-status="{{ $tx->status }}" data-remarks="{{ $tx->remarks ?? '' }}"
+                                    data-return="{{ $returnDate }}" data-quantity="{{ $tx->quantity }}"
+                                    data-purpose="{{ $tx->purpose }}" data-status="{{ $tx->status }}"
+                                    data-remarks="{{ $tx->remarks ?? '' }}"
                                     data-class="{{ $tx->classSchedule->id ?? '' }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
+
+                                <!-- SEND EMAIL BUTTON -->
                                 <button
                                     class="px-4 py-1 text-xs text-white bg-green-600 md:text-sm hover:bg-green-700 send-email-btn"
                                     data-id="{{ $tx->id }}" data-user-email="{{ $tx->user->email ?? '' }}">
                                     <i class="fas fa-envelope"></i> Send Email
                                 </button>
 
-
-
-                                {{-- <button
-                                    class="px-4 py-1 text-xs text-white bg-red-600 md:text-sm hover:bg-red-700 delete-btn"
-                                    data-id="{{ $tx->id }}">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button> --}}
                             </div>
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>
+
             </table>
         </div>
 
@@ -398,9 +420,6 @@
         });
     });
 </script>
-
-
-
 
 {{-- Enhanced Styles for DataTables --}}
 <style>
