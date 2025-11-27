@@ -66,18 +66,17 @@
                         </td>
                         <td>{{ $tx->quantity }}</td>
                         <td>{{ $tx->purpose }}</td>
-                        <td>
-                            <select
-                                class="px-3 py-2 text-sm font-medium transition border border-gray-300 rounded-full status-dropdown focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                data-id="{{ $tx->id }}">
-                                <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed
-                                </option>
-                                <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned
-                                </option>
-                                <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue
-                                </option>
-                            </select>
-                        </td>
+                        <select class="px-3 py-2 text-sm font-medium transition border rounded-full status-dropdown
+    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+    {{ $tx->status === 'Overdue' ? 'border-red-500 text-red-600 bg-red-100' : 'border-gray-300' }}"
+                            data-id="{{ $tx->id }}">
+                            <option value="Borrowed" {{ $tx->status === 'Borrowed' ? 'selected' : '' }}>Borrowed
+                            </option>
+                            <option value="Returned" {{ $tx->status === 'Returned' ? 'selected' : '' }}>Returned
+                            </option>
+                            <option value="Overdue" {{ $tx->status === 'Overdue' ? 'selected' : '' }}>Overdue</option>
+                        </select>
+
                         <td>{{ $tx->remarks ?? '—' }}</td>
                         <td>
                             @if ($tx->classSchedule)
