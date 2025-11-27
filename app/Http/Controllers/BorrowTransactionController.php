@@ -195,8 +195,9 @@ class BorrowTransactionController extends Controller
                 'title' => 'Message from Admin',
                 'body'  => $message,
             ];
+            
+            Mail::to($transaction->user->email)->send(new ReturnNotification($details));
 
-            Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
         }
 
         return response()->json(['message' => 'Email sent successfully!']);
@@ -226,7 +227,7 @@ class BorrowTransactionController extends Controller
 
                 // Send the email
                 // Mail::to($transaction->user->email)->send(new ReturnNotification($details));
-                Mail::to($transaction->user->email)->queue(new ReturnNotification($details));
+                Mail::to($transaction->user->email)->send(new ReturnNotification($details));
 
                 // Save the notification into DB
                 Notification::create([
