@@ -22,7 +22,7 @@ Route::get('/test-mail', function () {
         'body' => 'ANG EMUHA IS EMUHA UG AND DILI DILI JUD NA EMUHA PALIHUG KO ULI DIRI SA OFFICE'
     ];
 
-    Mail::to('jesselve.aljas@nmsc.edu.ph')->send(new ReturnNotification($details));
+    Mail::to('rhondel.pagobo@nmsc.edu.ph')->send(new ReturnNotification($details));
 
     return 'Test email sent!';
 });
